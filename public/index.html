@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>FP - Content Manager</title>
+    <style type="text/css" media="all">
+        @import url("%REACT_APP_PUBLIC_URL%/modules/system/system.base.css?p7h1lr");
+        @import url("%REACT_APP_PUBLIC_URL%/modules/system/system.menus.css?p7h1lr");
+        @import url("%REACT_APP_PUBLIC_URL%/modules/system/system.messages.css?p7h1lr");
+        @import url("%REACT_APP_PUBLIC_URL%/modules/system/system.theme.css?p7h1lr");
+    </style>
+    <style type="text/css" media="all">
+        @import url("%REACT_APP_PUBLIC_URL%/modules/comment/comment.css?p7h1lr");
+        @import url("%REACT_APP_PUBLIC_URL%/sites/all/modules/date/date_api/date.css?p7h1lr");
+        @import url("%REACT_APP_PUBLIC_URL%/modules/field/theme/field.css?p7h1lr");
+        @import url("%REACT_APP_PUBLIC_URL%/modules/node/node.css?p7h1lr");
+        @import url("%REACT_APP_PUBLIC_URL%/modules/search/search.css?p7h1lr");
+        @import url("%REACT_APP_PUBLIC_URL%/modules/user/user.css?p7h1lr");
+        @import url("%REACT_APP_PUBLIC_URL%/sites/all/modules/views/css/views.css?p7h1lr");
+        @import url("%REACT_APP_PUBLIC_URL%/sites/all/modules/ckeditor/css/ckeditor.css?p7h1lr");
+    </style>
+    <style type="text/css" media="all">
+        @import url("%REACT_APP_PUBLIC_URL%/sites/all/modules/ctools/css/ctools.css?p7h1lr");
+        @import url("%REACT_APP_PUBLIC_URL%/sites/all/modules/print/print_ui/css/print_ui.theme.css?p7h1lr");
+        @import url("%REACT_APP_PUBLIC_URL%/modules/shortcut/shortcut.css?p7h1lr");
+        @import url("%REACT_APP_PUBLIC_URL%/modules/toolbar/toolbar.css?p7h1lr");
+    </style>
+    <style type="text/css" media="all">
+        @import url("%REACT_APP_PUBLIC_URL%/sites/all/themes/AltFutures_theme/css/style.css?p7ert1lr");
+    </style>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="%REACT_APP_PUBLIC_URL%/misc/jquery.once.js?v=1.2"></script>
+    <script type="text/javascript" src="%REACT_APP_PUBLIC_URL%/misc/drupal.js?p7h1lr"></script>
+    <script type="text/javascript"
+            src="%REACT_APP_PUBLIC_URL%/sites/all/modules/jquery_update/replace/ui/external/jquery.cookie.js?v=67fb34f6a866c40d0570"></script>
+    <script type="text/javascript"
+            src="%REACT_APP_PUBLIC_URL%/sites/all/modules/devel/devel_krumo_path.js?p7h1lr"></script>
+    <script type="text/javascript" src="%REACT_APP_PUBLIC_URL%/modules/toolbar/toolbar.js?p7h1lr"></script>
+    <script type="text/javascript"
+            src="%REACT_APP_PUBLIC_URL%/sites/all/themes/AltFutures_theme/js/libs/jquery-1.12.4.min.js?p7h1lr"></script>
+    <script type="text/javascript"
+            src="%REACT_APP_PUBLIC_URL%/sites/all/themes/AltFutures_theme/js/dist/plugins.js?p7h1lr"></script>
+    <script type="text/javascript"
+            src="%REACT_APP_PUBLIC_URL%/sites/all/themes/AltFutures_theme/js/src/script.js?p7h1lr"></script>
+    <link rel="apple-touch-icon-precomposed" sizes="57x57"
+          href="%REACT_APP_PUBLIC_URL%/sites/all/themes/AltFutures_theme/images/apple-touch-icon-57x57.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="114x114"
+          href="%REACT_APP_PUBLIC_URL%/sites/all/themes/AltFutures_theme/images/apple-touch-icon-114x114.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="72x72"
+          href="%REACT_APP_PUBLIC_URL%/sites/all/themes/AltFutures_theme/images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="144x144"
+          href="%REACT_APP_PUBLIC_URL%/sites/all/themes/AltFutures_theme/images/apple-touch-icon-144x144.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="120x120"
+          href="%REACT_APP_PUBLIC_URL%/sites/all/themes/AltFutures_theme/images/apple-touch-icon-120x120.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="152x152"
+          href="%REACT_APP_PUBLIC_URL%/sites/all/themes/AltFutures_theme/images/apple-touch-icon-152x152.png"/>
+    <link rel="icon" type="image/png"
+          href="%REACT_APP_PUBLIC_URL%/sites/all/themes/AltFutures_theme/images/favicon-32x32.png" sizes="32x32"/>
+    <link rel="icon" type="image/png"
+          href="%REACT_APP_PUBLIC_URL%/sites/all/themes/AltFutures_theme/images/favicon-16x16.png" sizes="16x16"/>
+    <meta name="application-name" content="Futures Platform"/>
+    <meta name="msapplication-TileColor" content="#FFFFFF"/>
+    <meta name="msapplication-TileImage"
+          content="%REACT_APP_PUBLIC_URL%/sites/all/themes/AltFutures_theme/images/mstile-144x144.png"/>
+
+    <script src="%REACT_APP_PUBLIC_URL%/sites/all/themes/AltFutures_theme/js/libs/modernizr-2.6.1.min.js"></script>
+</head>
+<body class="html not-front logged-in no-sidebars page-node page-node- page-node-75142 node-type-page toolbar i18n-en"
+      data-nodelang="und">
+<div id="fp-content-manager"></div>
+<div class="popup popup-left" id="popup-left" data-id="">
+    <a class="btn-close" id="btn-close-popup-left"><span class="af-custom-close"/></a>
+    <div class="stateindicatorleft"></div>
+    <div class="scroll-pane-left"></div>
+    <div class="popup-contentloader">
+        <img src="%REACT_APP_PUBLIC_URL%/sites/all/themes/AltFutures_theme/images/ajax-loader.gif" width="20"
+             height="20"/>
+    </div>
+    <a href="#" class="btn btn-outline-secondary btn-sm popup-left-edit-phenomenon" data-id="82940"
+       data-uuid="a84ec278-a610-4071-99e9-3ddd59c86efc"><span class="af-custom-edit"/>Edit Phenomenon</a>
+</div>
+
+<div class="popup popup-right" id="popup-right" data-id="">
+    <a class="btn-close" id="btn-close-popup-right"><span class="af-custom-close"/></a>
+    <div class="stateindicatorright"></div>
+    <div class="scroll-pane-right"></div>
+    <div class="popup-contentloader">
+        <img src="%REACT_APP_PUBLIC_URL%/sites/all/themes/AltFutures_theme/images/ajax-loader.gif" width="20"
+             height="20"/>
+    </div>
+</div>
+
+<script id="editPhenomenon">
+    window.registerRadarCallbacks = function (callbacks) {
+        window.radarCallbacks = callbacks
+    }
+    $(document).ready(function () {
+        $(document).on('click', '.popup-left-edit-phenomenon', function (e) {
+            e.preventDefault()
+            var uuid = $(this).data('uuid')
+            if (window.radarCallbacks) {
+                window.radarCallbacks.openPhenomenonEditor(uuid)
+                document.getElementById('popup-left').style.visibility = 'hidden'
+                $('.scroll-pane-left #popup-content').remove()
+            }
+        })
+    })
+</script>
+</body>
+</html>
