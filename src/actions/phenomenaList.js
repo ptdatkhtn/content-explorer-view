@@ -3,8 +3,7 @@ import { ALL_GROUP_VALUE } from '../config'
 import { getNetworkMethods } from './network'
 import { getPhenomena } from '@sangre-fp/connectors/search-api'
 import statisticsApi from '@sangre-fp/connectors/statistics-api'
-import { mergePhenomenaWithTags } from '@sangre-fp/connectors/phenomena-api'
-import { tagPhenomenon, removeTagPhenomenon, getTagUrisByPhenomenonUuids } from '@sangre-fp/connectors/tag-service-api'
+import { tagPhenomenon, removeTagPhenomenon } from '@sangre-fp/connectors/tag-service-api'
 import * as actionTypes from '@sangre-fp/reducers/actionTypes'
 import { requestTranslation } from '@sangre-fp/i18n'
 
@@ -119,24 +118,10 @@ export const fetchPhenomenaList = ({ page = 0, size = 10, searchableGroup, searc
         if (data.result) {
           statisticsApi.getPhenomenaStatistics(uuidList.join(','))
             .then(statisticsData => {
-              if (searchableGroup.value) {
-                getTagUrisByPhenomenonUuids(searchableGroup.value, uuidList)
-                  .then(tagData => {
-                    const phenomenaWithStatistics = matchPhenomenaWithStatistics(data.result, statisticsData.data)
-                    const phenomenaWithTags = mergePhenomenaWithTags(phenomenaWithStatistics, tagData)
-
-                    dispatch(success({
-                      total: data.page.totalElements,
-                      list: phenomenaWithTags
-                    }))
-                  })
-                  .catch(err => dispatch(error(err)))
-              } else {
                 dispatch(success({
                   total: data.page.totalElements,
                   list: matchPhenomenaWithStatistics(data.result, statisticsData.data)
                 }))
-              }
             })
             .catch(err => dispatch(error(err)))
         } else {
