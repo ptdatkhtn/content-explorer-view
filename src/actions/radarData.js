@@ -1,8 +1,7 @@
 import { getNetworkMethods } from './network'
 import { requestTranslation } from '@sangre-fp/i18n'
-import { getUserId } from '../session'
 import * as actionTypes from '@sangre-fp/reducers/actionTypes'
-import { handleImageUploadIfNeeded } from '@sangre-fp/connectors/media-api'
+//import { handleImageUploadIfNeeded } from '@sangre-fp/connectors/media-api'
 import {
     NEWSFEED_ERROR,
     NEWSFEED_ERROR_PARTIAL,
