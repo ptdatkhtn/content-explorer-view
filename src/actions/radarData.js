@@ -13,9 +13,9 @@ export const archivePhenomenon = (phenomenon, callback) => storePhenomenon(pheno
 
 export const storePhenomenon = (phenomenon, newsFeedChanges, callback, archived = false) => async (dispatch) => {
     const {
+        group,
         imageUrl,
         imageFile,
-        group,
         ...rest
     } = phenomenon
 
@@ -35,8 +35,7 @@ export const storePhenomenon = (phenomenon, newsFeedChanges, callback, archived 
     const phenomenonInput = {
         ...rest,
         group,
-        userId: getUserId(),
-        imageUrl: await handleImageUploadIfNeeded(imageFile || imageUrl, group),
+        // imageUrl: await handleImageUploadIfNeeded(imageFile || imageUrl, group),
         archived
     }
 
