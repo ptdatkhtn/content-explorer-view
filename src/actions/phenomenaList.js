@@ -20,6 +20,8 @@ export const changeType = type => dispatch => dispatch({ type: actionTypes.CHANG
 export const changeTag = tag => dispatch => dispatch({ type: actionTypes.CHANGE_TAG, payload: tag })
 export const resetFilters = () => dispatch => dispatch({ type: actionTypes.RESET_FILTERS })
 
+export const resetTypeFilters = () => dispatch => dispatch({ type: actionTypes.RESET_TYPE_FILTERS })
+
 export const resetTags = () => dispatch => dispatch({ type: actionTypes.RESET_TAGS })
 
 export const setPhenomenonToTag = phenomenon => (dispatch, getState) => {

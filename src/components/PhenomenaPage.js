@@ -215,7 +215,8 @@ export default class PhenomenaPage extends PureComponent {
             storePhenomenon,
             archivePhenomenon,
             phenomenaTypesById,
-            resetFilters
+            resetFilters,
+            resetTypeFilters
         } = this.props
 
         const {
@@ -260,6 +261,7 @@ export default class PhenomenaPage extends PureComponent {
                                         handleOptionSelect={this.handleTypeChange}
                                         options={TYPE_OPTIONS}
                                         onTabClick={() => this.setState({ typesShown: !typesShown })}
+                                        resetFilters={resetTypeFilters}
                                     />
                                 </div>
                                 <div className='mb-3'>

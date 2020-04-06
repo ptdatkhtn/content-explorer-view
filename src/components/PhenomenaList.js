@@ -51,7 +51,14 @@ export const PhenomenaList = props => {
               : 'undefined'
 
             const freePlan = selectedGroup && selectedGroup.availableResources && selectedGroup.availableResources.plan === 'free'
-            const canTag = selectedGroup.value && canEdit && !freePlan
+
+            /*
+                - Group editors can change group-specific tags both in public phenomena and group specific phenomena
+                - Group editor can change fp tags (e.g. "Climate Change") in group specific phenomena (not the public ones)
+                - FP Editors (public edit powers) can change fp tags in public phenomena
+            */
+
+            const canTag = (!selectedGroup.value && canEditPublic) || (canEdit && !freePlan)
 
             return (
                 <Row key={i}>

@@ -13,7 +13,8 @@ import {
     changeTag,
     resetFilters,
     resetTags,
-    setPhenomenonToTag
+    setPhenomenonToTag,
+    resetTypeFilters
 } from '../actions/phenomenaList'
 import { storePhenomenon, archivePhenomenon } from '../actions/radarData'
 import { canEditSomePhenomena } from '../selectors'
@@ -49,6 +50,7 @@ export default connect(
         resetFilters,
         changeTag,
         resetTags,
-        setPhenomenonToTag
+        setPhenomenonToTag,
+        resetTypeFilters
     }, dispatch)
 )(PhenomenaPage)

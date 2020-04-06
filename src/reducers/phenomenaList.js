@@ -17,7 +17,8 @@ import {
     CHANGE_TAG,
     ADD_PHENOMENA_TAG_SUCCESS,
     REMOVE_PHENOMENA_TAG_SUCCESS,
-    SET_PHENOM_TO_TAG
+    SET_PHENOM_TO_TAG,
+    RESET_TYPE_FILTERS
 } from '@sangre-fp/reducers/actionTypes'
 
 const USER_LANGUAGE = document.querySelector('html').getAttribute('lang') || 'en'
@@ -147,6 +148,11 @@ export default (state = initialState, { type, payload }) => {
                 selectedTimes: {min: new Date().getFullYear(), max: null},
                 selectedTypes: state.allSelectedTypes,
                 selectedTags: []
+            }
+        case RESET_TYPE_FILTERS:
+            return {
+                ...state,
+                selectedTypes: state.allSelectedTypes,
             }
         case CREATE_PHENOMENA_SUCCESS:
             return {
