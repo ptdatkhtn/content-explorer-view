@@ -97,7 +97,7 @@ export default (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 phenomenaList: payload.list,
-                total: payload.total.value
+                total: payload.total
             }
         case CHANGE_GROUP:
             return {
