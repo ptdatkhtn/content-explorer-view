@@ -5,10 +5,25 @@ import * as actionTypes from '@sangre-fp/reducers/actionTypes'
 import {
     NEWSFEED_ERROR,
     NEWSFEED_ERROR_PARTIAL,
-    storePhenomenonWithNewsFeeds
-} from "@sangre-fp/connectors/phenomena-api";
+    storePhenomenonWithNewsFeeds,
+    archivePhenomenon as archive
+} from "@sangre-fp/connectors/phenomena-api"
 
-export const archivePhenomenon = (phenomenon, callback) => storePhenomenon(phenomenon, {}, callback, true)
+export const archivePhenomenon = (phenomenon, callback) => async (dispatch) => {
+  const { loading, success, error } = getNetworkMethods(
+    actionTypes.ARCHIVE_PHENOMENON,
+    actionTypes.ARCHIVE_PHENOMENON_SUCCESS,
+    requestTranslation('archivePhenomenaError')
+  )
+  dispatch(loading())
+  try {
+    await archive(phenomenon.id, phenomenon.groups[0])
+    dispatch(success(phenomenon.id))
+    callback()
+  } catch (e) {
+    dispatch(error(e))
+  }
+}
 
 export const storePhenomenon = (phenomenon, newsFeedChanges, callback, archived = false) => async (dispatch) => {
     const {

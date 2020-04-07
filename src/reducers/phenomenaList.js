@@ -6,6 +6,7 @@ import { requestTranslation, setLanguage } from "@sangre-fp/i18n"
 import {
     GET_GROUPS_SUCCESS,
     CREATE_PHENOMENA_SUCCESS,
+    ARCHIVE_PHENOMENON_SUCCESS,
     UPDATE_PHENOMENON_INGESTION_SUCCESS,
     CHANGE_GROUP,
     CHANGE_LANGUAGE,
@@ -160,6 +161,12 @@ export default (state = initialState, { type, payload }) => {
                 // eslint-disable-next-line
                 phenomenaList: [payload, ...state.phenomenaList].filter(({ archived }) => !archived)
             }
+      case ARCHIVE_PHENOMENON_SUCCESS:
+            return {
+              ...state,
+              phenomenaList: state.phenomenaList.filter(({ id }) => id !== payload)
+            }
+
         case UPDATE_PHENOMENON_INGESTION_SUCCESS:
             const newList = state.phenomenaList.map(phenomenon => {
                 if (phenomenon.id === payload.id) {
