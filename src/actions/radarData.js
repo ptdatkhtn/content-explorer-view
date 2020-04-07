@@ -1,7 +1,7 @@
 import { getNetworkMethods } from './network'
 import { requestTranslation } from '@sangre-fp/i18n'
 import * as actionTypes from '@sangre-fp/reducers/actionTypes'
-//import { handleImageUploadIfNeeded } from '@sangre-fp/connectors/media-api'
+import { handleImageUploadIfNeeded } from '@sangre-fp/connectors/media-api'
 import {
     NEWSFEED_ERROR,
     NEWSFEED_ERROR_PARTIAL,
@@ -26,10 +26,13 @@ export const archivePhenomenon = (phenomenon, callback) => async (dispatch) => {
 }
 
 export const storePhenomenon = (phenomenon, newsFeedChanges, callback, archived = false) => async (dispatch) => {
-    const {
+    let {
         group,
-        imageUrl,
-        imageFile,
+        _upload: {
+          imageFile,
+          imageUrl,
+          // image // Contains image data url
+        } = {},
         ...rest
     } = phenomenon
 
@@ -48,10 +51,11 @@ export const storePhenomenon = (phenomenon, newsFeedChanges, callback, archived 
 
     const phenomenonInput = {
         ...rest,
+        archived,
         group,
-        // imageUrl: await handleImageUploadIfNeeded(imageFile || imageUrl, group),
-        archived
     }
+    phenomenonInput.content.media.image = await handleImageUploadIfNeeded(imageFile || imageUrl, group) || ''
+
 
     try {
         const { storedPhenomenon, status, failedNewsFeedTitles } = await storePhenomenonWithNewsFeeds(phenomenonInput, newsFeedChanges)
