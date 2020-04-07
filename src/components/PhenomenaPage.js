@@ -64,14 +64,14 @@ export default class PhenomenaPage extends PureComponent {
 
     componentWillUpdate(nextProps, nextState) {
         const { page, textSearchValue } = this.state
-        const { phenomenaListData: { phenomenaList, selectedGroup, selectedLanguage, selectedTypes, selectedTags }, fetchPhenomenaList, setPhenomenonToTag } = this.props
+        const { phenomenaListData: { phenomenaList, selectedGroup, selectedLanguage, selectedTypes, selectedTags, selectedTimes: { time_min = null, time_max = null } = {} }, fetchPhenomenaList, setPhenomenonToTag } = this.props
         const nextPage = nextState.page
         const totalPages = phenomenaList.length / PHENOMENA_PAGE_SIZE
 
         if (nextPage !== page && totalPages <= nextPage) {
             setPhenomenonToTag(false)
 
-            fetchPhenomenaList({ page: nextPage - 1, size: PHENOMENA_PAGE_SIZE, searchableGroup: selectedGroup, searchInput: textSearchValue, languageObj: selectedLanguage, tags: selectedTags, types: selectedTypes, time_max: null, time_min: null })
+            fetchPhenomenaList({ page: nextPage - 1, size: PHENOMENA_PAGE_SIZE, searchableGroup: selectedGroup, searchInput: textSearchValue, languageObj: selectedLanguage, tags: selectedTags, types: selectedTypes, time_max, time_min })
         }
     }
 
@@ -85,7 +85,7 @@ export default class PhenomenaPage extends PureComponent {
                 selectedLanguage,
                 selectedTimes,
                 selectedTypes,
-                selectedTags
+                selectedTags,
             },
             setPhenomenonToTag
         } = this.props
@@ -103,21 +103,21 @@ export default class PhenomenaPage extends PureComponent {
             nextTags !== selectedTags
         ) {
             setPhenomenonToTag(false)
-
-            fetchPhenomenaList({page: 0, size: PHENOMENA_PAGE_SIZE, searchableGroup: nextGroup, searchInput: textSearchValue, languageObj: nextLanguage, tags: nextTags, types: nextTypes, time_min: null, time_max: null })
+            const { min: time_min = null, max: time_max = null } = nextTimes || {}
+            fetchPhenomenaList({page: 0, size: PHENOMENA_PAGE_SIZE, searchableGroup: nextGroup, searchInput: textSearchValue, languageObj: nextLanguage, tags: nextTags, types: nextTypes, time_min, time_max })
                 .then(() => this.handleSearchClear())
         }
     }
 
     handleSearchClear = () => {
-        const { fetchPhenomenaList, phenomenaListData: { selectedGroup, selectedLanguage, selectedTypes, selectedTags } } = this.props
+        const { fetchPhenomenaList, phenomenaListData: { selectedGroup, selectedLanguage, selectedTypes, selectedTags, selectedTimes: { min: time_min = null, max: time_max = null } = {} } } = this.props
 
         this.setState({ textSearchValue: '', page: 1 })
-        fetchPhenomenaList({ page: 0, size: PHENOMENA_PAGE_SIZE, searchableGroup: selectedGroup, searchInput: false, languageObj: selectedLanguage, tags: selectedTags, types: selectedTypes })
+        fetchPhenomenaList({ page: 0, size: PHENOMENA_PAGE_SIZE, searchableGroup: selectedGroup, searchInput: false, languageObj: selectedLanguage, tags: selectedTags, types: selectedTypes, time_min, time_max })
     }
 
     handleSearchChange = ({ target }) => {
-        const { fetchPhenomenaList, phenomenaListData: { selectedGroup, selectedLanguage, selectedTypes, selectedTags }, setPhenomenonToTag } = this.props
+        const { fetchPhenomenaList, phenomenaListData: { selectedGroup, selectedLanguage, selectedTypes, selectedTags, selectedTimes: { time_min = null, time_max = null } = {} }, setPhenomenonToTag } = this.props
 
         this.setState({ textSearchValue: target.value, page: 1 })
 
@@ -126,8 +126,8 @@ export default class PhenomenaPage extends PureComponent {
             setPhenomenonToTag(false)
 
             // eslint-disable-next-line
-            fetchPhenomenaList({ page: 0, size: PHENOMENA_PAGE_SIZE, searchableGroup: selectedGroup, searchInput: target.value, languageObj: selectedLanguage, tags: selectedTags, types: selectedTypes, time_min: null, time_max: null }), SEARCH_DEBOUNCE_TIME
-        })
+            fetchPhenomenaList({ page: 0, size: PHENOMENA_PAGE_SIZE, searchableGroup: selectedGroup, searchInput: target.value, languageObj: selectedLanguage, tags: selectedTags, types: selectedTypes, time_min, time_max })
+        }, SEARCH_DEBOUNCE_TIME)
     }
 
     handleEditClick = phenomenon => this.setState({
@@ -277,7 +277,7 @@ export default class PhenomenaPage extends PureComponent {
                                     <TimelineOptionDropdown
                                         label={requestTranslation('time')}
                                         optionsShown={timesShown}
-                                        title={`${selectedTimes.min} - ${selectedTimes.max || ''}`}
+                                        title={`${selectedTimes.min || ''} - ${selectedTimes.max || ''}`}
                                         selectedOption={selectedTimes}
                                         handleOptionSelect={this.handleTimeChange}
                                         onTabClick={() => this.setState({ timesShown: !timesShown })}

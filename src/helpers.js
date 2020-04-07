@@ -59,4 +59,4 @@ export const makeGroup = group => {
 }
 
 export const PHENOMENA_PAGE_SIZE = 12
-export const SEARCH_DEBOUNCE_TIME = 250
+export const SEARCH_DEBOUNCE_TIME = 500
