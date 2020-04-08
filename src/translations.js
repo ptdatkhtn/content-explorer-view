@@ -3,7 +3,7 @@ import { getAccountLanguage, initTranslations, setLanguage } from '@sangre-fp/i1
 const localTranslations = {
   crowdSourcedEstimate: {
     en: `Crowd sourced estimate`,
-    fi: `Crowd sourced estimate`
+    fi: `Joukkoistettu arvio`
   }
 }
 
