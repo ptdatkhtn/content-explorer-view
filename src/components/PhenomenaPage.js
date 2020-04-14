@@ -147,7 +147,8 @@ export default class PhenomenaPage extends PureComponent {
     })
 
     closePhenomenonModal = () => {
-        this.setState({ editModal: null, page: 1, textSearchValue: '' })
+        this.setState({ editModal: null })
+        setTimeout(this.handleSearchClear(), 500)
     }
 
     handleGroupChange = e => {

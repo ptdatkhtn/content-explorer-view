@@ -5,7 +5,7 @@ import { makeGroup } from '../helpers'
 import { requestTranslation, setLanguage } from "@sangre-fp/i18n"
 import {
     GET_GROUPS_SUCCESS,
-    CREATE_PHENOMENA_SUCCESS,
+    // CREATE_PHENOMENA_SUCCESS,
     ARCHIVE_PHENOMENON_SUCCESS,
     UPDATE_PHENOMENON_INGESTION_SUCCESS,
     CHANGE_GROUP,
@@ -155,12 +155,12 @@ export default (state = initialState, { type, payload }) => {
                 ...state,
                 selectedTypes: state.allSelectedTypes,
             }
-        case CREATE_PHENOMENA_SUCCESS:
-            return {
-                ...state,
-                // eslint-disable-next-line
-                phenomenaList: [payload, ...state.phenomenaList].filter(({ archived }) => !archived)
-            }
+        // case CREATE_PHENOMENA_SUCCESS:
+        //     return {
+        //         ...state,
+        //         // eslint-disable-next-line
+        //         phenomenaList: [payload, ...state.phenomenaList].filter(({ archived }) => !archived)
+        //     }
       case ARCHIVE_PHENOMENON_SUCCESS:
             return {
               ...state,
