@@ -64,7 +64,7 @@ export default class PhenomenaPage extends PureComponent {
 
     componentWillUpdate(nextProps, nextState) {
         const { page, textSearchValue } = this.state
-        const { phenomenaListData: { phenomenaList, selectedGroup, selectedLanguage, selectedTypes, selectedTags, selectedTimes: { time_min = null, time_max = null } = {} }, fetchPhenomenaList, setPhenomenonToTag } = this.props
+        const { phenomenaListData: { phenomenaList, selectedGroup, selectedLanguage, selectedTypes, selectedTags, selectedTimes: { min: time_min = null, max: time_max = null } = {} }, fetchPhenomenaList, setPhenomenonToTag } = this.props
         const nextPage = nextState.page
         const totalPages = phenomenaList.length / PHENOMENA_PAGE_SIZE
 
@@ -104,8 +104,8 @@ export default class PhenomenaPage extends PureComponent {
         ) {
             setPhenomenonToTag(false)
             const { min: time_min = null, max: time_max = null } = nextTimes || {}
-            fetchPhenomenaList({page: 0, size: PHENOMENA_PAGE_SIZE, searchableGroup: nextGroup, searchInput: textSearchValue, languageObj: nextLanguage, tags: nextTags, types: nextTypes, time_min, time_max })
-                .then(() => this.handleSearchClear())
+
+            this.setState({ page: 1 }, () => fetchPhenomenaList({page: 0, size: PHENOMENA_PAGE_SIZE, searchableGroup: nextGroup, searchInput: textSearchValue, languageObj: nextLanguage, tags: nextTags, types: nextTypes, time_min, time_max }))
         }
     }
 
@@ -117,7 +117,7 @@ export default class PhenomenaPage extends PureComponent {
     }
 
     handleSearchChange = ({ target }) => {
-        const { fetchPhenomenaList, phenomenaListData: { selectedGroup, selectedLanguage, selectedTypes, selectedTags, selectedTimes: { time_min = null, time_max = null } = {} }, setPhenomenonToTag } = this.props
+        const { fetchPhenomenaList, phenomenaListData: { selectedGroup, selectedLanguage, selectedTypes, selectedTags, selectedTimes: { min: time_min = null, max: time_max = null } = {} }, setPhenomenonToTag } = this.props
 
         this.setState({ textSearchValue: target.value, page: 1 })
 
