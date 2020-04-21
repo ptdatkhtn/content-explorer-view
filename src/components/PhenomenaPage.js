@@ -57,7 +57,7 @@ export default class PhenomenaPage extends PureComponent {
         getAuth()
             .then(() => Promise.all([
                 getGroups(),
-                getPhenomenaTypes()
+                getPhenomenaTypes(selectedGroup.value)
             ]))
             .then(() => fetchPhenomenaList({page: 0, size: PHENOMENA_PAGE_SIZE, searchableGroup: selectedGroup, searchInput: textSearchValue, languageObj: selectedLanguage, tags: selectedTags, types: selectedTypes, time_min: null, time_max: null }))
     }
@@ -87,23 +87,27 @@ export default class PhenomenaPage extends PureComponent {
                 selectedTypes,
                 selectedTags,
             },
-            setPhenomenonToTag
+            setPhenomenonToTag,
+            getPhenomenaTypes
         } = this.props
         const nextGroup = nextProps.phenomenaListData.selectedGroup
         const nextLanguage = nextProps.phenomenaListData.selectedLanguage
         const nextTimes = nextProps.phenomenaListData.selectedTimes
         const nextTypes = nextProps.phenomenaListData.selectedTypes
         const nextTags = nextProps.phenomenaListData.selectedTags
-        // eslint-disable-next-line
+        const { min: time_min = null, max: time_max = null } = nextTimes || {}
+
+        if (nextGroup && nextGroup !== selectedGroup) {
+            getPhenomenaTypes(nextGroup.value)
+        }
+
         if (
             nextLanguage !== selectedLanguage ||
-            (nextGroup && nextGroup !== selectedGroup) ||
             nextTimes !== selectedTimes ||
             nextTypes !== selectedTypes ||
             nextTags !== selectedTags
         ) {
             setPhenomenonToTag(false)
-            const { min: time_min = null, max: time_max = null } = nextTimes || {}
             fetchPhenomenaList({page: 0, size: PHENOMENA_PAGE_SIZE, searchableGroup: nextGroup, searchInput: textSearchValue, languageObj: nextLanguage, tags: nextTags, types: nextTypes, time_min, time_max })
                 .then(() => this.handleSearchClear())
         }
@@ -206,7 +210,8 @@ export default class PhenomenaPage extends PureComponent {
     }
 
     getTimeLabel = selectedTimes => selectedTimes.map(({ label }) => _.capitalize(label)).join(', ')
-    getTypeLabel = selectedTypes => selectedTypes.map(({ label }) => _.capitalize(requestTranslation(label))).join(', ')
+    getTypeLabel = selectedTypes => selectedTypes.map(({ label }) => _.capitalize(requestTranslation(label) || label)).join(', ')
+
 
     render() {
         const {
@@ -219,7 +224,8 @@ export default class PhenomenaPage extends PureComponent {
                 total,
                 selectedTimes,
                 selectedTypes,
-                selectedTags
+                selectedTags,
+                allSelectedTypes
             },
             canEditSomePhenomena,
             storePhenomenon,
@@ -240,9 +246,10 @@ export default class PhenomenaPage extends PureComponent {
             tagsShown
         } = this.state
 
-        const TYPE_OPTIONS = phenomenaTypesById ? _.map(phenomenaTypesById, type => ({
-            value: type.id,
-            label: type.alias
+        const TYPE_OPTIONS = allSelectedTypes ? _.map(allSelectedTypes, type => ({
+            value: type.value,
+            label: type.label,
+            style: type.style
         })) : []
 
         return (
