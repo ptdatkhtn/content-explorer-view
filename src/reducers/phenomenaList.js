@@ -19,7 +19,8 @@ import {
     ADD_PHENOMENA_TAG_SUCCESS,
     REMOVE_PHENOMENA_TAG_SUCCESS,
     SET_PHENOM_TO_TAG,
-    RESET_TYPE_FILTERS
+    RESET_TYPE_FILTERS,
+    CHANGE_TYPES
 } from '@sangre-fp/reducers/actionTypes'
 
 const USER_LANGUAGE = document.querySelector('html').getAttribute('lang') || 'en'
@@ -120,17 +121,13 @@ export default (state = initialState, { type, payload }) => {
                 selectedTags: addOrRemoveValueFromArray(state.selectedTags, payload)
 
             }
-        case CHANGE_TYPE:
-            // if types have not been fetched yet
-            // set all selected types for reset later
-            if (!state.selectedTypes.length) {
-                return {
-                    ...state,
-                    selectedTypes: payload,
-                    allSelectedTypes: payload
-                }
+        case CHANGE_TYPES:
+            return {
+                ...state,
+                selectedTypes: payload,
+                allSelectedTypes: payload
             }
-
+        case CHANGE_TYPE:
             return {
                 ...state,
                 selectedTypes: addOrRemoveValueFromArray(state.selectedTypes, payload)

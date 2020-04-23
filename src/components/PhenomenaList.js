@@ -14,7 +14,7 @@ import { getRangeValueFromYear } from '@sangre-fp/content-editor'
 // also: move some of the styled-components into UI
 
 export const PhenomenaList = props => {
-  const { phenomenaListData: { groups, canEditPublic, phenomenaList, selectedGroup, phenomenonToTag, selectedLanguage }, canEditSomePhenomena, phenomenaTypesById, loading, handleEditClick, handleCloneClick, setPhenomenonToTag } = props
+  const { phenomenaListData: { groups, canEditPublic, phenomenaList, selectedGroup, phenomenonToTag, selectedLanguage, allSelectedTypes }, canEditSomePhenomena, phenomenaTypesById, loading, handleEditClick, handleCloneClick, setPhenomenonToTag } = props
   const { tags: tagList } = useTags(selectedGroup.value)
   const itemsRef = useRef([])
 
@@ -52,6 +52,8 @@ export const PhenomenaList = props => {
 
             const freePlan = selectedGroup && selectedGroup.availableResources && selectedGroup.availableResources.plan === 'free'
 
+            const customTypeStyle = _.find(allSelectedTypes, ({ value }) => value === type).style || null
+
             /*
                 - Group editors can change group-specific tags both in public phenomena and group specific phenomena
                 - Group editor can change fp tags (e.g. "Climate Change") in group specific phenomena (not the public ones)
@@ -86,7 +88,7 @@ export const PhenomenaList = props => {
                         </div>
                         <div className='d-flex left align-items-center hoverable ml-auto' data-href={getPhenomenonUrl(false, phenomenon)} style={{ width: '60%' }}>
                             <State className='d-flex align-items-center'>
-                                <PhenomenonType size={16} type={phenomenonType} />
+                                <PhenomenonType size={16} type={phenomenonType} fill={customTypeStyle && customTypeStyle.color} />
                             </State>
                             <div className='w-100'>
                                 <PhenomenaTitle>{title}</PhenomenaTitle>
