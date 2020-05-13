@@ -54,6 +54,7 @@ export const storePhenomenon = (phenomenon, newsFeedChanges, callback, archived 
         archived,
         group,
     }
+
     phenomenonInput.content.media.image = await handleImageUploadIfNeeded(imageFile || imageUrl, group) || ''
 
 
