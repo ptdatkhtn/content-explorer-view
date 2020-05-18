@@ -70,7 +70,7 @@ const matchPhenomenaWithStatistics = (phenomena, statistics) => {
         {
             ...item,
             crowdSourcedValue: statistics[item.id] ?
-                _.round(statistics[item.id].year_median, 2) : null
+                _.round(statistics[item.id].year_median, 2).toFixed(2) : null
         }
     ))
 }
