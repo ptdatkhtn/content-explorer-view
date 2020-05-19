@@ -6,7 +6,7 @@ import {
     Loading,
     OptionDropdown,
     Pagination,
-    MaterialIcon,
+    Search,
     PhenomenonType,
     modalStyles,
     FuzeNListContainer,
@@ -347,28 +347,12 @@ export default class PhenomenaPage extends PureComponent {
                             </div>
                             <div className='col-9 col-main'>
                                 <FuzeNListContainer>
-                                    <SearchContainer className='mb-3'>
-                                        <Search
-                                            type={'text'}
-                                            placeholder={requestTranslation('searchByKeywords')}
-                                            value={textSearchValue}
-                                            onChange={this.handleSearchChange}
-                                        />
-                                        <ClearSearch>
-                                            <MaterialIcon
-                                                fontSize={'20px'}
-                                                onClick={this.handleSearchClear}
-                                                color='#a8a8a8'
-                                            >
-                                                close
-                                            </MaterialIcon>
-                                        </ClearSearch>
-                                        <SearchIcon>
-                                            <MaterialIcon color='#a8a8a8' fontSize={'20px'}>
-                                                search
-                                            </MaterialIcon>
-                                        </SearchIcon>
-                                    </SearchContainer>
+                                    <Search
+                                        value={textSearchValue}
+                                        onChange={this.handleSearchChange}
+                                        onClear={this.handleSearchClear}
+                                        className='mb-3'
+                                    />
                                     <ListContainer className={'fp-table'}>
                                         <Row>
                                             <div className={'fp-table-th-label'}>
@@ -489,48 +473,6 @@ export default class PhenomenaPage extends PureComponent {
         )
     }
 }
-
-const SearchContainer = styled.div`
-    width: 100%;
-    height: 45px;
-    margin-top: 15px;
-    margin-bottom: 30px;
-    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05), 0 1px 3px 0 rgba(0,0,0,0.05);
-    position: relative;
-    border-radius: 50px;
-
-    &:hover, &:active, &:focus {
-        box-shadow: 0 0 6px 0 rgba(99,114,130,0.30);
-    }
-`
-
-const Search = styled.input`
-    background: white;
-    border: none !important;
-    padding: 0 25px 0 42px !important;
-    height: 100%;
-    border-radius: 50px !important;
-`
-
-export const ClearSearch = styled.div`
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    right: 25px;
-    top: 0;
-`
-
-export const SearchIcon = styled.div`
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    left: 15px;
-    top: 0;
-`
 
 const CrowdSource = styled.div`
     background-color: #637282;
