@@ -45,14 +45,12 @@ export const PhenomenaList = props => {
             const { min, max } = time_range
             const phenomenaGroup = _.find(groups, { value: group })
             const canEdit = phenomenaGroup ? phenomenaGroup.canEdit : false
-
             const phenomenonType = phenomenaTypesById[type]
               ? phenomenaTypesById[type].alias
               : 'undefined'
-
             const freePlan = selectedGroup && selectedGroup.availableResources && selectedGroup.availableResources.plan === 'free'
-
-            const customTypeStyle = _.find(allSelectedTypes, ({ value }) => value === type).style || null
+            const customTypeObj = _.find(allSelectedTypes, ({ value }) => value === type)
+            const customTypeStyle = customTypeObj && customTypeObj.style
 
             /*
                 - Group editors can change group-specific tags both in public phenomena and group specific phenomena
