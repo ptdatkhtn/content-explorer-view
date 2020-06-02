@@ -1,138 +1,77 @@
-import _ from 'lodash'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 import {
     Modal,
     Loading,
-    OptionDropdown,
     Pagination,
     Search,
     PhenomenonType,
     modalStyles,
-    FuzeNListContainer,
-    TagOptionDropdown,
-    TimelineOptionDropdown
+    FuzeNListContainer
 } from '@sangre-fp/ui'
 import ErrorModal from '../containers/ErrorModal'
 import ConfirmDialog from '../containers/ConfirmDialogContainer'
 import PhenomenaTagSelector from '../containers/PhenomenaTagSelector'
 import { PhenomenaList } from './PhenomenaList'
-import { SEARCH_DEBOUNCE_TIME, PHENOMENA_PAGE_SIZE } from '../helpers'
 import { requestTranslation } from '@sangre-fp/i18n'
 import { PhenomenonLoader, PhenomenonEditForm } from '@sangre-fp/content-editor'
+import ContentFilters from '@sangre-fp/content-filters'
+import CrowdSourceLegend from './CrowdSourceLegend'
 
 const CREATE = 'CREATE'
 const EDIT = 'EDIT'
 const CLONE = 'CLONE'
+const PHENOMENA_PAGE_SIZE = 12
 
 export default class PhenomenaPage extends PureComponent {
     state = {
         editModal: null,
-        groupsShown: false,
-        languagesShown: false,
-        timesShown: false,
-        typesShown: false,
-        tagsShown: false,
         page: 1,
-        textSearchValue: ''
+        textSearchValue: '',
+        group: 0,
+        language: document.querySelector('html').getAttribute('lang') || 'en'
     }
 
-    debounceTimeout = false
-
     componentDidMount() {
-        const {
-            getAuth,
-            getGroups,
-            fetchPhenomenaList,
-            getPhenomenaTypes,
-            phenomenaListData: {
-                selectedGroup,
-                selectedLanguage,
-                selectedTypes,
-                selectedTags
-            }
-        } = this.props
-        const { textSearchValue } = this.state
+        const { getAuth, getGroups, getPhenomenaTypes } = this.props
 
         getAuth()
             .then(() => Promise.all([
                 getGroups(),
-                getPhenomenaTypes(selectedGroup.value)
+                getPhenomenaTypes(0)
             ]))
-            .then(() => fetchPhenomenaList({page: 0, size: PHENOMENA_PAGE_SIZE, searchableGroup: selectedGroup, searchInput: textSearchValue, languageObj: selectedLanguage, tags: selectedTags, types: selectedTypes, time_min: null, time_max: null }))
     }
 
-    componentWillUpdate(nextProps, nextState) {
-        const { page, textSearchValue } = this.state
-        const { phenomenaListData: { phenomenaList, selectedGroup, selectedLanguage, selectedTypes, selectedTags, selectedTimes: { min: time_min = null, max: time_max = null } = {} }, fetchPhenomenaList, setPhenomenonToTag } = this.props
-        const nextPage = nextState.page
-        const totalPages = phenomenaList.length / PHENOMENA_PAGE_SIZE
+    handleSearchClear = () => this.setState({ textSearchValue: '', page: 1 })
 
-        if (nextPage !== page && totalPages <= nextPage) {
-            setPhenomenonToTag(false)
+    handleSearchChange = ({ target }) => this.setState({ textSearchValue: target.value, page: 1 })
 
-            fetchPhenomenaList({ page: nextPage - 1, size: PHENOMENA_PAGE_SIZE, searchableGroup: selectedGroup, searchInput: textSearchValue, languageObj: selectedLanguage, tags: selectedTags, types: selectedTypes, time_max, time_min })
-        }
-    }
-
-
-    componentWillReceiveProps(nextProps) {
-        const { textSearchValue } = this.state
+    handleFilterChange = ({ types, times, tags, language, group, page, search }) => {
         const {
             fetchPhenomenaList,
-            phenomenaListData: {
-                selectedGroup,
-                selectedLanguage,
-                selectedTimes,
-                selectedTypes,
-                selectedTags,
-            },
-            setPhenomenonToTag,
-            getPhenomenaTypes
+            phenomenaListData: { phenomenaList },
+            setPhenomenonToTag
         } = this.props
-        const nextGroup = nextProps.phenomenaListData.selectedGroup
-        const nextLanguage = nextProps.phenomenaListData.selectedLanguage
-        const nextTimes = nextProps.phenomenaListData.selectedTimes
-        const nextTypes = nextProps.phenomenaListData.selectedTypes
-        const nextTags = nextProps.phenomenaListData.selectedTags
 
-        if (nextGroup && nextGroup !== selectedGroup) {
-            getPhenomenaTypes(nextGroup.value)
-        }
+        this.setState({ group, language })
 
-        if (
-            nextLanguage !== selectedLanguage ||
-            nextTimes !== selectedTimes ||
-            nextTypes !== selectedTypes ||
-            nextTags !== selectedTags
-        ) {
+        const totalPages = phenomenaList.length / PHENOMENA_PAGE_SIZE
+
+        if (totalPages <= page) {
             setPhenomenonToTag(false)
 
-            const { min: time_min = null, max: time_max = null } = nextTimes || {}
-
-            this.setState({ page: 1 }, () => fetchPhenomenaList({page: 0, size: PHENOMENA_PAGE_SIZE, searchableGroup: nextGroup, searchInput: textSearchValue, languageObj: nextLanguage, tags: nextTags, types: nextTypes, time_min, time_max }))
+            fetchPhenomenaList({
+                page: page - 1,
+                size: PHENOMENA_PAGE_SIZE,
+                searchableGroup: group,
+                searchInput: search,
+                languageObj: language,
+                tags: tags,
+                types: types,
+                time_max: times.max,
+                time_min: times.min
+            })
         }
-    }
-
-    handleSearchClear = () => {
-        const { fetchPhenomenaList, phenomenaListData: { selectedGroup, selectedLanguage, selectedTypes, selectedTags, selectedTimes: { min: time_min = null, max: time_max = null } = {} } } = this.props
-
-        this.setState({ textSearchValue: '', page: 1 })
-        fetchPhenomenaList({ page: 0, size: PHENOMENA_PAGE_SIZE, searchableGroup: selectedGroup, searchInput: false, languageObj: selectedLanguage, tags: selectedTags, types: selectedTypes, time_min, time_max })
-    }
-
-    handleSearchChange = ({ target }) => {
-        const { fetchPhenomenaList, phenomenaListData: { selectedGroup, selectedLanguage, selectedTypes, selectedTags, selectedTimes: { min: time_min = null, max: time_max = null } = {} }, setPhenomenonToTag } = this.props
-
-        this.setState({ textSearchValue: target.value, page: 1 })
-
-        clearTimeout(this.debounceTimeout)
-        this.debounceTimeout = setTimeout(() => {
-            setPhenomenonToTag(false)
-
-            // eslint-disable-next-line
-            fetchPhenomenaList({ page: 0, size: PHENOMENA_PAGE_SIZE, searchableGroup: selectedGroup, searchInput: target.value, languageObj: selectedLanguage, tags: selectedTags, types: selectedTypes, time_min, time_max })
-        }, SEARCH_DEBOUNCE_TIME)
     }
 
     handleEditClick = phenomenon => this.setState({
@@ -156,38 +95,6 @@ export default class PhenomenaPage extends PureComponent {
         setTimeout(this.handleSearchClear(), 500)
     }
 
-    handleGroupChange = e => {
-        const { phenomenaListData: { groups }, changeGroup, resetTags } = this.props
-        const selectedOption = _.find(groups, { label: e.target.innerText })
-
-        resetTags()
-        changeGroup(selectedOption)
-    }
-
-    handleTimeChange = options => {
-        const { changeTime } = this.props
-
-        changeTime(options)
-    }
-
-    handleTagChange = option => this.props.changeTag(option)
-
-    handleTypeChange = option => {
-        const { changeType, phenomenaListData: { selectedTypes } } = this.props
-
-        if (selectedTypes.length === 1 && _.find(selectedTypes, option)) {
-            return
-        }
-
-        changeType(option)
-    }
-
-    handleLanguageChange = e => {
-        const { phenomenaListData: { languages }, changeLanguage } = this.props
-        const selectedOption = _.find(languages, { label: e.target.innerText })
-        changeLanguage(selectedOption)
-    }
-
     handlePageChange = page => this.setState({ page })
 
     renderPhenomenaType = phenomenaType => {
@@ -201,57 +108,24 @@ export default class PhenomenaPage extends PureComponent {
         )
     }
 
-    getTagLabel = selectedTags => {
-        const { phenomenaListData: { selectedLanguage } } = this.props
-        const lang = selectedLanguage.value === 'all' ? document.querySelector('html').getAttribute('lang') || 'en' : selectedLanguage.value
-
-        const labels = selectedTags.map(({ label }) => (_.isString(label) ? label : label[lang]))
-
-        return labels.join(', ')
-    }
-
-    getTimeLabel = selectedTimes => selectedTimes.map(({ label }) => _.capitalize(label)).join(', ')
-    getTypeLabel = selectedTypes => selectedTypes.map(({ label }) => _.capitalize(requestTranslation(label) || label)).join(', ')
-
-
     render() {
         const {
             loading,
             phenomenaListData: {
-                groups,
-                languages,
-                selectedGroup,
-                selectedLanguage,
-                total,
-                selectedTimes,
-                selectedTypes,
-                selectedTags,
-                allSelectedTypes
+                total
             },
             canEditSomePhenomena,
             storePhenomenon,
-            archivePhenomenon,
-            phenomenaTypesById,
-            resetFilters,
-            resetTypeFilters
+            archivePhenomenon
         } = this.props
 
         const {
-            groupsShown,
-            languagesShown,
             page,
             textSearchValue,
             editModal,
-            timesShown,
-            typesShown,
-            tagsShown
+            group,
+            language
         } = this.state
-
-        const TYPE_OPTIONS = allSelectedTypes ? _.map(allSelectedTypes, type => ({
-            value: type.value,
-            label: type.label,
-            style: type.style
-        })) : []
 
         return (
             <div>
@@ -269,68 +143,11 @@ export default class PhenomenaPage extends PureComponent {
                                 <h3 style={{ marginTop: '22px', marginBottom: '27px' }}>
                                     {requestTranslation('searchFilters')}
                                 </h3>
-                                <div className='mb-3'>
-                                    <OptionDropdown
-                                        label={requestTranslation('createPhenomenaFormTypeLabel')}
-                                        optionsShown={typesShown}
-                                        type={'type'}
-                                        title={selectedTypes.length === _.size(phenomenaTypesById) ? requestTranslation('all') : this.getTypeLabel(selectedTypes)}
-                                        selectedOption={selectedTypes}
-                                        handleOptionSelect={this.handleTypeChange}
-                                        options={TYPE_OPTIONS}
-                                        onTabClick={() => this.setState({ typesShown: !typesShown })}
-                                        resetFilters={resetTypeFilters}
-                                    />
-                                </div>
-                                <div className='mb-3'>
-                                    <TimelineOptionDropdown
-                                        label={requestTranslation('time')}
-                                        optionsShown={timesShown}
-                                        title={`${selectedTimes.min || ''} - ${selectedTimes.max || ''}`}
-                                        selectedOption={selectedTimes}
-                                        handleOptionSelect={this.handleTimeChange}
-                                        onTabClick={() => this.setState({ timesShown: !timesShown })}
-                                    />
-                                </div>
-                                <div className='mb-3'>
-                                    <TagOptionDropdown
-                                        label={requestTranslation('tags')}
-                                        optionsShown={tagsShown}
-                                        title={selectedTags.length === 0 ? requestTranslation('none') : this.getTagLabel(selectedTags)}
-                                        selectedOption={selectedTags}
-                                        handleOptionSelect={this.handleTagChange}
-                                        onTabClick={() => this.setState({ tagsShown: !tagsShown })}
-                                        group={selectedGroup.value}
-                                        language={selectedLanguage.value}
-                                    />
-                                </div>
-                                <div className='mb-3'>
-                                    <OptionDropdown
-                                        label={requestTranslation('group')}
-                                        title={selectedGroup.label}
-                                        onTabClick={() => this.setState({ groupsShown: !groupsShown })}
-                                        type={'radio'}
-                                        optionsShown={groupsShown}
-                                        options={groups}
-                                        selectedOption={selectedGroup}
-                                        handleOptionSelect={this.handleGroupChange}
-                                    />
-                                </div>
-                                <div className='mb-3'>
-                                    <OptionDropdown
-                                        label={requestTranslation('language')}
-                                        title={selectedLanguage.label}
-                                        onTabClick={() => this.setState({ languagesShown: !languagesShown })}
-                                        type={'radio'}
-                                        optionsShown={languagesShown}
-                                        options={languages}
-                                        selectedOption={selectedLanguage}
-                                        handleOptionSelect={this.handleLanguageChange}
-                                    />
-                                </div>
-                                <button className='btn btn-outline-secondary w-100' onClick={resetFilters}>
-                                    {requestTranslation('resetFilters')}
-                                </button>
+                                <ContentFilters
+                                    page={page}
+                                    search={textSearchValue}
+                                    onFilterChange={this.handleFilterChange}
+                                />
                                 { canEditSomePhenomena ? (
                                     <CreateContainer>
                                         <h5>
@@ -375,6 +192,8 @@ export default class PhenomenaPage extends PureComponent {
                                         </Row>
                                         <PhenomenaList
                                             {...this.props}
+                                            language={language}
+                                            group={group}
                                             handleEditClick={this.handleEditClick}
                                             handleCloneClick={this.handleCloneClick}
                                         />
@@ -386,31 +205,7 @@ export default class PhenomenaPage extends PureComponent {
                                             justifyContent: 'space-between',
                                             paddingRight: '0'
                                         }}>
-                                            <div className='d-flex flex-column'>
-                                                <div className='d-flex align-items-center'>
-                                                    <CrowdSource
-                                                        className='mr-2'
-                                                        style={{
-                                                            position: 'static',
-                                                            backgroundColor: '#00C3FF'
-                                                        }}
-                                                    />
-                                                    <CrowdSourceLabel style={{ color: 'black' }}>
-                                                        {requestTranslation('authorTimerange')}
-                                                    </CrowdSourceLabel>
-                                                </div>
-                                                <div className='d-flex align-items-center'>
-                                                    <CrowdSource
-                                                        className='mr-2'
-                                                        style={{
-                                                            position: 'static'
-                                                        }}
-                                                    />
-                                                    <CrowdSourceLabel>
-                                                        {requestTranslation('crowdTimerange')}
-                                                    </CrowdSourceLabel>
-                                                </div>
-                                            </div>
+                                            <CrowdSourceLegend />
                                             <Pagination
                                                 page={page}
                                                 length={total / PHENOMENA_PAGE_SIZE}
@@ -466,27 +261,16 @@ export default class PhenomenaPage extends PureComponent {
 
                     )}
                 </Modal>
-                <PhenomenaTagSelector />
+                <PhenomenaTagSelector
+                    group={group.value || group}
+                    language={language.value || language}
+                />
                 <ConfirmDialog />
                 <ErrorModal />
             </div>
         )
     }
 }
-
-const CrowdSource = styled.div`
-    background-color: #637282;
-    height: 8px;
-    width: 8px;
-    border-radius: 50%;
-    position: absolute;
-    top: 1px;
-`
-
-const CrowdSourceLabel = styled.div`
-    font-size: 11px;
-    color: #637282;
-`
 
 const Row = styled.div`
     display: flex;

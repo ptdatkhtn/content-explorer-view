@@ -9,25 +9,11 @@ import { requestTranslation } from '@sangre-fp/i18n'
 
 export const clearAllErrors = () => dispatch => dispatch({ type: actionTypes.CLEAR_ALL_ERRORS })
 
-export const changeGroup = group => dispatch => {
-    dispatch({ type: actionTypes.CHANGE_GROUP, payload: group })
-}
-export const changeLanguage = language => dispatch =>
-    dispatch({ type: actionTypes.CHANGE_LANGUAGE, payload: language })
-export const changeTime = values => dispatch => dispatch({ type: actionTypes.CHANGE_TIME , payload: values })
-export const changeType = type => dispatch => dispatch({ type: actionTypes.CHANGE_TYPE, payload: type })
-export const changeTag = tag => dispatch => dispatch({ type: actionTypes.CHANGE_TAG, payload: tag })
-export const resetFilters = () => dispatch => dispatch({ type: actionTypes.RESET_FILTERS })
-
-export const resetTypeFilters = () => dispatch => dispatch({ type: actionTypes.RESET_TYPE_FILTERS })
-
-export const resetTags = () => dispatch => dispatch({ type: actionTypes.RESET_TAGS })
-
 export const setPhenomenonToTag = phenomenon => (dispatch, getState) => {
   dispatch({ type: actionTypes.SET_PHENOM_TO_TAG, payload: getState().phenomenaList.phenomenonToTag ? false : phenomenon })
 }
 
-export const handlePhenomenaTagMod = (tag, phenomena, group) => dispatch => {
+export const handlePhenomenaTagMod = (tag, phenomena, grp) => dispatch => {
     const add = !_.includes(phenomena.tags, tag.uri)
 
     const { loading, success, error } = add
@@ -43,8 +29,10 @@ export const handlePhenomenaTagMod = (tag, phenomena, group) => dispatch => {
 
     dispatch(loading())
 
+    const group = _.isObject(grp) ? grp.value : grp
+
     if (add) {
-        return tagPhenomenon(group, phenomena.id, tag.uri)
+        return tagPhenomenon(group.value || group, phenomena.id, tag.uri)
             .then(data => {
                 dispatch(success({ tag: tag.uri, phenomena }))
             })
@@ -53,7 +41,7 @@ export const handlePhenomenaTagMod = (tag, phenomena, group) => dispatch => {
             )
     }
 
-    return removeTagPhenomenon(group, phenomena.id, tag.uri)
+    return removeTagPhenomenon(group.value || group, phenomena.id, tag.uri)
         .then(data => {
             dispatch(success({ tag: tag.uri, phenomena }))
         })

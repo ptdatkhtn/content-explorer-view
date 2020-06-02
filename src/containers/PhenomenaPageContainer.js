@@ -4,18 +4,7 @@ import PhenomenaPage from '../components/PhenomenaPage'
 import { getAuth } from '../actions/auth'
 import { getUserGroups } from '../actions/radarSettings'
 import { getPhenomenaTypes } from '../actions/phenomenaTypes'
-import {
-    changeGroup,
-    changeLanguage,
-    fetchPhenomenaList,
-    changeTime,
-    changeType,
-    changeTag,
-    resetFilters,
-    resetTags,
-    setPhenomenonToTag,
-    resetTypeFilters
-} from '../actions/phenomenaList'
+import { fetchPhenomenaList, setPhenomenonToTag } from '../actions/phenomenaList'
 import { storePhenomenon, archivePhenomenon } from '../actions/radarData'
 import { canEditSomePhenomena } from '../selectors'
 
@@ -40,17 +29,9 @@ export default connect(
         getAuth,
         getGroups: getUserGroups,
         getPhenomenaTypes,
-        changeGroup,
-        changeLanguage,
         fetchPhenomenaList,
         storePhenomenon,
         archivePhenomenon,
-        changeTime,
-        changeType,
-        resetFilters,
-        changeTag,
-        resetTags,
         setPhenomenonToTag,
-        resetTypeFilters
     }, dispatch)
 )(PhenomenaPage)

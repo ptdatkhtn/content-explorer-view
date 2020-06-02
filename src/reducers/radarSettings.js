@@ -1,9 +1,6 @@
 import _ from 'lodash'
-import { makeGroup } from '../helpers'
 import { getCurrentLanguage } from '@sangre-fp/i18n'
-import {
-    GET_GROUPS_SUCCESS
-} from '@sangre-fp/reducers/actionTypes'
+import { GET_GROUPS_SUCCESS } from '@sangre-fp/reducers/actionTypes'
 
 const initialState = {
     groups: [],
@@ -15,7 +12,7 @@ export default (state = initialState, { type, payload }) => {
         case GET_GROUPS_SUCCESS:
             // filter out groups without ids
             const groups = _.filter(
-                _.map(payload, makeGroup),
+                payload,
                 group => group.id
             )
 

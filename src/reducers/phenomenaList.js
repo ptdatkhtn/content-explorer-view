@@ -1,53 +1,28 @@
 import _ from 'lodash'
-// eslint-disable-next-line
-import { radarLanguagesWithAll, ALL_GROUP_VALUE } from '../config'
-import { makeGroup } from '../helpers'
-import { requestTranslation, setLanguage } from "@sangre-fp/i18n"
+import { requestTranslation, setLanguage, radarLanguagesWithAll } from "@sangre-fp/i18n"
 import {
     GET_GROUPS_SUCCESS,
-    // CREATE_PHENOMENA_SUCCESS,
     ARCHIVE_PHENOMENON_SUCCESS,
     UPDATE_PHENOMENON_INGESTION_SUCCESS,
-    CHANGE_GROUP,
-    CHANGE_LANGUAGE,
     FETCH_PHENOMENA_SUCCESS,
-    CHANGE_TIME,
-    CHANGE_TYPE,
-    RESET_FILTERS,
-    RESET_TAGS,
-    CHANGE_TAG,
     ADD_PHENOMENA_TAG_SUCCESS,
     REMOVE_PHENOMENA_TAG_SUCCESS,
-    SET_PHENOM_TO_TAG,
-    RESET_TYPE_FILTERS,
-    CHANGE_TYPES
+    SET_PHENOM_TO_TAG
 } from '@sangre-fp/reducers/actionTypes'
 
 const USER_LANGUAGE = document.querySelector('html').getAttribute('lang') || 'en'
-const SELECTED_LANGUAGE = _.find(radarLanguagesWithAll(), { value: USER_LANGUAGE })
-
 setLanguage(USER_LANGUAGE)
 
-// removing all group because of tags, could reinstate later
-// const ALL_GROUP = { value: ALL_GROUP_VALUE, label: requestTranslation('allGroupsFilter') }
 const PUBLIC_GROUP = { value: 0, label: requestTranslation('publicFilter') }
 
 const initialState = {
     groups: [],
     languages: radarLanguagesWithAll(),
-    selectedGroup: PUBLIC_GROUP,
-    selectedLanguage: SELECTED_LANGUAGE,
     phenomenaList: [],
     canEditPublic: false,
     total: 0,
-    selectedTimes: {min: new Date().getFullYear(), max: null},
-    selectedTypes: [],
-    allSelectedTypes: [],
-    selectedTags: [],
     phenomenonToTag: false
 }
-
-const addOrRemoveValueFromArray = (array, value) => _.find(array, value) ? _.filter(array, v => v.label !== value.label) : [...array, value]
 
 export default (state = initialState, { type, payload }) => {
     switch (type) {
@@ -82,10 +57,7 @@ export default (state = initialState, { type, payload }) => {
         case GET_GROUPS_SUCCESS:
             const groups = _.concat(
                 [PUBLIC_GROUP],
-                _.filter(
-                    _.map(payload, makeGroup),
-                    group => group.id
-                )
+                _.filter(payload, group => group.id)
             )
             const canEditPublic = _.some(groups, group => group.canEditPublic)
 
@@ -100,64 +72,6 @@ export default (state = initialState, { type, payload }) => {
                 phenomenaList: payload.list,
                 total: payload.total
             }
-        case CHANGE_GROUP:
-            return {
-                ...state,
-                selectedGroup: payload
-            }
-        case CHANGE_LANGUAGE:
-            return {
-                ...state,
-                selectedLanguage: payload
-            }
-        case CHANGE_TIME:
-            return {
-                ...state,
-                selectedTimes: payload
-            }
-        case CHANGE_TAG:
-            return {
-                ...state,
-                selectedTags: addOrRemoveValueFromArray(state.selectedTags, payload)
-
-            }
-        case CHANGE_TYPES:
-            return {
-                ...state,
-                selectedTypes: payload,
-                allSelectedTypes: payload
-            }
-        case CHANGE_TYPE:
-            return {
-                ...state,
-                selectedTypes: addOrRemoveValueFromArray(state.selectedTypes, payload)
-            }
-
-        case RESET_TAGS:
-            return {
-                ...state,
-                selectedTags: []
-            }
-        case RESET_FILTERS:
-            return {
-                ...state,
-                selectedGroup: PUBLIC_GROUP,
-                selectedLanguage: SELECTED_LANGUAGE,
-                selectedTimes: {min: new Date().getFullYear(), max: null},
-                selectedTypes: state.allSelectedTypes,
-                selectedTags: []
-            }
-        case RESET_TYPE_FILTERS:
-            return {
-                ...state,
-                selectedTypes: state.allSelectedTypes,
-            }
-        // case CREATE_PHENOMENA_SUCCESS:
-        //     return {
-        //         ...state,
-        //         // eslint-disable-next-line
-        //         phenomenaList: [payload, ...state.phenomenaList].filter(({ archived }) => !archived)
-        //     }
       case ARCHIVE_PHENOMENON_SUCCESS:
             return {
               ...state,

@@ -8,14 +8,30 @@ import { PhenomenaTagList } from './PhenomenaTagList'
 import { getPhenomenonUrl } from '../helpers'
 import { useTags } from '@sangre-fp/tags'
 import { MaterialIcon, PhenomenonType } from '@sangre-fp/ui'
-import { getRangeValueFromYear } from '@sangre-fp/content-editor'
+import { getRangeValueFromYear, usePhenomenonTypes } from '@sangre-fp/content-editor'
 
 // TODO: create container for this component to offset phenomenapage container
 // also: move some of the styled-components into UI
 
 export const PhenomenaList = props => {
-  const { phenomenaListData: { groups, canEditPublic, phenomenaList, selectedGroup, phenomenonToTag, selectedLanguage, allSelectedTypes }, canEditSomePhenomena, phenomenaTypesById, loading, handleEditClick, handleCloneClick, setPhenomenonToTag } = props
-  const { tags: tagList } = useTags(selectedGroup.value)
+  const {
+    phenomenaListData: {
+        groups,
+        canEditPublic,
+        phenomenaList,
+        phenomenonToTag
+    },
+    canEditSomePhenomena,
+    loading,
+    handleEditClick,
+    handleCloneClick,
+    setPhenomenonToTag,
+    group,
+    language
+  } = props
+
+  const { tags: tagList } = useTags(group.value || group)
+  const { phenomenonTypes, phenomenonTypesById } = usePhenomenonTypes(group.value || group)
   const itemsRef = useRef([])
 
   if (itemsRef.current.length !== phenomenaList.length) {
@@ -45,20 +61,18 @@ export const PhenomenaList = props => {
             const { min, max } = time_range
             const phenomenaGroup = _.find(groups, { value: group })
             const canEdit = phenomenaGroup ? phenomenaGroup.canEdit : false
-            const phenomenonType = phenomenaTypesById[type]
-              ? phenomenaTypesById[type].alias
+            const phenomenonType = phenomenonTypesById && phenomenonTypesById[type]
+              ? phenomenonTypesById[type].alias
               : 'undefined'
-            const freePlan = selectedGroup && selectedGroup.availableResources && selectedGroup.availableResources.plan === 'free'
-            const customTypeObj = _.find(allSelectedTypes, ({ value }) => value === type)
+            const freePlan = group && group.availableResources && group.availableResources.plan === 'free'
+            const customTypeObj = _.find(phenomenonTypes, ({ id }) => id === type)
             const customTypeStyle = customTypeObj && customTypeObj.style
-
             /*
                 - Group editors can change group-specific tags both in public phenomena and group specific phenomena
                 - Group editor can change fp tags (e.g. "Climate Change") in group specific phenomena (not the public ones)
                 - FP Editors (public edit powers) can change fp tags in public phenomena
             */
-
-            const canTag = (!selectedGroup.value && canEditPublic) || (canEdit && !freePlan)
+            const canTag = group ? (canEdit && !freePlan) : canEditPublic
 
             return (
                 <Row key={i}>
@@ -92,7 +106,7 @@ export const PhenomenaList = props => {
                                 <PhenomenaTitle>{title}</PhenomenaTitle>
                                 <PhenomenaTagList
                                     phenomena={phenomenon}
-                                    language={selectedLanguage.value}
+                                    language={language.value || language}
                                     tagList={tagList}
                                 />
                             </div>
