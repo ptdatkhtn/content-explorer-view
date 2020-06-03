@@ -66,8 +66,8 @@ export default class PhenomenaPage extends PureComponent {
                 searchableGroup: group,
                 searchInput: search,
                 languageObj: language,
-                tags: tags,
-                types: types,
+                tags,
+                types,
                 time_max: times.max,
                 time_min: times.min
             })
