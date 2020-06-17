@@ -12,6 +12,7 @@
     "@sangre-fp/i18n": "^2.0.10",
     "@sangre-fp/reducers": "^1.1.2",
     "@sangre-fp/ui": "^2.0.18",
+    "@sangre-fp/tags": "2.0.18",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
