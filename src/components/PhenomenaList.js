@@ -4,11 +4,11 @@ import ReactDOM from 'react-dom'
 import styled from 'styled-components'
 import { mdiTagPlusOutline, mdiTagPlus } from '@mdi/js'
 import Icon from '@mdi/react'
+import { useTags, usePhenomenonTypes } from '@sangre-fp/hooks'
+import { MaterialIcon, PhenomenonType } from '@sangre-fp/ui'
+import { getRangeValueFromYear } from '@sangre-fp/content-editor'
 import { PhenomenaTagList } from './PhenomenaTagList'
 import { getPhenomenonUrl } from '../helpers'
-import { useTags } from '@sangre-fp/tags'
-import { MaterialIcon, PhenomenonType } from '@sangre-fp/ui'
-import { getRangeValueFromYear, usePhenomenonTypes } from '@sangre-fp/content-editor'
 
 // TODO: create container for this component to offset phenomenapage container
 // also: move some of the styled-components into UI
