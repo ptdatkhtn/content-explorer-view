@@ -18,6 +18,7 @@ import { PhenomenonEditForm } from '@sangre-fp/content-editor'
 import { PhenomenonLoader } from '@sangre-fp/hooks'
 import ContentFilters from '@sangre-fp/content-filters'
 import CrowdSourceLegend from './CrowdSourceLegend'
+import { getUserId } from '../session'
 
 const CREATE = 'CREATE'
 const EDIT = 'EDIT'
@@ -33,10 +34,10 @@ export default class PhenomenaPage extends PureComponent {
         language: document.querySelector('html').getAttribute('lang') || 'en'
     }
 
-    componentDidMount() {
+    async componentWillMount() {
         const { getAuth, getGroups, getPhenomenaTypes } = this.props
 
-        getAuth()
+        await getAuth()
             .then(() => Promise.all([
                 getGroups(),
                 getPhenomenaTypes(0)
@@ -144,11 +145,13 @@ export default class PhenomenaPage extends PureComponent {
                                 <h3 style={{ marginTop: '22px', marginBottom: '27px' }}>
                                     {requestTranslation('searchFilters')}
                                 </h3>
-                                <ContentFilters
-                                    page={page}
-                                    search={textSearchValue}
-                                    onFilterChange={this.handleFilterChange}
-                                />
+                                {getUserId() && (
+                                    <ContentFilters
+                                        page={page}
+                                        search={textSearchValue}
+                                        onFilterChange={this.handleFilterChange}
+                                    />
+                                )}
                                 { canEditSomePhenomena ? (
                                     <CreateContainer>
                                         <h5>
