@@ -1,13 +1,13 @@
 {
   "name": "content-manager",
-  "version": "2.0.26",
+  "version": "2.0.27",
   "private": true,
   "dependencies": {
     "@mdi/font": "^5.0.45",
     "@mdi/js": "^5.0.45",
     "@mdi/react": "^1.3.0",
     "@sangre-fp/connectors": "^1.5.1",
-    "@sangre-fp/content-editor": "^2.0.28",
+    "@sangre-fp/content-editor": "^2.0.29",
     "@sangre-fp/content-filters": "^1.0.16",
     "@sangre-fp/hooks": "^1.0.3",
     "@sangre-fp/i18n": "^2.0.15",
