@@ -97,7 +97,7 @@ export const fetchPhenomenaList = ({ page = 0, size = 10, searchableGroup, searc
       language,
       tags: tags.map(({ value }) => value),
       types: types.map(({ value }) => value),
-      time_min: !time_min || time_min <= (new Date()).getFullYear() ? null : time_min,
+      time_min: !time_min ? null : time_min,
       time_max
     })
       .then(data => {
