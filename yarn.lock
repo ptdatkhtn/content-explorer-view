@@ -2370,6 +2370,18 @@
     styled-components "^4.4.1"
     use-debounce "^3.3.0"
 
+"@sangre-fp/content-filters@^1.0.28":
+  version "1.0.28"
+  resolved "https://npm.sangre.dev/@sangre-fp%2fcontent-filters/-/content-filters-1.0.28.tgz#476ded13b3f0154192eb0e6d189511375942efce"
+  integrity sha512-YXsRLXLdfQQRD+GfiPLQ6aCB9muARBgYSaDhGY9KpGldeuLQUzzmdVuhv8vfvbxa2V8HouyHDpmvbOZIgH7mow==
+  dependencies:
+    "@sangre-fp/hooks" "^1.0.9"
+    "@sangre-fp/i18n" "^2.1.5"
+    "@sangre-fp/ui" "^2.0.26"
+    lodash-es "^4.17.15"
+    styled-components "^4.4.1"
+    use-debounce "^3.3.0"
+
 "@sangre-fp/hooks@^1.0.9":
   version "1.0.9"
   resolved "https://npm.sangre.dev/@sangre-fp%2fhooks/-/hooks-1.0.9.tgz#a0159f9151ec4d44bdfb8338506de855b7d216c4"
@@ -2382,6 +2394,13 @@
   version "2.0.15"
   resolved "https://npm.sangre.dev/@sangre-fp%2fi18n/-/i18n-2.0.15.tgz#fa9d7747903d7a335f6d71cfc14763f30040ef68"
   integrity sha512-CbRNDcoukFZ5HQ8/g1gqZLO8vAWPCectFw0kY0an1aEe5MckzvpOLriknulw0hP5CmQ9uBDHOh7eBcmLA7dyDg==
+  dependencies:
+    lodash "^4.17.15"
+
+"@sangre-fp/i18n@^2.1.5":
+  version "2.1.6"
+  resolved "https://npm.sangre.dev/@sangre-fp%2fi18n/-/i18n-2.1.6.tgz#bbf8d719742b43e7b66f8d3cc6cde6e5cf723204"
+  integrity sha512-mqeswvYc9d0/tlUeErh+NA2d4cLlSz7mIVDWgR3GTYEtlhdukbF0mnksbLTkLQbaegjNVFk5E3wKaDrKCUQWWg==
   dependencies:
     lodash "^4.17.15"
 
@@ -2415,6 +2434,21 @@
     classnames "^2.2.6"
     concurrently "^5.0.1"
     lerna "^3.20.2"
+    lodash "^4.17.15"
+    react-loading "^2.0.3"
+    react-modal "^3.11.1"
+    react-select "^3.1.0"
+    styled-components "^4.4.1"
+
+"@sangre-fp/ui@^2.0.26":
+  version "2.0.28"
+  resolved "https://npm.sangre.dev/@sangre-fp%2fui/-/ui-2.0.28.tgz#ccea095515a5762e11519f14732593b19257e702"
+  integrity sha512-qdU8lfOPlENrTj1nYUy/s5eNtrjb9NUR4tP+ASpyxA8J4PZ1c2yqEdKdKSy/HLemZZNXuMtiNZsEKePoZks3IA==
+  dependencies:
+    "@mdi/font" "^5.0.45"
+    "@sangre-fp/i18n" "^2.0.15"
+    classnames "^2.2.6"
+    concurrently "^5.0.1"
     lodash "^4.17.15"
     react-loading "^2.0.3"
     react-modal "^3.11.1"

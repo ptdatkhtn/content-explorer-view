@@ -84,7 +84,10 @@ export const fetchPhenomenaList = ({ page = 0, size = 10, searchableGroup, searc
             }
         })
     } else {
-        groups.push(searchableGroup.value)
+        if (String(searchableGroup?.label) === 'all') {
+            searchableGroup.map(vl => groups.push(vl?.value))
+        }
+        else groups.push(searchableGroup.value)
     }
 
     dispatch(loading())
