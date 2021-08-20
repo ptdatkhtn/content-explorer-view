@@ -85,7 +85,8 @@ export const fetchPhenomenaList = ({ page = 0, size = 10, searchableGroup, searc
         })
     } else {
         if (String(searchableGroup?.label) === 'all') {
-            searchableGroup.map(vl => groups.push(vl?.value))
+            // eslint-disable-next-line
+            searchableGroup?.value?.map(value => groups.push(value))
         }
         else groups.push(searchableGroup.value)
     }
