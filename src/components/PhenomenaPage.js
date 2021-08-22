@@ -19,6 +19,7 @@ import { PhenomenonLoader } from '@sangre-fp/hooks'
 import ContentFilters from '@sangre-fp/content-filters'
 import CrowdSourceLegend from './CrowdSourceLegend'
 import { getUserId } from '../session'
+import drupalApi from "@sangre-fp/connectors/drupal-api";
 
 const CREATE = 'CREATE'
 const EDIT = 'EDIT'
@@ -31,18 +32,32 @@ export default class PhenomenaPage extends PureComponent {
         page: 1,
         textSearchValue: '',
         group: 0,
-        language: document.querySelector('html').getAttribute('lang') || 'en'
+        language: document.querySelector('html').getAttribute('lang') || 'en',
+        groups: null,
+        isGroupsLoading: false
     }
 
     async componentWillMount() {
         const { getAuth, getGroups, getPhenomenaTypes } = this.props
 
-        await getAuth()
+        const res = await getAuth()
             .then(() => Promise.all([
                 getGroups(),
-                getPhenomenaTypes(0)
+                getPhenomenaTypes(0),
+                drupalApi.getGroupsWithMemberShips()
             ]))
+        this.setState({
+            groups: res[2],
+            isGroupsLoading: !res[2]
+        })
     }
+
+    // async componentDidMount() {
+    //     const getGroups = await drupalApi.getGroupsWithMemberShips()
+    //     this.setState({
+    //         groups: getGroups
+    //     })
+    // }
 
     handleSearchClear = () => this.setState({ textSearchValue: '', page: 1 })
 
@@ -140,85 +155,101 @@ export default class PhenomenaPage extends PureComponent {
                             <div className='col-9 col-main' />
                         </div>
                         <div className='row'>
-                            <Loading color='white' shown={loading.length} />
-                            <div className='col-3 col-sidebar'>
-                                <h3 style={{ marginTop: '22px', marginBottom: '27px' }}>
-                                    {requestTranslation('searchFilters')}
-                                </h3>
-                                {getUserId() && (
-                                    <ContentFilters
-                                        page={page}
-                                        search={textSearchValue}
-                                        onFilterChange={this.handleFilterChange}
-                                    />
-                                )}
-                                { canEditSomePhenomena ? (
-                                    <CreateContainer>
-                                        <h5>
-                                            {requestTranslation('createNewLabel')}
-                                        </h5>
-                                        <button
-                                            className='btn btn-lg btn-primary w-100'
-                                            onClick={() => this.setState({ editModal: { type: CREATE } })}
-                                        >
-                                            {requestTranslation('createNew')}
-                                        </button>
-                                    </CreateContainer>
-                                ) : null}
-                            </div>
-                            <div className='col-9 col-main'>
-                                <FuzeNListContainer>
-                                    <Search
-                                        value={textSearchValue}
-                                        onChange={this.handleSearchChange}
-                                        onClear={this.handleSearchClear}
-                                        className='mb-3'
-                                    />
-                                    <ListContainer className={'fp-table'}>
-                                        <Row>
-                                            <div className={'fp-table-th-label'}>
-                                                {requestTranslation('timestamp')}
-                                            </div>
-                                            <div className={'fp-table-th-label position-absolute'} style={{ left: '30%'}} >
-                                                {requestTranslation('title')}
-                                            </div>
-                                            <div className='ml-auto d-flex'>
-                                                <div className={'fp-table-th-label fp-text-icon'}>
-                                                    {requestTranslation('tag')}
-                                                </div>
-                                                <div className={'fp-table-th-label fp-text-icon'}>
-                                                    {requestTranslation('edit')}
-                                                </div>
-                                                <div className={'fp-table-th-label fp-text-icon'}>
-                                                    {requestTranslation('clone')}
-                                                </div>
-                                            </div>
-                                        </Row>
-                                        <PhenomenaList
-                                            {...this.props}
-                                            language={language}
-                                            group={group}
-                                            handleEditClick={this.handleEditClick}
-                                            handleCloneClick={this.handleCloneClick}
-                                        />
-                                        <Row style={{
-                                            position: 'absolute',
-                                            bottom: '0',
-                                            left: '0',
-                                            width: '100%',
-                                            justifyContent: 'space-between',
-                                            paddingRight: '0'
-                                        }}>
-                                            <CrowdSourceLegend />
-                                            <Pagination
-                                                page={page}
-                                                length={total / PHENOMENA_PAGE_SIZE}
-                                                onPageChange={this.handlePageChange}
-                                            />
-                                        </Row>
-                                    </ListContainer>
-                                </FuzeNListContainer>
-                            </div>
+                            {
+                                !this.state.groups ? (
+                                    <Loading color='white' shown={loading.length} />
+                                ) : 
+                                (
+                                    <>
+                                        <div className='col-3 col-sidebar'>
+                                            <h3 style={{ marginTop: '22px', marginBottom: '27px' }}>
+                                                {requestTranslation('searchFilters')}
+                                            </h3>
+                                            {getUserId() && (
+                                                <ContentFilters
+                                                    page={page}
+                                                    search={textSearchValue}
+                                                    onFilterChange={this.handleFilterChange}
+                                                    groups={this.state.groups}
+                                                    groupsLoading={this.state.isGroupsLoading}
+                                                />
+                                            )}
+                                            { canEditSomePhenomena ? (
+                                                <CreateContainer>
+                                                    <h5>
+                                                        {requestTranslation('createNewLabel')}
+                                                    </h5>
+                                                    <button
+                                                        className='btn btn-lg btn-primary w-100'
+                                                        onClick={() => this.setState({ editModal: { type: CREATE } })}
+                                                    >
+                                                        {requestTranslation('createNew')}
+                                                    </button>
+                                                </CreateContainer>
+                                            ) : null}
+                                        </div>
+                                        <div className='col-9 col-main'>
+                                            <FuzeNListContainer>
+                                                <Search
+                                                    value={textSearchValue}
+                                                    onChange={this.handleSearchChange}
+                                                    onClear={this.handleSearchClear}
+                                                    className='mb-3'
+                                                />
+                                                <ListContainer className={'fp-table'}>
+                                                    <Row>
+                                                        <div className={'fp-table-th-label'}>
+                                                            {requestTranslation('timestamp')}
+                                                        </div>
+                                                        <div className={'fp-table-th-label position-absolute'} style={{ left: '30%'}} >
+                                                            {requestTranslation('title')}
+                                                        </div>
+                                                        <div className='ml-auto d-flex'>
+                                                            <div className={'fp-table-th-label fp-text-icon'}>
+                                                                {requestTranslation('tag')}
+                                                            </div>
+                                                            <div className={'fp-table-th-label fp-text-icon'}>
+                                                                {requestTranslation('edit')}
+                                                            </div>
+                                                            <div className={'fp-table-th-label fp-text-icon'}>
+                                                                {requestTranslation('clone')}
+                                                            </div>
+                                                        </div>
+                                                    </Row>
+                                                    {
+                                                    
+                                                        <PhenomenaList
+                                                            {...this.props}
+                                                            language={language}
+                                                            group={group}
+                                                            handleEditClick={this.handleEditClick}
+                                                            handleCloneClick={this.handleCloneClick}
+                                                            groups={this.state.groups}
+                                                        />
+                                                    }
+                                                    <Row style={{
+                                                        position: 'absolute',
+                                                        bottom: '0',
+                                                        left: '0',
+                                                        width: '100%',
+                                                        justifyContent: 'space-between',
+                                                        paddingRight: '0'
+                                                    }}>
+                                                        <CrowdSourceLegend />
+                                                        <Pagination
+                                                            page={page}
+                                                            length={total / PHENOMENA_PAGE_SIZE}
+                                                            onPageChange={this.handlePageChange}
+                                                        />
+                                                    </Row>
+                                                </ListContainer>
+                                            </FuzeNListContainer>
+                                        </div>
+                                    </>
+                                )
+                            }
+                            
+                            
                         </div>
                     </div>
                 </div>

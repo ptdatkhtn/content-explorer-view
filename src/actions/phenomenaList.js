@@ -76,7 +76,7 @@ export const fetchPhenomenaList = ({ page = 0, size = 10, searchableGroup, searc
         requestTranslation('fetchingPhenomenaError')
     )
 
-    if (searchableGroup.value === ALL_GROUP_VALUE) {
+    if (searchableGroup?.value === ALL_GROUP_VALUE) {
         // eslint-disable-next-line
         getState().phenomenaList.groups.map(({ value }) => {
             if (value >= 0) {
@@ -84,7 +84,7 @@ export const fetchPhenomenaList = ({ page = 0, size = 10, searchableGroup, searc
             }
         })
     } else {
-        if (String(searchableGroup?.label) === 'all') {
+        if (Array.isArray(searchableGroup?.value)) {
             // eslint-disable-next-line
             searchableGroup?.value?.map(value => groups.push(value))
         }
