@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import store from './configureStore'
 import PhenomenaPage from './containers/PhenomenaPageContainer'
 import * as serviceWorker from './serviceWorker'
+import { startSession } from '@sangre-fp/connectors/session'
 
 import { GlobalStyles } from '@sangre-fp/ui'
 
@@ -11,7 +12,7 @@ import 'react-select/dist/react-select.css'
 import 'react-quill/dist/quill.snow.css'
 import 'rc-slider/dist/rc-slider.css'
 
-import './session'
+// import './session'
 import './translations'
 
 const renderApp = () => (
@@ -21,7 +22,11 @@ const renderApp = () => (
   </Provider>
 )
 
-ReactDOM.render(renderApp(), document.getElementById('fp-content-manager'))
+const appElement = document.getElementById('fp-content-manager')
+startSession(window.location.origin).then(() => {
+    ReactDOM.render(
+        renderApp(), appElement)
+})
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

@@ -1,5 +1,5 @@
 import { getNetworkMethods } from './network'
-import { startSession } from '../session'
+import { startSession } from '@sangre-fp/connectors/session'
 import * as actionTypes from '@sangre-fp/reducers/actionTypes'
 import { requestTranslation } from '@sangre-fp/i18n'
 

@@ -1498,14 +1498,6 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
-"@sangre-fp/connectors@^1.5.5":
-  version "1.7.0"
-  resolved "https://npm.sangre.dev/@sangre-fp%2fconnectors/-/connectors-1.7.0.tgz#79de44a617ee0cee497577c6f87637fb8bef96f9"
-  integrity sha512-rgV1HUwo2gqpboc2YQbt/q/bxBu+QjQ+SYUUNbAnI3AqgbPyC1f4pLtYYiVED0mD9fElNFn4i2S5SC7BvDZ4Eg==
-  dependencies:
-    axios "^0.19.1"
-    lodash-es "^4.17.15"
-
 "@sangre-fp/connectors@^2.1.0":
   version "2.1.0"
   resolved "https://npm.sangre.dev/@sangre-fp%2fconnectors/-/connectors-2.1.0.tgz#57f420e0fceb33d848534056b7c1bbe812d39238"

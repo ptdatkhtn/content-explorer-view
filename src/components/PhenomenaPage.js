@@ -18,7 +18,7 @@ import { PhenomenonEditForm } from '@sangre-fp/content-editor'
 import { PhenomenonLoader } from '@sangre-fp/hooks'
 import ContentFilters from '@sangre-fp/content-filters'
 import CrowdSourceLegend from './CrowdSourceLegend'
-import { getUserId } from '../session'
+import { getUserId } from '@sangre-fp/connectors/session'
 import drupalApi from "@sangre-fp/connectors/drupal-api";
 
 const CREATE = 'CREATE'
