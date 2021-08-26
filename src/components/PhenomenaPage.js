@@ -170,7 +170,7 @@ export default class PhenomenaPage extends PureComponent {
                                                     page={page}
                                                     search={textSearchValue}
                                                     onFilterChange={this.handleFilterChange}
-                                                    groups={this.state.groups}
+                                                    groupsProp={this.state.groups}
                                                     groupsLoading={this.state.isGroupsLoading}
                                                 />
                                             )}
