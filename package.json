@@ -1,6 +1,6 @@
 {
   "name": "content-manager",
-  "version": "2.2.6",
+  "version": "2.2.7",
   "private": true,
   "dependencies": {
     "@mdi/font": "^5.0.45",
