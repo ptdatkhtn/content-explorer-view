@@ -143,7 +143,7 @@ export default class PhenomenaPage extends PureComponent {
             group,
             language
         } = this.state
-
+        
         return (
             <div>
                 <div className='dashboard-screen-content'>
@@ -297,7 +297,7 @@ export default class PhenomenaPage extends PureComponent {
                     )}
                 </Modal>
                 <PhenomenaTagSelector
-                    group={group.value || group}
+                    group={group.value || this.state.groups || group}
                     language={language.value || language}
                 />
                 <ConfirmDialog />

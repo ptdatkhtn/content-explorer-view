@@ -31,25 +31,39 @@ export const handlePhenomenaTagMod = (tag, phenomena, grp) => dispatch => {
 
     const group = _.isObject(grp) ? grp.value : grp
 
+    if (Array.isArray(grp)) {
+        getPhenomena({
+        groups: grp,
+        phenomena: [phenomena?.id]
+        }).then(phenInfo => {
+            addAndRemoveTags(add, dispatch, success, error, phenInfo.result[0].group, phenomena, tag.uri)
+        })
+    }
+
+    else {
+        addAndRemoveTags(add, dispatch, success, error, (group.value || group), phenomena, tag.uri)
+    }
+}
+
+const addAndRemoveTags = (add, dispatch, success, error, groupId, phenomena, tagUri) => {
     if (add) {
-        return tagPhenomenon(group.value || group, phenomena.id, tag.uri)
+        return tagPhenomenon(groupId, phenomena.id, tagUri)
             .then(data => {
-                dispatch(success({ tag: tag.uri, phenomena }))
+                dispatch(success({ tag: tagUri, phenomena }))
             })
             .catch(err =>
                 dispatch(error(err))
             )
     }
 
-    return removeTagPhenomenon(group.value || group, phenomena.id, tag.uri)
+    return removeTagPhenomenon( groupId, phenomena, tagUri)
         .then(data => {
-            dispatch(success({ tag: tag.uri, phenomena }))
+            dispatch(success({ tag: tagUri, phenomena }))
         })
         .catch(err =>
             dispatch(error(err))
         )
 }
-
 
 const matchPhenomenaWithStatistics = (phenomena, statistics) => {
     const filteredList = _.uniqBy([...phenomena.filter(({ archived }) => !archived)], 'id')

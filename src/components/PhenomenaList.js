@@ -29,7 +29,7 @@ export const PhenomenaList = props => {
     group,
     language
   } = props
-console.log('groupppp', group)
+
   const { tags: tagList } = useTags(group?.value || group)
   const { phenomenonTypes, phenomenonTypesById } = usePhenomenonTypes(group?.value || group)
   const itemsRef = useRef([])
