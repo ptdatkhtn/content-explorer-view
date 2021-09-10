@@ -47,7 +47,7 @@ export const handlePhenomenaTagMod = (tag, phenomena, grp) => dispatch => {
 
 const addAndRemoveTags = (add, dispatch, success, error, groupId, phenomena, tagUri) => {
     if (add) {
-        return tagPhenomenon(groupId, phenomena.id, tagUri)
+        return tagPhenomenon(groupId ? groupId : groupId.value, phenomena.id, tagUri)
             .then(data => {
                 dispatch(success({ tag: tagUri, phenomena }))
             })
@@ -56,7 +56,7 @@ const addAndRemoveTags = (add, dispatch, success, error, groupId, phenomena, tag
             )
     }
 
-    return removeTagPhenomenon( groupId, phenomena, tagUri)
+    return removeTagPhenomenon( groupId ? groupId : groupId.value, phenomena.id, tagUri)
         .then(data => {
             dispatch(success({ tag: tagUri, phenomena }))
         })
