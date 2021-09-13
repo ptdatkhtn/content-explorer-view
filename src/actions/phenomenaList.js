@@ -30,24 +30,38 @@ export const handlePhenomenaTagMod = (tag, phenomena, grp) => dispatch => {
     dispatch(loading())
 
     const group = _.isObject(grp) ? grp.value : grp
-
     if (Array.isArray(grp)) {
-        getPhenomena({
-        groups: grp,
-        phenomena: [phenomena?.id]
-        }).then(phenInfo => {
-            addAndRemoveTags(add, dispatch, success, error, phenInfo.result[0].group, phenomena, tag.uri)
-        })
+        if(_.isObject(grp[0])) {
+            let newGrp = [];
+            grp.map((g) => {
+                newGrp.push(g.value)
+            })
+            getPhenomena({
+                groups: newGrp,
+                phenomena: [phenomena?.id]
+                }).then(phenInfo => {
+                    addAndRemoveTags(add, dispatch, success, error, phenInfo.result[0].group, phenomena, tag.uri)
+                })
+        } else {
+            getPhenomena({
+                groups: grp,
+                phenomena: [phenomena?.id]
+                }).then(phenInfo => {
+                    addAndRemoveTags(add, dispatch, success, error, phenInfo.result[0].group, phenomena, tag.uri)
+                })
+        }
+
     }
 
     else {
-        addAndRemoveTags(add, dispatch, success, error, (group.value || group), phenomena, tag.uri)
+            addAndRemoveTags(add, dispatch, success, error, _.isObject(group) ? group.value: group, phenomena, tag.uri)
     }
+
 }
 
 const addAndRemoveTags = (add, dispatch, success, error, groupId, phenomena, tagUri) => {
-    if (add) {
-        return tagPhenomenon(groupId ? groupId : groupId.value, phenomena.id, tagUri)
+        if (add) {
+        return tagPhenomenon(groupId , phenomena.id, tagUri)
             .then(data => {
                 dispatch(success({ tag: tagUri, phenomena }))
             })
@@ -56,7 +70,7 @@ const addAndRemoveTags = (add, dispatch, success, error, groupId, phenomena, tag
             )
     }
 
-    return removeTagPhenomenon( groupId ? groupId : groupId.value, phenomena.id, tagUri)
+    return removeTagPhenomenon( groupId, phenomena.id, tagUri)
         .then(data => {
             dispatch(success({ tag: tagUri, phenomena }))
         })

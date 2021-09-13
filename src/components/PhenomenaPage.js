@@ -297,7 +297,7 @@ export default class PhenomenaPage extends PureComponent {
                     )}
                 </Modal>
                 <PhenomenaTagSelector
-                    group={group.value || this.state.groups || group}
+                    group={group.value || group || this.state.groups}
                     language={language.value || language}
                 />
                 <ConfirmDialog />
