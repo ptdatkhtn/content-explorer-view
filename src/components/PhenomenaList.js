@@ -94,7 +94,7 @@ export const PhenomenaList = props => {
                                 <div>{min}-{max}</div>
                                 <div className='d-flex align-items-center'>
                                     <PhenomenonType size={9} type='crowd' />
-                                    <CrowdSourceLabel className='ml-1'>{crowdSourcedValue ? crowdSourcedValue : '-'}</CrowdSourceLabel>
+                                    <CrowdSourceLabel className='ml-1'>{crowdSourcedValue ? Math.trunc(crowdSourcedValue) : '-'}</CrowdSourceLabel>
                                 </div>
                             </div>
                         </div>
