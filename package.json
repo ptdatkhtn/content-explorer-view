@@ -1,6 +1,6 @@
 {
   "name": "content-manager",
-  "version": "2.2.10",
+  "version": "2.2.11",
   "private": true,
   "dependencies": {
     "@mdi/font": "^5.0.45",
@@ -47,7 +47,7 @@
   },
   "browserslist": [
     ">0.2%",
-   "not dead",
-   "not op_mini all"
- ]
+    "not dead",
+    "not op_mini all"
+  ]
 }
