@@ -15,17 +15,22 @@ import 'rc-slider/dist/rc-slider.css'
 // import './session'
 import './translations'
 
-const renderApp = () => (
-  <Provider store={store}>
-    <GlobalStyles />
-    <PhenomenaPage />
-  </Provider>
-)
+const renderApp = (highest_group_role) => {
+  return (
+    <Provider store={store}>
+      <GlobalStyles />
+      <PhenomenaPage highest_group_role={highest_group_role}/>
+    </Provider>
+  )
+}
 
 const appElement = document.getElementById('fp-content-manager')
+
 startSession(window.location.origin).then(() => {
     ReactDOM.render(
-        renderApp(), appElement)
+        renderApp(
+          appElement.getAttribute('data-radar-highest-group-role')
+        ), appElement)
 })
 
 // If you want your app to work offline and load faster, you can change
