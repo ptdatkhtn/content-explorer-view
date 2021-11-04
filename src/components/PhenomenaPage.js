@@ -143,6 +143,7 @@ export default class PhenomenaPage extends PureComponent {
             group,
             language
         } = this.state
+        
         return (
             <div>
                 <div className='dashboard-screen-content'>
@@ -190,7 +191,7 @@ export default class PhenomenaPage extends PureComponent {
                                                 </CreateContainer>
                                             ) : null}
                                         </div>
-                                        <div className='col-9 col-main' style={{opacity: this.props.highest_group_role ==='free' ? 0.5 : 1}}>
+                                        <div className='col-9 col-main' style={{opacity: this.props.highest_group_role ==='free' ? 0.5 : 1, position: 'relative'}}>
                                             {this.props.highest_group_role ==='free' && <div style={{position:'absolute', height: '100%', width: '100%', zIndex: 999}}></div>}
                                             <FuzeNListContainer>
                                                 <Search
