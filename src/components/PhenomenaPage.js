@@ -229,6 +229,7 @@ export default class PhenomenaPage extends PureComponent {
                                                             handleEditClick={this.handleEditClick}
                                                             handleCloneClick={this.handleCloneClick}
                                                             groups={this.state.groups}
+                                                            highest_group_role={this.props.highest_group_role}
                                                         />
                                                     }
                                                     <Row style={{

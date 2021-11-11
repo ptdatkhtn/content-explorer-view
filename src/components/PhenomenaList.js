@@ -27,7 +27,8 @@ export const PhenomenaList = props => {
     handleCloneClick,
     setPhenomenonToTag,
     group,
-    language
+    language,
+    highest_group_role
   } = props
 
   const { tags: tagList } = useTags(group?.value || group)
@@ -64,7 +65,7 @@ export const PhenomenaList = props => {
             const phenomenonType = phenomenonTypesById && phenomenonTypesById[type]
               ? phenomenonTypesById[type].alias
               : 'undefined'
-            const freePlan = group && group.availableResources && group.availableResources.plan === 'free'
+            const freePlan = highest_group_role ||  (group && group.availableResources && group.availableResources.plan === 'free')
             const customTypeObj = _.find(phenomenonTypes, ({ id }) => id === type)
             const customTypeStyle = customTypeObj && customTypeObj.style
             /*
@@ -94,7 +95,14 @@ export const PhenomenaList = props => {
                                 <div>{min}-{max}</div>
                                 <div className='d-flex align-items-center'>
                                     <PhenomenonType size={9} type='crowd' />
-                                    <CrowdSourceLabel className='ml-1'>{crowdSourcedValue ? Math.trunc(crowdSourcedValue) : '-'}</CrowdSourceLabel>
+                                    {
+                                        !freePlan 
+                                            && <CrowdSourceLabel className='ml-1'>{crowdSourcedValue ? Math.trunc(crowdSourcedValue) : '-'}</CrowdSourceLabel>
+                                    }
+                                    {
+                                        freePlan 
+                                            && <div style={{background:'#4c4949', width:"60%", height:'0.7rem'}} > </div>
+                                    }
                                 </div>
                             </div>
                         </div>
