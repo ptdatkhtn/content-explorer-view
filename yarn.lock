@@ -1545,10 +1545,10 @@
     styled-components "^4.4.1"
     use-debounce "^3.3.0"
 
-"@sangre-fp/content-filters@^1.0.44":
-  version "1.0.44"
-  resolved "https://npm.sangre.dev/@sangre-fp%2fcontent-filters/-/content-filters-1.0.44.tgz#9b85fef913555b2bad50c3fcb201615da79e200e"
-  integrity sha512-+gxiGy9lp32y+WCstXNWGkdAGKCkX/NG46FFHbzgS/2qbocBwppRdma/HKKFBIPzBYL83o1BTD2R8RR2b55jWw==
+"@sangre-fp/content-filters@^1.0.45":
+  version "1.0.45"
+  resolved "https://npm.sangre.dev/@sangre-fp%2fcontent-filters/-/content-filters-1.0.45.tgz#014b6127cc029734295ca4b4fa58684a3ef69c6f"
+  integrity sha512-vWz7GoZCr3oN/jKuCn/ETvAkc3GfV0IGc11hbUXq2VMnhOV07T0R9XnI3yZgYsGmdA5AuF99anT2+bJujOjAiQ==
   dependencies:
     "@sangre-fp/hooks" "^1.0.9"
     "@sangre-fp/i18n" "^2.1.7"
