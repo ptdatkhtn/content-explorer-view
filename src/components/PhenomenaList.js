@@ -74,7 +74,7 @@ export const PhenomenaList = props => {
                 - FP Editors (public edit powers) can change fp tags in public phenomena
             */
             const canTag = group ? (canEdit && !freePlan) : canEditPublic
-            console.log('freePlan', freePlan, highest_group_role)
+
             return (
                 <Row key={i}>
                     <div className='d-flex flex-start align-items-center' style={{ width: '70%' }}>
