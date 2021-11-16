@@ -192,7 +192,9 @@ export default class PhenomenaPage extends PureComponent {
                                             ) : null}
                                         </div>
                                         <div className='col-9 col-main' style={{opacity: this.props.highest_group_role ==='free' ? 0.5 : 1, position: 'relative'}}>
-                                            {this.props.highest_group_role ==='free' && <div style={{position:'absolute', height: '100%', width: '100%', zIndex: 999}}></div>}
+                                            {this.props.highest_group_role ==='free' && <div
+                                                id="right-side-content-expl"
+                                                style={{position:'absolute', height: '100%', width: '100%', zIndex: 999, cursor: 'pointer'}}></div>}
                                             <FuzeNListContainer>
                                                 <Search
                                                     value={textSearchValue}
