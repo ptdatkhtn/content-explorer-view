@@ -65,7 +65,7 @@ export const PhenomenaList = props => {
             const phenomenonType = phenomenonTypesById && phenomenonTypesById[type]
               ? phenomenonTypesById[type].alias
               : 'undefined'
-            const freePlan = highest_group_role ||  (group && group.availableResources && group.availableResources.plan === 'free')
+            const freePlan = (highest_group_role === 'free') ? (highest_group_role === 'free') :  (group && group.availableResources && group.availableResources.plan === 'free')
             const customTypeObj = _.find(phenomenonTypes, ({ id }) => id === type)
             const customTypeStyle = customTypeObj && customTypeObj.style
             /*
@@ -74,7 +74,7 @@ export const PhenomenaList = props => {
                 - FP Editors (public edit powers) can change fp tags in public phenomena
             */
             const canTag = group ? (canEdit && !freePlan) : canEditPublic
-
+            console.log('freePlan', freePlan, highest_group_role)
             return (
                 <Row key={i}>
                     <div className='d-flex flex-start align-items-center' style={{ width: '70%' }}>
