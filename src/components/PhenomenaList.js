@@ -52,7 +52,7 @@ export const PhenomenaList = props => {
       setPhenomenonToTag({...phenomenon, position })
   }
 
-  const watermarkLink = 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2'
+  const watermarkLink = 'https://go2.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp-white.png?v=3'
   
   return (
     <div>
