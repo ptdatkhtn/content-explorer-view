@@ -52,6 +52,8 @@ export const PhenomenaList = props => {
       setPhenomenonToTag({...phenomenon, position })
   }
 
+  const watermarkLink = 'https://go.futuresplatform.com/sites/all/themes/AltFutures_theme/images/watermark-fp.png?v=2'
+  
   return (
     <div>
         {phenomenaList.length ? phenomenaList.map((phenomenon, i) => {
@@ -108,7 +110,7 @@ export const PhenomenaList = props => {
                         </div>
                         <div className='d-flex left align-items-center hoverable ml-auto' data-href={getPhenomenonUrl(false, phenomenon)} style={{ width: '60%' }}>
                             <State className='d-flex align-items-center'>
-                                <PhenomenonType size={16} type={phenomenonType} fill={customTypeStyle && customTypeStyle.color} />
+                                <PhenomenonType size={16} type={phenomenonType} fill={customTypeStyle && customTypeStyle.color} isFPGroup={Number(group) === 0 ? true : false} watermarkLink={watermarkLink}/>
                             </State>
                             <div className='w-100'>
                                 <PhenomenaTitle>{title}</PhenomenaTitle>
