@@ -102,8 +102,8 @@ export const PhenomenaList = props => {
                                             && <CrowdSourceLabel className='ml-1'>{crowdSourcedValue ? Math.trunc(crowdSourcedValue) : '-'}</CrowdSourceLabel>
                                     }
                                     {
-                                        freePlan 
-                                            && <div style={{background:'#4c4949', width:"60%", height:'0.7rem'}} > </div>
+                                        !!freePlan 
+                                            && (<div style={{background:'#4c4949', width:"60%", height:'0.7rem'}} ></div>)
                                     }
                                 </div>
                             </div>
@@ -139,7 +139,7 @@ export const PhenomenaList = props => {
                             <MaterialIcon
                                 onClick={canEdit && !freePlan ?
                                     () => handleEditClick(phenomenon) : null}
-                                disabled={!canEdit || freePlan}
+                                disabled={!canEdit || !!freePlan}
                                 size='14px'
                                 color={canEdit && !freePlan ? '#006998' : 'gray'}
                                 className='fp-text-icon'
@@ -150,7 +150,7 @@ export const PhenomenaList = props => {
                             <MaterialIcon
                                 onClick={canEditPublic && !freePlan ?
                                     () => handleEditClick(phenomenon) : null}
-                                disabled={!canEditPublic || freePlan}
+                                disabled={!canEditPublic || !!freePlan}
                                 size='14px'
                                 color={canEditPublic && !freePlan ? '#006998' : 'gray'}
                                 className='fp-text-icon'
@@ -160,10 +160,10 @@ export const PhenomenaList = props => {
                         )}
                         <MaterialIcon
                             className='fp-text-icon'
-                            disabled={!canEditSomePhenomena || freePlan}
+                            disabled={!canEditSomePhenomena || !!freePlan}
                             onClick={canEditSomePhenomena && !freePlan ? () => handleCloneClick(phenomenon) : null}
                             size='14px'
-                            color={freePlan ? 'gray' : '#006998'}
+                            color={!!freePlan ? 'gray' : '#006998'}
                         >
                             file_copy
                         </MaterialIcon>
