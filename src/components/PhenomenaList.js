@@ -30,8 +30,8 @@ export const PhenomenaList = props => {
     language,
     highest_group_role
   } = props
+  const { tags: tagList } = useTags( (group?.value && Array.isArray(group?.value)) ? group?.value :  group)
 
-  const { tags: tagList } = useTags(group?.value || group)
   const { phenomenonTypes, phenomenonTypesById } = usePhenomenonTypes(group?.value || group)
   const itemsRef = useRef([])
 
