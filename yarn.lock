@@ -1506,18 +1506,10 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
-"@sangre-fp/connectors@^2.1.0":
-  version "2.1.1"
-  resolved "https://npm.sangre.dev/@sangre-fp%2fconnectors/-/connectors-2.1.1.tgz#6d9e9af015a81c446ffa023d61d4988caa82d458"
-  integrity sha512-hsbgok7fpRJ+9M7ZsXQ03CTmpynR6ksZ4LjRGgF8u5xMdqsPN+8YUzjBTI+qqWbqzVuPip+lDF4LBNKpGkyBpQ==
-  dependencies:
-    axios "^0.19.1"
-    lodash-es "^4.17.15"
-
-"@sangre-fp/connectors@^2.1.2":
-  version "2.1.2"
-  resolved "https://npm.sangre.dev/@sangre-fp%2fconnectors/-/connectors-2.1.2.tgz#b7d565c013b22ac447c1fd19dcfa870b9e97d7be"
-  integrity sha512-FlhjlnGYiPVCTRLnZMWHD6y5l9gX2ch7QxQvNWkR8CRtj2di7Vdr06ZqIAyrOzjH3Cxuqbe145v8KVhJM4FILQ==
+"@sangre-fp/connectors@^2.1.0", "@sangre-fp/connectors@^2.1.3":
+  version "2.1.3"
+  resolved "https://npm.sangre.dev/@sangre-fp%2fconnectors/-/connectors-2.1.3.tgz#296a9e7e63aa5aaf0733daeb42bdce439dc0a72d"
+  integrity sha512-g+hnSWJ7XnKRsUmKpymofdKmpaOloOn1fxCaxNHXYoyOGDWzIBqi+7XNS3AI0xuupBT2KrFdxUhuVwoMTLAZvw==
   dependencies:
     axios "^0.19.1"
     lodash-es "^4.17.15"
@@ -1541,14 +1533,14 @@
     react-sortable-hoc "^1.10.1"
     styled-components "^4.4.1"
 
-"@sangre-fp/content-filters@^1.0.36", "@sangre-fp/content-filters@^1.0.45":
-  version "1.0.45"
-  resolved "https://npm.sangre.dev/@sangre-fp%2fcontent-filters/-/content-filters-1.0.45.tgz#014b6127cc029734295ca4b4fa58684a3ef69c6f"
-  integrity sha512-vWz7GoZCr3oN/jKuCn/ETvAkc3GfV0IGc11hbUXq2VMnhOV07T0R9XnI3yZgYsGmdA5AuF99anT2+bJujOjAiQ==
+"@sangre-fp/content-filters@^1.0.36", "@sangre-fp/content-filters@^1.0.46":
+  version "1.0.46"
+  resolved "https://npm.sangre.dev/@sangre-fp%2fcontent-filters/-/content-filters-1.0.46.tgz#4995bd36531165aacb5f3271a119fa56c5dd053a"
+  integrity sha512-gLrCt9WVA4PHdDd7H+aywR4Bljukqf5Vz4YEIX61VtTcUTRBYAtfBCyXJTj43gybZuq03vIxHM0MyyG7Cr5QmQ==
   dependencies:
     "@sangre-fp/hooks" "^1.0.9"
     "@sangre-fp/i18n" "^2.1.7"
-    "@sangre-fp/ui" "^2.0.33"
+    "@sangre-fp/ui" "^2.0.37"
     lodash-es "^4.17.15"
     styled-components "^4.4.1"
     use-debounce "^3.3.0"
@@ -1588,10 +1580,10 @@
     react-select "^1.2.1"
     styled-components "^4.4.1"
 
-"@sangre-fp/ui@^2.0.23", "@sangre-fp/ui@^2.0.33", "@sangre-fp/ui@^2.0.35":
-  version "2.0.35"
-  resolved "https://npm.sangre.dev/@sangre-fp%2fui/-/ui-2.0.35.tgz#76cce5de208df2822a5a4cb01c746b3142224927"
-  integrity sha512-MV9/06eHeZ45k48EiKKRKO3ahXI3THTA9bUzBND7pBJABcXFX6cGWLiTJNTPQ5ic6tJS4uvbxDLHvULHej13jg==
+"@sangre-fp/ui@^2.0.23", "@sangre-fp/ui@^2.0.37":
+  version "2.0.37"
+  resolved "https://npm.sangre.dev/@sangre-fp%2fui/-/ui-2.0.37.tgz#589510b9807116261c44a735ae6707bdac2c017e"
+  integrity sha512-Ia8niGawuxfWhs1LQnRafxzpu+00UyxmJqlsSdmePcMVbUPVuD+uhrh/oKe8ffBW4SRICKeOQSeXIgCiJydjBw==
   dependencies:
     "@mdi/font" "^5.0.45"
     "@sangre-fp/i18n" "^2.0.15"
