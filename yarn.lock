@@ -1533,7 +1533,7 @@
     react-sortable-hoc "^1.10.1"
     styled-components "^4.4.1"
 
-"@sangre-fp/content-filters@^1.0.36", "@sangre-fp/content-filters@^1.0.46":
+"@sangre-fp/content-filters@^1.0.36":
   version "1.0.46"
   resolved "https://npm.sangre.dev/@sangre-fp%2fcontent-filters/-/content-filters-1.0.46.tgz#4995bd36531165aacb5f3271a119fa56c5dd053a"
   integrity sha512-gLrCt9WVA4PHdDd7H+aywR4Bljukqf5Vz4YEIX61VtTcUTRBYAtfBCyXJTj43gybZuq03vIxHM0MyyG7Cr5QmQ==
@@ -1541,6 +1541,18 @@
     "@sangre-fp/hooks" "^1.0.9"
     "@sangre-fp/i18n" "^2.1.7"
     "@sangre-fp/ui" "^2.0.37"
+    lodash-es "^4.17.15"
+    styled-components "^4.4.1"
+    use-debounce "^3.3.0"
+
+"@sangre-fp/content-filters@^1.0.47":
+  version "1.0.47"
+  resolved "https://npm.sangre.dev/@sangre-fp%2fcontent-filters/-/content-filters-1.0.47.tgz#19322d0e467cb5d49e59ba3fd48b24203e9306c7"
+  integrity sha512-dAQNHBD3N77/4LvDBr56SPkhy55yX1PXaOqp4AwnSXyVv6tmXW9x2hpkMLDVbXf/zSDQNdC8XxrVsa9HXu8tZw==
+  dependencies:
+    "@sangre-fp/hooks" "^1.0.9"
+    "@sangre-fp/i18n" "^2.1.7"
+    "@sangre-fp/ui" "^2.0.38"
     lodash-es "^4.17.15"
     styled-components "^4.4.1"
     use-debounce "^3.3.0"
@@ -1584,6 +1596,21 @@
   version "2.0.37"
   resolved "https://npm.sangre.dev/@sangre-fp%2fui/-/ui-2.0.37.tgz#589510b9807116261c44a735ae6707bdac2c017e"
   integrity sha512-Ia8niGawuxfWhs1LQnRafxzpu+00UyxmJqlsSdmePcMVbUPVuD+uhrh/oKe8ffBW4SRICKeOQSeXIgCiJydjBw==
+  dependencies:
+    "@mdi/font" "^5.0.45"
+    "@sangre-fp/i18n" "^2.0.15"
+    classnames "^2.2.6"
+    concurrently "^5.0.1"
+    lodash "^4.17.15"
+    react-loading "^2.0.3"
+    react-modal "^3.11.1"
+    react-select "^3.1.0"
+    styled-components "^4.4.1"
+
+"@sangre-fp/ui@^2.0.38":
+  version "2.0.38"
+  resolved "https://npm.sangre.dev/@sangre-fp%2fui/-/ui-2.0.38.tgz#12bf523b1957c3b94b3cdad305c4cbecf1b1321f"
+  integrity sha512-TDKec8T6s8PSxiMrlZhW+kzKROqN3g8PqpOsQ/OBJRFWR6JxUn08ul63ImEyaFiHtm9sm2iF46lhET+H5KGoHw==
   dependencies:
     "@mdi/font" "^5.0.45"
     "@sangre-fp/i18n" "^2.0.15"
