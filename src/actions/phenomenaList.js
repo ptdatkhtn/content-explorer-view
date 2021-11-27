@@ -127,7 +127,10 @@ export const fetchPhenomenaList = ({ page = 0, size = 10, searchableGroup, searc
       page,
       size,
       language,
-      tags: tags.map(({ value }) => value),
+      tags: tags.map( tag => {
+          if ( tag.value) return tag.value
+          else return tag.uri
+      }),
       types: types.map(({ value }) => value),
       time_min: !time_min ? null : time_min,
       time_max
