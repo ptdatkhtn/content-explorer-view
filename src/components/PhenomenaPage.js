@@ -26,7 +26,11 @@ const EDIT = 'EDIT'
 const CLONE = 'CLONE'
 const PHENOMENA_PAGE_SIZE = 12
 
-export default class PhenomenaPage extends PureComponent {
+class PhenomenaPage extends PureComponent {
+    constructor(props) {
+        super(props);
+        this.isSearched = React.createRef();
+      }
     state = {
         editModal: null,
         page: 1,
@@ -34,7 +38,8 @@ export default class PhenomenaPage extends PureComponent {
         group: 0,
         language: document.querySelector('html').getAttribute('lang') || 'en',
         groups: null,
-        isGroupsLoading: false
+        isGroupsLoading: false,
+        tags: null
     }
 
     async componentWillMount() {
@@ -61,16 +66,27 @@ export default class PhenomenaPage extends PureComponent {
 
     handleSearchClear = () => this.setState({ textSearchValue: '', page: 1 })
 
-    handleSearchChange = ({ target }) => this.setState({ textSearchValue: target.value, page: 1 })
+    handleSearchChange = ({ target }) => {
+        this.setState({ 
+            textSearchValue: target.value,
+            page: 1,
+            isFiltered: (this.state.textSearchValue !== '' || !!this.state.textSearchValue.length || !!this.isSearched.current)
+        })
+        this.isSearched.current = true
+    }
 
-    handleFilterChange = ({ types, times, tags, language, group, page, search }) => {
+    handleFilterChange = ({ types, times, tags, language, group, page, search, isFiltered }) => {
         const {
             fetchPhenomenaList,
             phenomenaListData: { phenomenaList },
             setPhenomenonToTag
         } = this.props
 
-        this.setState({ group, language })
+        this.setState
+            ({ tags, group, language, 
+                isFiltered : (!!isFiltered 
+                    || !!this.state.textSearchValue.length 
+                    || !!this.isSearched.current )  })
 
         const totalPages = phenomenaList.length / PHENOMENA_PAGE_SIZE
 
@@ -80,7 +96,9 @@ export default class PhenomenaPage extends PureComponent {
             fetchPhenomenaList({
                 page: page - 1,
                 size: PHENOMENA_PAGE_SIZE,
-                searchableGroup: group,
+                searchableGroup: !this.state.isFiltered ? {
+                    "value": 0
+                }: group,
                 searchInput: search,
                 languageObj: language,
                 tags,
@@ -173,6 +191,7 @@ export default class PhenomenaPage extends PureComponent {
                                                     groupsProp={this.state.groups}
                                                     groupsLoading={this.state.isGroupsLoading}
                                                     highest_group_role={this.props.highest_group_role}
+                                                    isFilteredProp={this.state.isFiltered}
                                                 />
                                             )}
                                             { canEditSomePhenomena ? (
@@ -227,28 +246,33 @@ export default class PhenomenaPage extends PureComponent {
                                                         <PhenomenaList
                                                             {...this.props}
                                                             language={language}
-                                                            group={group}
+                                                            group={!this.state.isFiltered ? 0 : group}
                                                             handleEditClick={this.handleEditClick}
                                                             handleCloneClick={this.handleCloneClick}
                                                             groups={this.state.groups}
                                                             highest_group_role={this.props.highest_group_role}
+                                                            isFilteredProps={this.state.isFiltered}
                                                         />
                                                     }
-                                                    <Row style={{
-                                                        position: 'absolute',
-                                                        bottom: '0',
-                                                        left: '0',
-                                                        width: '100%',
-                                                        justifyContent: 'space-between',
-                                                        paddingRight: '0'
-                                                    }}>
-                                                        <CrowdSourceLegend />
-                                                        <Pagination
-                                                            page={page}
-                                                            length={total / PHENOMENA_PAGE_SIZE}
-                                                            onPageChange={this.handlePageChange}
-                                                        />
-                                                    </Row>
+                                                    {
+                                                        page > 0 && (
+                                                            <Row style={{
+                                                                position: 'absolute',
+                                                                bottom: '0',
+                                                                left: '0',
+                                                                width: '100%',
+                                                                justifyContent: 'space-between',
+                                                                paddingRight: '0'
+                                                            }}>
+                                                                <CrowdSourceLegend />
+                                                                <Pagination
+                                                                    page={page}
+                                                                    length={total / PHENOMENA_PAGE_SIZE}
+                                                                    onPageChange={this.handlePageChange}
+                                                                />
+                                                            </Row>
+                                                        )
+                                                    }
                                                 </ListContainer>
                                             </FuzeNListContainer>
                                         </div>
@@ -313,6 +337,8 @@ export default class PhenomenaPage extends PureComponent {
         )
     }
 }
+const PhenomenaPageMemo = React.memo(PhenomenaPage)
+export default PhenomenaPageMemo
 
 const Row = styled.div`
     display: flex;

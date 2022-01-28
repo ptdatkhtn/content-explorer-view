@@ -4,12 +4,11 @@ import ReactDOM from 'react-dom'
 import styled from 'styled-components'
 import { mdiTagPlusOutline, mdiTagPlus } from '@mdi/js'
 import Icon from '@mdi/react'
-import { useTags, usePhenomenonTypes } from '@sangre-fp/hooks'
+import { usePhenomenonTypes, useTags } from '@sangre-fp/hooks'
 import { MaterialIcon, PhenomenonType } from '@sangre-fp/ui'
 import { getRangeValueFromYear } from '@sangre-fp/content-editor'
 import { PhenomenaTagList } from './PhenomenaTagList'
 import { getPhenomenonUrl } from '../helpers'
-
 // TODO: create container for this component to offset phenomenapage container
 // also: move some of the styled-components into UI
 
@@ -28,13 +27,20 @@ export const PhenomenaList = props => {
     setPhenomenonToTag,
     group,
     language,
-    highest_group_role
+    highest_group_role,
+    isFilteredProps
   } = props
-  const { tags: tagList } = useTags( (group?.value && Array.isArray(group?.value)) ? group?.value :  group)
 
-  const { phenomenonTypes, phenomenonTypesById } = usePhenomenonTypes(group?.value || group)
   const itemsRef = useRef([])
 
+  const { tags: tagList } = useTags(
+      !!isFilteredProps ?
+        ((group?.value && Array.isArray(group?.value)) ? group?.value :  group) :
+        0
+  )
+
+  const { phenomenonTypes, phenomenonTypesById } = usePhenomenonTypes(!!isFilteredProps ? (group?.value ?? group) : 0)
+  
   if (itemsRef.current.length !== phenomenaList.length) {
     // add or remove refs
     itemsRef.current = Array(phenomenaList.length).fill().map((_, i) => itemsRef.current[i] || createRef())
@@ -78,107 +84,116 @@ export const PhenomenaList = props => {
             const canTag = group ? (canEdit && !freePlan) : canEditPublic
 
             return (
-                <Row key={i}>
-                    <div className='d-flex flex-start align-items-center' style={{ width: '70%' }}>
-                        <div className='d-flex align-items-center'>
-                            <TimingContainer>
-                                <TimingRail />
-                                <Timing
-                                    style={{
-                                        width: (time_range.min && time_range.max) ? calculateTimingWidth(time_range) : '0px',
-                                        left: (time_range.min && time_range.max) ? `${getRangeValueFromYear(time_range.min)}%` : 0
-                                    }}
-                                />
-                                {crowdSourcedValue && (
-                                    <CrowdSource style={{ left: `${getRangeValueFromYear(Number(crowdSourcedValue))}%` }} />
-                                )}
-                            </TimingContainer>
-                            <div className='ml-3'>
-                                <div>{min}-{max}</div>
-                                <div className='d-flex align-items-center'>
-                                    <PhenomenonType size={9} type='crowd' />
-                                    {
-                                        !freePlan 
-                                            && <CrowdSourceLabel className='ml-1'>{crowdSourcedValue ? Math.trunc(crowdSourcedValue) : '-'}</CrowdSourceLabel>
-                                    }
-                                    {
-                                        !!freePlan 
-                                            && (<div style={{background:'#4c4949', width:"60%", height:'0.7rem'}} ></div>)
-                                    }
+                <>
+                    {
+                        !!tagList?.length &&(
+                            <Row key={i}>
+                                <div className='d-flex flex-start align-items-center' style={{ width: '70%' }}>
+                                    <div className='d-flex align-items-center'>
+                                        <TimingContainer>
+                                            <TimingRail />
+                                            <Timing
+                                                style={{
+                                                    width: (time_range.min && time_range.max) ? calculateTimingWidth(time_range) : '0px',
+                                                    left: (time_range.min && time_range.max) ? `${getRangeValueFromYear(time_range.min)}%` : 0
+                                                }}
+                                            />
+                                            {crowdSourcedValue && (
+                                                <CrowdSource style={{ left: `${getRangeValueFromYear(Number(crowdSourcedValue))}%` }} />
+                                            )}
+                                        </TimingContainer>
+                                        <div className='ml-3'>
+                                            <div>{min}-{max}</div>
+                                            <div className='d-flex align-items-center'>
+                                                <PhenomenonType size={9} type='crowd' />
+                                                {
+                                                    !freePlan 
+                                                        && <CrowdSourceLabel className='ml-1'>{crowdSourcedValue ? Math.trunc(crowdSourcedValue) : '-'}</CrowdSourceLabel>
+                                                }
+                                                {
+                                                    !!freePlan 
+                                                        && (<div style={{background:'#4c4949', width:"60%", height:'0.7rem'}} ></div>)
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='d-flex left align-items-center hoverable ml-auto' data-href={getPhenomenonUrl(false, phenomenon)} style={{ width: '60%' }}>
+                                        <State className='d-flex align-items-center'>
+                                            <PhenomenonType size={16} type={phenomenonType} fill={customTypeStyle && customTypeStyle.color} isFPGroup={Number(group) === 0 ? true : false} watermarkLink={watermarkLink}/>
+                                        </State>
+                                        <div className='w-100'>
+                                            <PhenomenaTitle>{title}</PhenomenaTitle>
+                                            <PhenomenaTagList
+                                                phenomena={phenomenon}
+                                                language={language.value || language}
+                                                tagList={tagList}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div className='d-flex left align-items-center hoverable ml-auto' data-href={getPhenomenonUrl(false, phenomenon)} style={{ width: '60%' }}>
-                            <State className='d-flex align-items-center'>
-                                <PhenomenonType size={16} type={phenomenonType} fill={customTypeStyle && customTypeStyle.color} isFPGroup={Number(group) === 0 ? true : false} watermarkLink={watermarkLink}/>
-                            </State>
-                            <div className='w-100'>
-                                <PhenomenaTitle>{title}</PhenomenaTitle>
-                                <PhenomenaTagList
-                                    phenomena={phenomenon}
-                                    language={language.value || language}
-                                    tagList={tagList}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div className='d-flex align-items-center' style={{ width: '30%' }}>
-                        <div className='ml-auto fp-text-icon'></div>
-                        <Icon
-                            ref={itemsRef.current[i]}
-                            path={phenomenonToTag && phenomenonToTag.id === phenomenon.id ? mdiTagPlus : mdiTagPlusOutline}
-                            className={`fp-text-icon ${canTag ? 'hoverable' : ''}`}
-                            size={1}
-                            color={!canTag ? 'gray' : '#006998'}
-                            style={{ position: 'relative', top: '1px' }}
-                            onClick={e => {
-                                return (phenomenonToTag && phenomenonToTag.id === phenomenon.id) || !canTag ? setPhenomenonToTag(false) : setPhenomenaSelectorPosition(e, i, phenomenon)
-                            }}
-                        />
-                        { !Number(group === 0) ? (
-                            <MaterialIcon
-                                onClick={canEdit && !freePlan ?
-                                    () => handleEditClick(phenomenon) : null}
-                                disabled={!canEdit || !!freePlan}
-                                size='14px'
-                                color={canEdit && !freePlan ? '#006998' : 'gray'}
-                                className='fp-text-icon'
-                            >
-                                edit
-                            </MaterialIcon>
-                        ) : (
-                            <MaterialIcon
-                                onClick={canEditPublic && !freePlan ?
-                                    () => handleEditClick(phenomenon) : null}
-                                disabled={!canEditPublic || !!freePlan}
-                                size='14px'
-                                color={canEditPublic && !freePlan ? '#006998' : 'gray'}
-                                className='fp-text-icon'
-                            >
-                                edit
-                            </MaterialIcon>
-                        )}
-                        <MaterialIcon
-                            className='fp-text-icon'
-                            disabled={!canEditSomePhenomena || !!freePlan}
-                            onClick={canEditSomePhenomena && !freePlan ? () => handleCloneClick(phenomenon) : null}
-                            size='14px'
-                            color={!!freePlan ? 'gray' : '#006998'}
-                        >
-                            file_copy
-                        </MaterialIcon>
-                    </div>
-                </Row>
+                                <div className='d-flex align-items-center' style={{ width: '30%' }}>
+                                    <div className='ml-auto fp-text-icon'></div>
+                                    <Icon
+                                        ref={itemsRef.current[i]}
+                                        path={phenomenonToTag && phenomenonToTag.id === phenomenon.id ? mdiTagPlus : mdiTagPlusOutline}
+                                        className={`fp-text-icon ${canTag ? 'hoverable' : ''}`}
+                                        size={1}
+                                        color={!canTag ? 'gray' : '#006998'}
+                                        style={{ position: 'relative', top: '1px' }}
+                                        onClick={e => {
+                                            return (phenomenonToTag && phenomenonToTag.id === phenomenon.id) || !canTag ? setPhenomenonToTag(false) : setPhenomenaSelectorPosition(e, i, phenomenon)
+                                        }}
+                                    />
+                                    { !Number(group === 0) ? (
+                                        <MaterialIcon
+                                            onClick={canEdit && !freePlan ?
+                                                () => handleEditClick(phenomenon) : null}
+                                            disabled={!canEdit || !!freePlan}
+                                            size='14px'
+                                            color={canEdit && !freePlan ? '#006998' : 'gray'}
+                                            className='fp-text-icon'
+                                        >
+                                            edit
+                                        </MaterialIcon>
+                                    ) : (
+                                        <MaterialIcon
+                                            onClick={canEditPublic && !freePlan ?
+                                                () => handleEditClick(phenomenon) : null}
+                                            disabled={!canEditPublic || !!freePlan}
+                                            size='14px'
+                                            color={canEditPublic && !freePlan ? '#006998' : 'gray'}
+                                            className='fp-text-icon'
+                                        >
+                                            edit
+                                        </MaterialIcon>
+                                    )}
+                                    <MaterialIcon
+                                        className='fp-text-icon'
+                                        disabled={!canEditSomePhenomena || !!freePlan}
+                                        onClick={canEditSomePhenomena && !freePlan ? () => handleCloneClick(phenomenon) : null}
+                                        size='14px'
+                                        color={!!freePlan ? 'gray' : '#006998'}
+                                    >
+                                        file_copy
+                                    </MaterialIcon>
+                                </div>
+                            </Row>
+                        )
+                    }
+                </>
             )
         })
         :
         (<NoResultsContainer>
-            <label>{loading.length ? 'Loading...' : 'No results found'}</label>
+            <label>{(loading.length) ? 'Loading...' : 'No results found'}</label>
         </NoResultsContainer>)
     }
     </div>
   )
 }
+
+const PhenomenaListMemo = React.memo(PhenomenaList)
+export default PhenomenaListMemo
 
 const NoResultsContainer = styled.div`
     display: flex;
