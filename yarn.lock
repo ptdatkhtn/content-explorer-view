@@ -1515,13 +1515,13 @@
     axios "^0.19.1"
     lodash-es "^4.17.15"
 
-"@sangre-fp/content-editor@^2.1.103":
-  version "2.1.103"
-  resolved "https://npm.sangre.dev/@sangre-fp%2fcontent-editor/-/content-editor-2.1.103.tgz#9134884289b876bad626be378bbae9401dd799a0"
-  integrity sha512-smzIIi3i+N5aC6Hj8yuA9uFtcImQcv8oABb6Zih/ThcBxDGiA3lF2ZiTkwBpaFuAjJ9C/850QkKWYTZJwN5b4w==
+"@sangre-fp/content-editor@^2.1.104":
+  version "2.1.104"
+  resolved "https://npm.sangre.dev/@sangre-fp%2fcontent-editor/-/content-editor-2.1.104.tgz#5dfe7149c0e5de8bf86fa8d4601d884f493fb223"
+  integrity sha512-kDbTEcO8UCJkHTKasEcmPKoIXyh9uu8QSMzRrc0fzEBesl/pCCMmqeDSptlkN2gPfklcju6o65cLG8Ixq6+CBA==
   dependencies:
     "@sangre-fp/connectors" "^2.1.3"
-    "@sangre-fp/content-filters" "^1.0.91"
+    "@sangre-fp/content-filters" "^1.0.92"
     "@sangre-fp/hooks" "^1.0.16"
     "@sangre-fp/i18n" "^2.1.9"
     "@sangre-fp/ui" "^2.0.51"
@@ -1534,10 +1534,10 @@
     react-sortable-hoc "^1.10.1"
     styled-components "^4.4.1"
 
-"@sangre-fp/content-filters@^1.0.91":
-  version "1.0.91"
-  resolved "https://npm.sangre.dev/@sangre-fp%2fcontent-filters/-/content-filters-1.0.91.tgz#22e36ca739a52678c0b0ba7180563323fdce96e5"
-  integrity sha512-X1AbFXviJEpxWWmaLtmtF8NuEwDOvmtRjYRw+Wt5VC4Zt0H0ghWByKLI5I4jHnEMxjxEn9rOzS6P2L6BC8RIww==
+"@sangre-fp/content-filters@^1.0.92":
+  version "1.0.92"
+  resolved "https://npm.sangre.dev/@sangre-fp%2fcontent-filters/-/content-filters-1.0.92.tgz#ecfa63ef3a089abd7973311a51acff1252595a7a"
+  integrity sha512-I27CAwvA+n818zcSxq7LapRi/9RaBt0dzLy+c35qDXW0qgqF5KOWuQM+cxKGWC70GYo9HFVrtChVFzdtxPhqmg==
   dependencies:
     "@sangre-fp/hooks" "^1.0.16"
     "@sangre-fp/i18n" "^2.1.7"
