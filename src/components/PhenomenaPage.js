@@ -75,38 +75,38 @@ class PhenomenaPage extends PureComponent {
         this.isSearched.current = true
     }
 
-    handleFilterChange = ({ types, times, tags, language, group, page, search, isFiltered }) => {
+    handleFilterChange = ({ types, times, tags, language, group, page, search, filtersActive, isFiltered }) => {
         const {
             fetchPhenomenaList,
             phenomenaListData: { phenomenaList },
             setPhenomenonToTag
         } = this.props
-
         this.setState
-            ({ tags, group, language, 
+            ({ tags, group, language,
                 isFiltered : (!!isFiltered 
                     || !!this.state.textSearchValue.length 
-                    || !!this.isSearched.current )  })
+                    || !!this.isSearched.current )  }, () => {
+                        const totalPages = phenomenaList.length / PHENOMENA_PAGE_SIZE
 
-        const totalPages = phenomenaList.length / PHENOMENA_PAGE_SIZE
+                        if (totalPages <= page) {
+                            setPhenomenonToTag(false)
+                            fetchPhenomenaList({
+                                page: page - 1,
+                                size: PHENOMENA_PAGE_SIZE,
+                                searchableGroup: !this.state.isFiltered ? {
+                                    "value": 0
+                                }: group,
+                                searchInput: search,
+                                languageObj: language,
+                                tags,
+                                types,
+                                time_max: times.max,
+                                time_min: times.min
+                            })
+                        }
+                    })
 
-        if (totalPages <= page) {
-            setPhenomenonToTag(false)
-
-            fetchPhenomenaList({
-                page: page - 1,
-                size: PHENOMENA_PAGE_SIZE,
-                searchableGroup: !this.state.isFiltered ? {
-                    "value": 0
-                }: group,
-                searchInput: search,
-                languageObj: language,
-                tags,
-                types,
-                time_max: times.max,
-                time_min: times.min
-            })
-        }
+        
     }
 
     handleEditClick = phenomenon => this.setState({
