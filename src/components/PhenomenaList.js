@@ -39,7 +39,7 @@ export const PhenomenaList = props => {
         0
   )
 
-  const { phenomenonTypes, phenomenonTypesById } = usePhenomenonTypes(!!isFilteredProps ? (group?.value ?? group) : 0)
+  const { phenomenonTypes, phenomenonTypesById } = usePhenomenonTypes(!!isFilteredProps ? (group?.value ?? group) : 0, true)
   
   if (itemsRef.current.length !== phenomenaList.length) {
     // add or remove refs
