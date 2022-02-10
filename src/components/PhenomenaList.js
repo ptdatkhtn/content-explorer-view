@@ -34,10 +34,11 @@ export const PhenomenaList = props => {
   const itemsRef = useRef([])
 
   const { tags: tagList } = useTags(
-      !!isFilteredProps ?
-        ((group?.value && Array.isArray(group?.value)) ? group?.value :  group) :
-        0
-  )
+    !!isFilteredProps ?
+  //   ((group?.value && Array.isArray(group?.value)) ? group?.value :  group) :
+      ((group?.value && Array.isArray(group?.value)) ? group?.value :  (typeof group === 'number' ? group : group?.id)) :
+      0
+)
 
   const { phenomenonTypes, phenomenonTypesById } = usePhenomenonTypes(!!isFilteredProps ? (group?.value ?? group) : 0, true)
   
