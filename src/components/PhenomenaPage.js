@@ -312,6 +312,7 @@ class PhenomenaPage extends PureComponent {
 
                                 return (
                                     <PhenomenonEditForm
+                                        createOrEditMode={true}
                                         phenomenon={values}
                                         onSubmit={async (values, newsFeedChanges) => {
                                             await storePhenomenon(values, newsFeedChanges, this.closePhenomenonModal)
