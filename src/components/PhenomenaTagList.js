@@ -3,7 +3,13 @@ import _ from 'lodash'
 import { Tag } from '@sangre-fp/ui'
 
 export const PhenomenaTagList = props => {
-  const { language, phenomena: { tags }, tagList } = props
+    let tags ;
+    if ( !props?.phenomena?.tags) {
+tags =[]
+    } else {
+        tags = props?.phenomena?.tags
+    }
+  const { language, phenomena, tagList } = props
   const renderPhenomenaTags = tagList && tagList.length && tags && tags.length
   const lang = language === 'all' ? document.querySelector('html').getAttribute('lang') || 'en' : language
 

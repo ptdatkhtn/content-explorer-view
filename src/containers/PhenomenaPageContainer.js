@@ -6,7 +6,7 @@ import { getUserGroups } from '../actions/radarSettings'
 import { getPhenomenaTypes } from '../actions/phenomenaTypes'
 import { fetchPhenomenaList, setPhenomenonToTag } from '../actions/phenomenaList'
 import { storePhenomenon, archivePhenomenon } from '../actions/radarData'
-import { canEditSomePhenomena } from '../selectors'
+import { canEditSomePhenomena, storedPhenSelector } from '../selectors'
 
 export default connect(
     state => {
@@ -22,7 +22,8 @@ export default connect(
             authData,
             phenomenaListData,
             phenomenaTypesById,
-            canEditSomePhenomena: canEditSomePhenomena(state)
+            canEditSomePhenomena: canEditSomePhenomena(state),
+            storedPhenSelector: storedPhenSelector(state)
         }
     },
     dispatch => bindActionCreators({

@@ -14,7 +14,7 @@ import ConfirmDialog from '../containers/ConfirmDialogContainer'
 import PhenomenaTagSelector from '../containers/PhenomenaTagSelector'
 import { PhenomenaList } from './PhenomenaList'
 import { requestTranslation } from '@sangre-fp/i18n'
-import { PhenomenonEditForm } from '@sangre-fp/content-editor'
+import { PhenomenonEditForm } from './PhenomenonEditForm'
 import { PhenomenonLoader } from '@sangre-fp/hooks'
 import ContentFilters from '@sangre-fp/content-filters'
 import CrowdSourceLegend from './CrowdSourceLegend'
@@ -109,13 +109,16 @@ class PhenomenaPage extends PureComponent {
         
     }
 
-    handleEditClick = phenomenon => this.setState({
-        editModal: {
-            type: EDIT,
-            uuid: phenomenon.id,
-            group: phenomenon.group
-        }
-    })
+    handleEditClick = (phenomenon, i) => {
+        this.setState({
+            editModal: {
+                type: EDIT,
+                uuid: phenomenon.id,
+                group: phenomenon.group
+            },
+            indexForTagging: i
+        })
+    }
 
     handleCloneClick = phenomenon => this.setState({
         editModal: {
@@ -143,6 +146,7 @@ class PhenomenaPage extends PureComponent {
         )
     }
 
+    
     render() {
         const {
             loading,
@@ -151,7 +155,8 @@ class PhenomenaPage extends PureComponent {
             },
             canEditSomePhenomena,
             storePhenomenon,
-            archivePhenomenon
+            archivePhenomenon,
+            storedPhenSelector
         } = this.props
 
         const {
@@ -159,9 +164,10 @@ class PhenomenaPage extends PureComponent {
             textSearchValue,
             editModal,
             group,
-            language
+            language,
+            indexForTagging
         } = this.state
-        
+        console.log('editModaleditModal', editModal, storedPhenSelector)
         return (
             <div>
                 <div className='dashboard-screen-content'>
@@ -306,16 +312,49 @@ class PhenomenaPage extends PureComponent {
                                 }
                                 const { id, ...phenomenonWithoutId } = phenomenon
 
+                                console.log('phenomenonphenomenon333', phenomenon)
                                 const values = editModal.type === CLONE
                                     ? phenomenonWithoutId
                                     : phenomenon
 
                                 return (
                                     <PhenomenonEditForm
+                                        {...this.props}
+                                        IsCreateNewContentCard={this.state?.editModal?.type?.toString() === 'CREATE'}
+                                        indexForTagging={indexForTagging}
+                                        highest_group_role={this.props.highest_group_role}
+                                        isFilteredProps={this.state.isFiltered}
+                                        group={!this.state.isFiltered ? 0 : group}
+                                        language={language}
                                         createOrEditMode={true}
                                         phenomenon={values}
                                         onSubmit={async (values, newsFeedChanges) => {
-                                            await storePhenomenon(values, newsFeedChanges, this.closePhenomenonModal)
+                                            console.log('valuesvalues', values, newsFeedChanges)
+                                            if (this.state.editModal.type === 'CREATE') {
+                                                await storePhenomenon(values, newsFeedChanges, () => {
+                                                    this.setState({
+                                                        editModal: {
+                                                            type: EDIT,
+                                                            uuid: null,
+                                                            group: null
+                                                        },
+                                                        indexForTagging: indexForTagging
+                                                    })
+                                                })
+                                            } else {
+                                                // storedPhenSelector
+                                                !!this.state.editModal?.uuid 
+                                                    ? await storePhenomenon(values, newsFeedChanges, this.closePhenomenonModal)
+                                                    : await storePhenomenon({
+                                                        archived: storedPhenSelector?.archived,
+                                                        content: storedPhenSelector?.content,
+                                                        groups: storedPhenSelector?.groups,
+                                                        id: storedPhenSelector?.id,
+                                                        language: storedPhenSelector?.language,
+                                                        type: storedPhenSelector?.type
+                                                    }, newsFeedChanges, this.closePhenomenonModal)
+                                            }
+                                            
                                         }}
                                         onCancel={this.closePhenomenonModal}
                                         onDelete={async () => {
@@ -324,13 +363,16 @@ class PhenomenaPage extends PureComponent {
                                     />
                                 )
                             }}
+                            
                         </PhenomenonLoader>
 
                     )}
                 </Modal>
+
                 <PhenomenaTagSelector
-                    group={group.value || group || this.state.groups}
+                    group={group?.value || group || this.state?.groups}
                     language={language.value || language}
+                    isInEditMode={!!editModal}
                 />
                 <ConfirmDialog />
                 <ErrorModal />

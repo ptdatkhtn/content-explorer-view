@@ -46,7 +46,7 @@ export const PhenomenaList = props => {
     // add or remove refs
     itemsRef.current = Array(phenomenaList.length).fill().map((_, i) => itemsRef.current[i] || createRef())
   }
-
+  console.log('itemsRef.current12222222243333333333', itemsRef.current)
   const calculateTimingWidth = timing => {
       const { min, max } = timing
 
@@ -54,7 +54,7 @@ export const PhenomenaList = props => {
   }
 
   const setPhenomenaSelectorPosition = (e, i, phenomenon) => {
-      const position = ReactDOM.findDOMNode(itemsRef.current[i].current).getBoundingClientRect()
+      const position = ReactDOM.findDOMNode(itemsRef.current[i]?.current).getBoundingClientRect()
 
       setPhenomenonToTag({...phenomenon, position })
   }
@@ -64,6 +64,7 @@ export const PhenomenaList = props => {
   return (
     <div>
         {phenomenaList.length ? phenomenaList.map((phenomenon, i) => {
+            console.log('phenomenonphenomenon', phenomenon)
             let { content: { title, type, time_range }, group, crowdSourcedValue } = phenomenon
             if (!time_range) {
               time_range = {}
@@ -148,7 +149,7 @@ export const PhenomenaList = props => {
                                     { !Number(group === 0) ? (
                                         <MaterialIcon
                                             onClick={canEdit && !freePlan ?
-                                                () => handleEditClick(phenomenon) : null}
+                                                () => handleEditClick(phenomenon, i) : null}
                                             disabled={!canEdit || !!freePlan}
                                             size='14px'
                                             color={canEdit && !freePlan ? '#006998' : 'gray'}
@@ -159,7 +160,7 @@ export const PhenomenaList = props => {
                                     ) : (
                                         <MaterialIcon
                                             onClick={canEditPublic && !freePlan ?
-                                                () => handleEditClick(phenomenon) : null}
+                                                () => handleEditClick(phenomenon, i) : null}
                                             disabled={!canEditPublic || !!freePlan}
                                             size='14px'
                                             color={canEditPublic && !freePlan ? '#006998' : 'gray'}

@@ -4,7 +4,8 @@ import { GET_GROUPS_SUCCESS } from '@sangre-fp/reducers/actionTypes'
 
 const initialState = {
     groups: [],
-    radarLanguage: getCurrentLanguage()
+    radarLanguage: getCurrentLanguage(),
+    storedPhenomenon: null
 }
 
 export default (state = initialState, { type, payload }) => {
@@ -19,6 +20,13 @@ export default (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 groups
+            }
+        case 'STOREDPHENOMENON':
+            console.log('payloadpayloadSTOREDPHENOMENON', state, payload)
+            const storedPhenomenon = {...payload}
+            return {
+                ...state,
+                storedPhenomenon
             }
         default:
             return state

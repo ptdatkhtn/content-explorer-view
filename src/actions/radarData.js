@@ -59,6 +59,11 @@ export const storePhenomenon = (phenomenon, newsFeedChanges, callback, archived 
 
 
     try {
+        if(!phenomenonInput?.group || phenomenonInput?.group === undefined ) {
+            // eslint-disable-next-line no-restricted-globals
+            phenomenonInput.group = phenomenonInput?.groups[0] ?? 0
+        }
+        console.log('phenomenonInputphenomenonInput', phenomenonInput)
         const { storedPhenomenon, status, failedNewsFeedTitles } = await storePhenomenonWithNewsFeeds(phenomenonInput, newsFeedChanges)
 
         if (status === NEWSFEED_ERROR_PARTIAL) {
@@ -67,6 +72,7 @@ export const storePhenomenon = (phenomenon, newsFeedChanges, callback, archived 
             dispatch(error(new Error('News feed error'), requestTranslation(phenomenon.id ? 'newsFeedUpdateError' : 'newsFeedCreationError')))
         } else {
             dispatch(success(storedPhenomenon))
+            dispatch({ type: 'STOREDPHENOMENON', payload: storedPhenomenon })
             callback(storedPhenomenon)
         }
     } catch (e) {
