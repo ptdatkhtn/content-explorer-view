@@ -129,6 +129,7 @@ class PhenomenaPage extends PureComponent {
     })
 
     closePhenomenonModal = () => {
+        this.props.setPhenomenonToTag(false)
         this.setState({ editModal: null })
         setTimeout(this.handleSearchClear(), 500)
     }

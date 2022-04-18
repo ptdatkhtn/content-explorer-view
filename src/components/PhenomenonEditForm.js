@@ -115,6 +115,16 @@ export const PhenomenonEditForm = (
     const getValue = makeGetValue(phenomenon)
     const [deletingModalOpen, setDeletingModalOpen] = useState(false)
     const [groupId, setGroupId] = useState(radar ? radar.groupId : getValue("group"))
+    const [iconTaggingSection, seticonTaggingSection] = useState('expand_more')
+    const [iconRelatedNodeSection, seticonRelatedNodeSection] = useState('expand_more')
+
+    const [iconNewsFeedSection, seticonNewsFeedSection] = useState('expand_more')
+    const [links2WebpagesSection, setlinks2WebpagesSection] = useState('expand_more')
+    const [mainVideoAndImage, setmainVideoAndImage] = useState('expand_more')
+    // const [iconTaggingSection, seticonTaggingSection] = useState('expand_more')
+
+    // const [iconTaggingSection, seticonTaggingSection] = useState('expand_more')
+
 
     const { tags: tagList } = useTags(
       (!!editModal && editModal?.type === 'EDIT' && !editModal?.uuid) ? storedPhenSelector?.groups[0] ?? 0 
@@ -138,7 +148,12 @@ export const PhenomenonEditForm = (
         canEditPublic
     } = useEditableGroups()
 
+    
+
     const phenomenonIncludesTagData = React.useMemo(() => {
+      if ( !phenomenon) {
+        return {...storedPhenSelector}
+      }
       return !!phenomenaList?.length ? phenomenaList?.filter((p) => {
         
         if (!!phenomenon && p?.id === phenomenon?.uuid) {
@@ -150,6 +165,54 @@ export const PhenomenonEditForm = (
       })[0]
         : null
       }, [phenomenaList, phenomenon])
+
+      const handleChangeIconTagSection = () => {
+        if ( iconTaggingSection === 'expand_more')
+          seticonTaggingSection(() => `expand_less`)
+        else {
+          seticonTaggingSection(() => `expand_more`)
+        }
+      }
+
+      const handleChangeIconRelatedNodesSection = () => {
+        if ( iconRelatedNodeSection === 'expand_more')
+          seticonRelatedNodeSection(() => `expand_less`)
+        else {
+          seticonRelatedNodeSection(() => `expand_more`)
+        }
+      }
+
+      const handleChangeIconNewsFeedSection = () => {
+        if ( iconNewsFeedSection === 'expand_more')
+          seticonNewsFeedSection(() => `expand_less`)
+        else {
+          seticonNewsFeedSection(() => `expand_more`)
+        }
+      }
+      const handleChangeIconLinks2WebpagesSection = () => {
+        if ( links2WebpagesSection === 'expand_more')
+          setlinks2WebpagesSection(() => `expand_less`)
+        else {
+          setlinks2WebpagesSection(() => `expand_more`)
+        }
+      }
+      const handleChangeIconMainVideoImagesSection = () => {
+        if ( mainVideoAndImage === 'expand_more')
+          setmainVideoAndImage( () => `expand_less`)
+        else {
+          setmainVideoAndImage(() => `expand_more`)
+        }
+      }
+
+      React.useEffect (() => {
+        if ( !!editModal && editModal?.type === 'EDIT' && !editModal?.uuid ) {
+          const position = 
+            !!itemsRef?.current 
+              && !!ReactDOM.findDOMNode(itemsRef.current[indexForTagging]?.current) 
+              && ReactDOM.findDOMNode(itemsRef.current[indexForTagging]?.current)?.getBoundingClientRect()
+          setPhenomenonToTag({...phenomenonIncludesTagData, position })
+        }
+      }, [phenomenonIncludesTagData, editModal, indexForTagging])
 
     const itemsRef = useRef([])
     if (itemsRef?.current?.length !== phenomenaList?.length) {
@@ -192,7 +255,7 @@ export const PhenomenonEditForm = (
     if (error) {
         return <div className="py-5 text-center text-danger">{error.message}</div>
     }
-    
+
     return (
         <Formik
             initialValues={{
@@ -569,7 +632,7 @@ export const PhenomenonEditForm = (
                           />
                         </div>
                       </div>
-                      <div className="modal-form-section">
+                      <div className="modal-form-section" style={{cursor: 'pointer'}} onClick={handleChangeIconMainVideoImagesSection}>
                         <Dropdown
                           className="dropdown-toggle d-flex align-items-center justify-content-between"
                           type="button"
@@ -583,9 +646,11 @@ export const PhenomenonEditForm = (
                               {(values.video || values.image || values.imageUrl) ? requestTranslation('mediaUploaded') : requestTranslation('noMediaUploaded')}
                             </DropdownValue>
                           </h3>
-                          <i className='material-icons'>
-                            expand_more
-                          </i>
+                          <div style={{cursor: 'pointer'}} onClick={handleChangeIconMainVideoImagesSection}>
+                            <i className='material-icons'>
+                              {mainVideoAndImage}
+                            </i>
+                          </div>
                         </Dropdown>
                         <div id="collapsemedia" className="collapse mt-4">
                           <h4>{requestTranslation('video')}</h4>
@@ -663,7 +728,7 @@ export const PhenomenonEditForm = (
                           </div>
                         </div>
                       </div>
-                      <div className="modal-form-section">
+                      <div className="modal-form-section" style={{cursor: 'pointer'}} onClick={handleChangeIconLinks2WebpagesSection}>
                         <Dropdown
                           className="dropdown-toggle d-flex align-items-center justify-content-between"
                           type="button"
@@ -677,9 +742,11 @@ export const PhenomenonEditForm = (
                               {values.links.length ? requestTranslation('linksUploaded') : requestTranslation('noLinksUploaded')}
                             </DropdownValue>
                           </h3>
-                          <i className='material-icons'>
-                            expand_more
-                          </i>
+                          <div style={{cursor: 'pointer'}} onClick={handleChangeIconLinks2WebpagesSection}>
+                            <i className='material-icons'>
+                              {links2WebpagesSection}
+                            </i>
+                          </div>
                         </Dropdown>
                         <div id="collapselinks" className="collapse mt-4">
                           <PhenomenaLinks
@@ -688,7 +755,7 @@ export const PhenomenonEditForm = (
                           />
                         </div>
                       </div>
-                      <div className="modal-form-section">
+                      <div className="modal-form-section" style={{cursor: 'pointer'}} onClick={handleChangeIconNewsFeedSection}>
                         <Dropdown
                           className="dropdown-toggle d-flex align-items-center justify-content-between"
                           type="button"
@@ -702,9 +769,14 @@ export const PhenomenonEditForm = (
                               {values.newsFeedInput || (Array.isArray(values.newsFeeds) && values.newsFeeds.length > 0) ? requestTranslation('newsFeedsUploaded') : requestTranslation('noNewsFeedsUploaded')}
                             </DropdownValue>
                           </h3>
-                          <i className='material-icons'>
-                            expand_more
-                          </i>
+                          <div style={{cursor: 'pointer'}} onClick={handleChangeIconNewsFeedSection}>
+                            <i className='material-icons'>
+                              {
+                                iconNewsFeedSection
+                              }
+                            </i>
+                          </div>
+                          
                         </Dropdown>
                         <div id="collapsenews" className="collapse mt-4">
                           <p>{requestTranslation('feedDescription')}</p>
@@ -759,7 +831,7 @@ export const PhenomenonEditForm = (
                         </div>
                       </div>
 
-                      <div className="modal-form-section">
+                      <div className="modal-form-section" style={{cursor: 'pointer'}} onClick={handleChangeIconRelatedNodesSection}>
                         <Dropdown
                           className="dropdown-toggle d-flex align-items-center justify-content-between"
                           type="button"
@@ -773,9 +845,12 @@ export const PhenomenonEditForm = (
                               {values.relatedPhenomena.length ? requestTranslation('hasRelatedPhenomena') : requestTranslation('hasNoRelatedPhenomena')}
                             </DropdownValue>
                           </h3>
-                          <i className='material-icons'>
-                            expand_more
-                          </i>
+                          <div style={{cursor: 'pointer'}} onClick={handleChangeIconRelatedNodesSection}>
+                            <i className='material-icons'>
+                              {iconRelatedNodeSection}
+                            </i>
+                          </div>
+                          
                         </Dropdown>
                         <div id="collapserelated" className="collapse mt-4">
                           <div style={{ overflow: 'hidden' }} className="row">
@@ -811,7 +886,7 @@ export const PhenomenonEditForm = (
                         </div>
                       </div>
 
-                      <div className="modal-form-section">
+                      <div className="modal-form-section" style={{cursor: 'pointer'}} onClick={handleChangeIconTagSection}>
                         <Dropdown
                           className="dropdown-toggle d-flex align-items-center justify-content-between"
                           type="button"
@@ -825,11 +900,15 @@ export const PhenomenonEditForm = (
                               {!!phenomenonIncludesTagData?.tags?.length ? requestTranslation('hasTagged') : requestTranslation('hasNoTagged')}
                             </DropdownValue>
                           </h3>
-                          <i className='material-icons'>
-                            expand_more
-                          </i>
+                          <div style={{cursor: 'pointer'}} onClick={handleChangeIconTagSection}>
+                            <i className='material-icons'>
+                              {
+                                iconTaggingSection
+                              }
+                            </i>
+                          </div>
                         </Dropdown>
-                        <div id="collapsetags" className="collapse mt-4">
+                        <div id="collapsetags" className="collapse mt-4" >
                           <div style={{ overflow: 'hidden' }} className="row">
                             <div className="col-12 ">
                               <PhenomenaTagList
@@ -852,8 +931,11 @@ export const PhenomenonEditForm = (
                                   color={!canTag ? 'gray' : '#006998'}
                                   style={{ position: 'relative', top: '1px'}}
                                   onClick={e => {
-                                      return (
-                                        phenomenonToTag && phenomenonToTag.id === phenomenonIncludesTagData?.id) || !canTag 
+                                    if ( !!editModal && editModal?.type === 'EDIT' && !editModal?.uuid) {
+                                      return setPhenomenaSelectorPosition(e, indexForTagging, storedPhenSelector)
+                                    }
+                                      return ((
+                                        phenomenonToTag && phenomenonToTag.id === phenomenonIncludesTagData?.id) || !canTag) 
                                           ? setPhenomenonToTag(false) 
                                           : setPhenomenaSelectorPosition(e, indexForTagging, phenomenonIncludesTagData)
                                   }}

@@ -70,9 +70,9 @@ export const PhenomenaTagSelector = props => {
           style={{ 
             zIndex: !!isInEditMode ? 999999 : '', 
             // eslint-disable-next-line no-restricted-globals
-            left: (!isInEditMode ? x : (screen.width /2.5)) - ELEMENT_WIDTH - 25 + 'px', 
+            left: (!isInEditMode ? x : (screen.width /1.7)) - ELEMENT_WIDTH - 25 + 'px', 
             // eslint-disable-next-line no-restricted-globals
-            top: (!isInEditMode ? y : (screen.height / 3.5)) - FP_TOPBAR_OFFSET - 40 + window.scrollY + 'px' 
+            top: (!isInEditMode ? y : (screen.height / 4.1)) - FP_TOPBAR_OFFSET - 40 + window.scrollY + 'px' 
       }}>
         <ListContainer>
           {loading && (<div className='pl-2'>{requestTranslation('loading')}</div>)}
