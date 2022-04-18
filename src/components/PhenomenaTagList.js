@@ -23,10 +23,14 @@ const tags = (!!editModal && editModal?.type === 'EDIT' && !editModal?.uuid)
   ? useSelector(state => state?.radarSettings?.storedPhenomenon.tags)
   : phenomena?.tags
 
-console.log('statestate',phenomena, tags, editModal)
+  const tags2 = (!!editModal && editModal?.type === 'EDIT' && !editModal?.uuid) 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  ? useSelector(state => state?.radarSettings?.storedPhenomenon)
+  : phenomena?.tags
+console.log('statestate',phenomena, tags, editModal, tagList)
   const renderPhenomenaTags = tagList && tagList.length && tags && tags?.length
   const lang = language === 'all' ? document.querySelector('html').getAttribute('lang') || 'en' : language
-  console.log('propsss998', tags, tagList, phenomena?.tags, renderPhenomenaTags)
+  console.log('propsss998', tags, tags2, tagList, phenomena?.tags, renderPhenomenaTags)
   if (!renderPhenomenaTags) {
     return null
   }

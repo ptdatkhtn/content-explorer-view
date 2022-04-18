@@ -21,12 +21,12 @@ export const PhenomenaTagSelector = props => {
   console.log('phenomenonphenomenon999', phenomenon)
 
   // eslint-disable-next-line
-  // React.useEffect( () => {
-  //   // storedPhenSelector.tags = phenomenon?.tags
-  //   console.log('phenomenon?.tagsphenomenon?.tags', phenomenon?.tags, storedPhenSelector)
-  //   dispatch({ type: 'STOREDPHENOMENON', payload:  {...storedPhenSelector, tags: phenomenon?.tags}})
-  //   // updateStoredPhenonSelector({...storedPhenSelector, tags: phenomenon?.tags})
-  // }, [JSON.stringify(phenomenon)])
+  React.useEffect( () => {
+    // storedPhenSelector.tags = phenomenon?.tags
+    console.log('phenomenon?.tagsphenomenon?.tags', phenomenon?.tags, storedPhenSelector)
+    dispatch({ type: 'STOREDPHENOMENON', payload:  {...storedPhenSelector, tags: phenomenon?.tags}})
+    // updateStoredPhenonSelector({...storedPhenSelector, tags: phenomenon?.tags})
+  }, [JSON.stringify(phenomenon)])
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { loading, tags, error } = useTags( 
@@ -102,8 +102,9 @@ export const PhenomenaTagSelector = props => {
                             label={tag.label}
                             active={isActive}
                             onClick={() => {
+                              // dispatch({ type: 'STOREDPHENOMENON', payload:  {...storedPhenSelector, tags: phenomenon?.tags}})
                               handlePhenomenaTagMod(tag, phenomenon, group)
-                              dispatch({ type: 'STOREDPHENOMENON', payload:  {...storedPhenSelector, tags: phenomenon?.tags}})
+                              
                             }}
                           />
                         </OptionsListItem>
@@ -121,8 +122,9 @@ export const PhenomenaTagSelector = props => {
                           label={tag.label[lang]}
                           active={isActive}
                           onClick={() => {
+                            // dispatch({ type: 'STOREDPHENOMENON', payload:  {...storedPhenSelector, tags: phenomenon?.tags}})
                             handlePhenomenaTagMod(tag, phenomenon, group)
-                            dispatch({ type: 'STOREDPHENOMENON', payload:  {...storedPhenSelector, tags: phenomenon?.tags}})
+                            
                           }}
                         />
                     </OptionsListItem>

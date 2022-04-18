@@ -6,7 +6,8 @@ import {
     getAvailableLanguages,
     getLanguage
 } from '@sangre-fp/i18n'
-import { usePhenomenonTypes, useEditableGroups, useTags } from '@sangre-fp/hooks'
+import { usePhenomenonTypes, useEditableGroups } from '@sangre-fp/hooks'
+import useTags from './useTags'
 import {Formik} from 'formik'
 import {map, differenceBy, find, capitalize} from 'lodash-es'
 import Select from 'react-select'
@@ -125,10 +126,10 @@ export const PhenomenonEditForm = (
         !!isFilteredProps ?
     //   ((group?.value && Array.isArray(group?.value)) ? group?.value :  group) :
         ((group?.value && Array.isArray(group?.value)) ? group?.value :  (typeof group === 'number' ? group : group?.id)) :
-        (0))
+        (!!editModal && editModal?.type === 'EDIT' ? phenomenon?.uuid: 0))
   )
 
-  console.log('tagListtagListtagList', tagList, group)
+  console.log('tagListtagListtagList', tagList, group, isFilteredProps)
     const {
         phenomenonTypes,
         loading: loadingPhenomenonTypes,
