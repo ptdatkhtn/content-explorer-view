@@ -4,7 +4,8 @@ import ReactDOM from 'react-dom'
 import styled from 'styled-components'
 import { mdiTagPlusOutline, mdiTagPlus } from '@mdi/js'
 import Icon from '@mdi/react'
-import { usePhenomenonTypes, useTags } from '@sangre-fp/hooks'
+import { usePhenomenonTypes } from '@sangre-fp/hooks'
+import  useTags  from './useTags'
 import { MaterialIcon, PhenomenonType } from '@sangre-fp/ui'
 import { getRangeValueFromYear } from '@sangre-fp/content-editor'
 import { PhenomenaTagList } from './PhenomenaTagList'
@@ -32,21 +33,38 @@ export const PhenomenaList = props => {
   } = props
 
   const itemsRef = useRef([])
-
-  const { tags: tagList } = useTags(
+  console.log('phenomenonToTagphenomenonToTag88899222', phenomenonToTag)
+  let { tags: tagList } = useTags(
     !!isFilteredProps ?
   //   ((group?.value && Array.isArray(group?.value)) ? group?.value :  group) :
       ((group?.value && Array.isArray(group?.value)) ? group?.value :  (typeof group === 'number' ? group : group?.id)) :
       0
 )
 
+// if ( !!tagList && tagList[1]?.length > 1) {
+//     tagList[1] = tagList[1][0].push(tagList[1][1])
+// }
+
+
+// let a = []
+//     const b = !!tagList && !!tagList[1] && !!tagList[1]?.length 
+//         && tagList[1]?.map((t) => {
+//            a =  [...a, ...t]
+           
+//         })
+    
+//     tagList[1] = b
+//     console.log('aaaaaaabccccc', a, b)
   const { phenomenonTypes, phenomenonTypesById } = usePhenomenonTypes(!!isFilteredProps ? (group?.value ?? group) : 0, true)
   
   if (itemsRef.current.length !== phenomenaList.length) {
     // add or remove refs
     itemsRef.current = Array(phenomenaList.length).fill().map((_, i) => itemsRef.current[i] || createRef())
   }
-  console.log('itemsRef.current12222222243333333333', itemsRef.current)
+  console.log('itemsRef.current12222222243333333333', tagList, !!isFilteredProps ?
+  //   ((group?.value && Array.isArray(group?.value)) ? group?.value :  group) :
+      ((group?.value && Array.isArray(group?.value)) ? group?.value :  (typeof group === 'number' ? group : group?.id)) :
+      0)
   const calculateTimingWidth = timing => {
       const { min, max } = timing
 
@@ -149,7 +167,10 @@ export const PhenomenaList = props => {
                                     { !Number(group === 0) ? (
                                         <MaterialIcon
                                             onClick={canEdit && !freePlan ?
-                                                () => handleEditClick(phenomenon, i) : null}
+                                                () => {
+                                                    setPhenomenonToTag(false)
+                                                    handleEditClick(phenomenon, i)
+                                                } : null}
                                             disabled={!canEdit || !!freePlan}
                                             size='14px'
                                             color={canEdit && !freePlan ? '#006998' : 'gray'}
@@ -160,7 +181,10 @@ export const PhenomenaList = props => {
                                     ) : (
                                         <MaterialIcon
                                             onClick={canEditPublic && !freePlan ?
-                                                () => handleEditClick(phenomenon, i) : null}
+                                                () => {
+                                                    setPhenomenonToTag(false)
+                                                    handleEditClick(phenomenon, i)
+                                                } : null}
                                             disabled={!canEditPublic || !!freePlan}
                                             size='14px'
                                             color={canEditPublic && !freePlan ? '#006998' : 'gray'}

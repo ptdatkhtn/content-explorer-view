@@ -104,240 +104,31 @@ export const PhenomenonEditForm = (
   },
     highest_group_role,
     indexForTagging,
-    IsCreateNewContentCard
+    IsCreateNewContentCard,
+    storePhenomenon,
+    storedPhenSelector,
+    editModal
   }
 ) => {
-  console.log('IsCreateNewContentCardIsCreateNewContentCard', IsCreateNewContentCard)
+  console.log('editModaleditModaleditModaleditModal999', editModal)
+  console.log('IsCreateNewContentCardIsCreateNewContentCard', storePhenomenon)
     const phenomenon = basePhenomenon ? transformToLegacy(basePhenomenon) : null
     const getValue = makeGetValue(phenomenon)
     const [deletingModalOpen, setDeletingModalOpen] = useState(false)
     const [groupId, setGroupId] = useState(radar ? radar.groupId : getValue("group"))
-    const [isCreateMode, setisCreateMode] = useState(false)
-    React.useEffect(() => {
-      setisCreateMode(() => IsCreateNewContentCard)
-    }, [IsCreateNewContentCard])
-    const fakeobject = [
-      [
-          // {
-          //     "uri": "fp:tags/theme/automation-ai-and-robotisation",
-          //     "label": {
-          //         "fi": "Automatisaatio, AI ja robotisaatio",
-          //         "en": "Automation, AI and Robotisation"
-          //     }
-          // },
-          {
-              "uri": "fp:tags/theme/business-and-value-chains",
-              "label": {
-                  "fi": "Liiketoiminta ja arvoketjut",
-                  "en": "Business and Value Chains"
-              }
-          },
-          {
-              "uri": "fp:tags/theme/climate-change",
-              "label": {
-                  "fi": "Ilmastonmuutos",
-                  "en": "Climate Change"
-              }
-          },
-          {
-              "uri": "fp:tags/theme/communication-journalism-and-social-media",
-              "label": {
-                  "fi": "Viestintä, journalismi ja sosiaalinen media",
-                  "en": "Communication, Journalism and Social Media"
-              }
-          },
-          // {
-          //     "uri": "fp:tags/theme/construction-and-urbanisation",
-          //     "label": {
-          //         "fi": "Rakentaminen ja kaupungistuminen",
-          //         "en": "Construction and Urbanisation"
-          //     }
-          // },
-          {
-              "uri": "fp:tags/theme/countries-states-and-regions",
-              "label": {
-                  "fi": "States, federations and regions",
-                  "en": "Countries, States, and Regions"
-              }
-          },
-          {
-              "uri": "fp:tags/theme/digitalisation-digital-services-it-iot-and-smart-devices",
-              "label": {
-                  "fi": "Digitalisaatio, palveluiden digitalisointi, älylaitteet, IT ja IoT",
-                  "en": "Digitalisation, Digital Services, IT, IoT and Smart Devices"
-              }
-          },
-          {
-              "uri": "fp:tags/theme/education-learning-and-knowledge-relationship",
-              "label": {
-                  "fi": "Education, Learning and Knowledge Relationship",
-                  "en": "Education, Learning and Knowledge Relationship"
-              }
-          },
-          {
-              "uri": "fp:tags/theme/energy-sources-and-production-methods",
-              "label": {
-                  "fi": "Energiamuodot ja –tuotantotavat",
-                  "en": "Energy Sources and Production Methods"
-              }
-          },
-          {
-              "uri": "fp:tags/theme/finance-money-investment-and-ownership",
-              "label": {
-                  "fi": "Finance, Money, Investment and Ownership",
-                  "en": "Finance, Money, Investment and Ownership"
-              }
-          },
-          {
-              "uri": "fp:tags/theme/food-production-and-consumption",
-              "label": {
-                  "fi": "Ruuan tuotanto ja kulutus",
-                  "en": "Food Production and Consumption"
-              }
-          },
-          {
-              "uri": "fp:tags/theme/global-economy",
-              "label": {
-                  "fi": "Global economy",
-                  "en": "Global Economy"
-              }
-          },
-          {
-              "uri": "fp:tags/theme/health-and-wellbeing",
-              "label": {
-                  "fi": "Terveys ja hyvinvointi",
-                  "en": "Health and Wellbeing"
-              }
-          },
-          {
-              "uri": "fp:tags/theme/industry-and-manufacturing",
-              "label": {
-                  "fi": "Teollisuus ja valmistus",
-                  "en": "Industry and Manufacturing"
-              }
-          },
-          {
-              "uri": "fp:tags/theme/leisure-and-social-interaction",
-              "label": {
-                  "fi": "Vapaa-aika ja sosiaalinen kanssakäyminen",
-                  "en": "Leisure and Social Interaction"
-              }
-          },
-          {
-              "uri": "fp:tags/theme/logistics",
-              "label": {
-                  "fi": "Logistiikka",
-                  "en": "Logistics"
-              }
-          },
-          {
-              "uri": "fp:tags/theme/management-human-resources-and-organisational-models",
-              "label": {
-                  "fi": "Johtaminen, henkilöstöhallinto ja organisoitumismallit",
-                  "en": "Management, Human Resources, and Organisational Models"
-              }
-          },
-          {
-              "uri": "fp:tags/theme/nature-and-ecosystem",
-              "label": {
-                  "fi": "Luonto ja ekosysteemit",
-                  "en": "Nature and Ecosystem"
-              }
-          },
-          {
-              "uri": "fp:tags/theme/politics-decision-making-and-government-operations",
-              "label": {
-                  "fi": "Politics, Decision-Making and Government Operations",
-                  "en": "Politics, Decision-Making and Government Operations"
-              }
-          },
-          {
-              "uri": "fp:tags/theme/population-demographics-generations-displacement-and-refugees",
-              "label": {
-                  "fi": "Väestö, demografia, sukupolvet, muutot ja pakolaisuus",
-                  "en": "Population, Demographics, Generations, Displacement and Refugees"
-              }
-          },
-          {
-              "uri": "fp:tags/theme/public-administration-regulations-judicial-system-and-taxation",
-              "label": {
-                  "fi": "Politiikka, päätöksenteko ja valtiollinen toiminta",
-                  "en": "Public Administration, Regulations, Judicial System, and Taxation"
-              }
-          },
-          {
-              "uri": "fp:tags/theme/raw-material-production",
-              "label": {
-                  "fi": "Raaka-ainetuotanto",
-                  "en": "Raw Material Production"
-              }
-          },
-          {
-              "uri": "fp:tags/theme/sciences-and-research",
-              "label": {
-                  "fi": "Tiede ja tutkimustoiminta",
-                  "en": "Sciences and Research"
-              }
-          },
-          {
-              "uri": "fp:tags/theme/security-safety-defence-and-risks",
-              "label": {
-                  "fi": "Security, defense, crime and threats",
-                  "en": "Security, Safety, Defence and Risks"
-              }
-          },
-          {
-              "uri": "fp:tags/theme/service-industry",
-              "label": {
-                  "fi": "Palveluliiketoiminta",
-                  "en": "Service Industry"
-              }
-          },
-          {
-              "uri": "fp:tags/theme/sustainable-development-recycling-and-environmental-thinking",
-              "label": {
-                  "fi": "Kestävä kehitys, kierrättäminen ja ympäristöajattelu",
-                  "en": "Sustainable Development, Recycling and Environmental Thinking"
-              }
-          },
-          {
-              "uri": "fp:tags/theme/transport-and-travel",
-              "label": {
-                  "fi": "Liikenne ja matkustaminen",
-                  "en": "Transport and Travel"
-              }
-          },
-          {
-              "uri": "fp:tags/theme/values-ethics-religions-and-social-responsibility",
-              "label": {
-                  "fi": "Arvot, eettisyys, uskonnot ja sosiaalinen vastuullisuus",
-                  "en": "Values, Ethics, Religions and Social Responsibility"
-              }
-          },
-          {
-              "uri": "fp:tags/theme/vr-and-ar-%E2%80%93-mixed-reality-and-mediasation-environment",
-              "label": {
-                  "fi": "Virtuaalinen, lisätty sekä yhdistetty todellisuus ja medioituva ympäristö",
-                  "en": "VR and AR – Mixed Reality and the Mediasation of the Environment"
-              }
-          },
-          {
-              "uri": "fp:tags/theme/work-employment-profession-entrepreneurship-and-income",
-              "label": {
-                  "fi": "Työ, työpaikat, ammatit, yrittäjyys ja toimeentulo",
-                  "en": "Work, Employment, Profession, Entrepreneurship and Income"
-              }
-          }
-      ],
-      []
-  ]
+
+
+    console.log('storedPhenSelectorstoredPhenSelector', storedPhenSelector.groups)
     const { tags: tagList } = useTags(
-      !!isFilteredProps ?
+      (!!editModal && editModal?.type === 'EDIT' && !editModal?.uuid) ? storedPhenSelector?.groups[0] ?? 0 
+      : (
+        !!isFilteredProps ?
     //   ((group?.value && Array.isArray(group?.value)) ? group?.value :  group) :
         ((group?.value && Array.isArray(group?.value)) ? group?.value :  (typeof group === 'number' ? group : group?.id)) :
-        0
+        (0))
   )
 
+  console.log('tagListtagListtagList', tagList, group)
     const {
         phenomenonTypes,
         loading: loadingPhenomenonTypes,
@@ -351,10 +142,12 @@ export const PhenomenonEditForm = (
         canEditPublic
     } = useEditableGroups()
 
+    console.log('storedPhenSelectorstoredPhenSelector999', storedPhenSelector)
     const phenomenonIncludesTagData = React.useMemo(() => {
       return !!phenomenaList?.length ? phenomenaList?.filter((p) => {
         console.log('pppp', p, phenomenon)
-        if (p?.id === phenomenon?.uuid) {
+        
+        if (!!phenomenon && p?.id === phenomenon?.uuid) {
           phenomenon['phenomena'] = [p?.id]
           p['phenomena'] = [p?.id]
           return true
@@ -362,10 +155,10 @@ export const PhenomenonEditForm = (
           
       })[0]
         : null
-    }, [phenomenaList, phenomenon])
+      }, [phenomenaList, phenomenon])
 
     const itemsRef = useRef([])
-    if (itemsRef.current.length !== phenomenaList.length) {
+    if (itemsRef?.current?.length !== phenomenaList?.length) {
       // add or remove refs
       itemsRef.current = Array(phenomenaList.length)?.fill().map((_, i) => itemsRef.current[i] || createRef())
     }
@@ -1065,6 +858,8 @@ export const PhenomenonEditForm = (
                                 phenomena={phenomenonIncludesTagData}
                                 language={language.value || language}
                                 tagList={tagList}
+                                // editModal={'editModal2345'}
+                                editModal={editModal}
                               />
                               <div style={{
                                 display: 'flex',
@@ -1079,7 +874,10 @@ export const PhenomenonEditForm = (
                                   color={!canTag ? 'gray' : '#006998'}
                                   style={{ position: 'relative', top: '1px'}}
                                   onClick={e => {
-                                      return (phenomenonToTag && phenomenonToTag.id === phenomenonIncludesTagData?.id) || !canTag ? setPhenomenonToTag(false) : setPhenomenaSelectorPosition(e, indexForTagging, phenomenonIncludesTagData)
+                                      return (
+                                        phenomenonToTag && phenomenonToTag.id === phenomenonIncludesTagData?.id) || !canTag 
+                                          ? setPhenomenonToTag(false) 
+                                          : setPhenomenaSelectorPosition(e, indexForTagging, phenomenonIncludesTagData)
                                   }}
                                 />
 
@@ -1139,12 +937,18 @@ export const PhenomenonEditForm = (
                           </Fragment>
                         )
                       }
-                      <button className="btn btn-lg btn-plain-gray" onClick={onCancel}>
+                      <button className="btn btn-lg btn-plain-gray" onClick={ () => {
+                        setPhenomenonToTag(false)
+                        onCancel()
+                      }}>
                         {requestTranslation('cancel')}
                       </button>
                       <button
                         className="btn btn-lg btn-primary"
-                        onClick={handleSubmit}
+                        onClick={ () => {
+                          setPhenomenonToTag(false)
+                          handleSubmit()
+                        }}
                         type="submit"
                         disabled={isSubmitting || !isValid
                         }

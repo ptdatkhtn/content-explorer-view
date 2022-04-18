@@ -312,7 +312,7 @@ class PhenomenaPage extends PureComponent {
                                 }
                                 const { id, ...phenomenonWithoutId } = phenomenon
 
-                                console.log('phenomenonphenomenon333', phenomenon)
+                                console.log('phenomenonphenomenon333', storedPhenSelector?.groups)
                                 const values = editModal.type === CLONE
                                     ? phenomenonWithoutId
                                     : phenomenon
@@ -320,6 +320,8 @@ class PhenomenaPage extends PureComponent {
                                 return (
                                     <PhenomenonEditForm
                                         {...this.props}
+                                        editModal={this.state.editModal}
+                                        storePhenomenon={storedPhenSelector}
                                         IsCreateNewContentCard={this.state?.editModal?.type?.toString() === 'CREATE'}
                                         indexForTagging={indexForTagging}
                                         highest_group_role={this.props.highest_group_role}
@@ -330,6 +332,7 @@ class PhenomenaPage extends PureComponent {
                                         phenomenon={values}
                                         onSubmit={async (values, newsFeedChanges) => {
                                             console.log('valuesvalues', values, newsFeedChanges)
+                                            // in create mode, then changing to Edit mode
                                             if (this.state.editModal.type === 'CREATE') {
                                                 await storePhenomenon(values, newsFeedChanges, () => {
                                                     this.setState({
@@ -342,7 +345,7 @@ class PhenomenaPage extends PureComponent {
                                                     })
                                                 })
                                             } else {
-                                                // storedPhenSelector
+                                                // In edit mode when clicking edit icon directly
                                                 !!this.state.editModal?.uuid 
                                                     ? await storePhenomenon(values, newsFeedChanges, this.closePhenomenonModal)
                                                     : await storePhenomenon({
@@ -373,6 +376,7 @@ class PhenomenaPage extends PureComponent {
                     group={group?.value || group || this.state?.groups}
                     language={language.value || language}
                     isInEditMode={!!editModal}
+                    editModal={this.state.editModal}
                 />
                 <ConfirmDialog />
                 <ErrorModal />

@@ -4,23 +4,39 @@ import styled from 'styled-components'
 import { useTags } from '@sangre-fp/hooks'
 import { Tag } from '@sangre-fp/ui'
 import { requestTranslation } from '@sangre-fp/i18n'
+import { updateStoredPhenonSelector} from '../actions/radarData'
+import { useDispatch } from 'react-redux'
 
 const ELEMENT_WIDTH = 280
 const FP_TOPBAR_OFFSET = process.env.NODE_ENV === 'development' ? 0 : 112
 
 
 export const PhenomenaTagSelector = props => {
-  const { group, language, phenomenon, handlePhenomenaTagMod, isInEditMode, storedPhenSelector } = props
+  const dispatch = useDispatch()
+  const { group, language, phenomenon, handlePhenomenaTagMod, isInEditMode, storedPhenSelector, editModal } = props
 
   if (!phenomenon) {
     return null
   }
+  console.log('phenomenonphenomenon999', phenomenon)
+
+  // eslint-disable-next-line
+  // React.useEffect( () => {
+  //   // storedPhenSelector.tags = phenomenon?.tags
+  //   console.log('phenomenon?.tagsphenomenon?.tags', phenomenon?.tags, storedPhenSelector)
+  //   dispatch({ type: 'STOREDPHENOMENON', payload:  {...storedPhenSelector, tags: phenomenon?.tags}})
+  //   // updateStoredPhenonSelector({...storedPhenSelector, tags: phenomenon?.tags})
+  // }, [JSON.stringify(phenomenon)])
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { loading, tags, error } = useTags(group)
+  const { loading, tags, error } = useTags( 
+    !!editModal && 
+    !editModal?.uuid && 
+    editModal?.type === 'EDIT'  && !!storedPhenSelector? storedPhenSelector?.groups[0]:
+    // group)
+    phenomenon?.group)
   const [ fpTags, groupTags ] = tags
   const { position: { x, y }, tags: phenomenonTags } = phenomenon
-  console.log('phenomenonphenomenon999', phenomenon, isInEditMode)
   const lang = language === 'all' ? document.querySelector('html').getAttribute('lang') || 'en' : language
 
   const checkTagStatus = tag => {
@@ -41,10 +57,20 @@ export const PhenomenaTagSelector = props => {
     return found
   }
 
-  console.log('phenomenon9099', phenomenon, storedPhenSelector)
+  
+  console.log('phenomenon9099', phenomenon, tags, group)
+  
+  
   if ( !phenomenon.id ) {
     phenomenon.id = storedPhenSelector?.id
   }
+  // let isOpenTagListSelectorModal = false
+  // if ( !isInEditMode && !editModal) {
+
+  // } else {
+
+  // }
+
   return (
     <div style={{ zIndex: !!isInEditMode ? 999999 : '' }}>
       {
@@ -75,7 +101,10 @@ export const PhenomenaTagSelector = props => {
                           <Tag
                             label={tag.label}
                             active={isActive}
-                            onClick={() => handlePhenomenaTagMod(tag, phenomenon, group)}
+                            onClick={() => {
+                              handlePhenomenaTagMod(tag, phenomenon, group)
+                              dispatch({ type: 'STOREDPHENOMENON', payload:  {...storedPhenSelector, tags: phenomenon?.tags}})
+                            }}
                           />
                         </OptionsListItem>
                   )
@@ -91,7 +120,10 @@ export const PhenomenaTagSelector = props => {
                         <Tag
                           label={tag.label[lang]}
                           active={isActive}
-                          onClick={() => handlePhenomenaTagMod(tag, phenomenon, group)}
+                          onClick={() => {
+                            handlePhenomenaTagMod(tag, phenomenon, group)
+                            dispatch({ type: 'STOREDPHENOMENON', payload:  {...storedPhenSelector, tags: phenomenon?.tags}})
+                          }}
                         />
                     </OptionsListItem>
                   )}

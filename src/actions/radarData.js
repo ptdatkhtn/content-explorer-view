@@ -25,6 +25,9 @@ export const archivePhenomenon = (phenomenon, callback) => async (dispatch) => {
   }
 }
 
+export const updateStoredPhenonSelector = payload => dispatch =>
+dispatch({ type: 'STOREDPHENOMENON', payload: payload })
+
 export const storePhenomenon = (phenomenon, newsFeedChanges, callback, archived = false) => async (dispatch) => {
     let {
         group,
