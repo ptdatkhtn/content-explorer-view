@@ -69,10 +69,19 @@ export const PhenomenaTagSelector = props => {
       <Padding 
           style={{ 
             zIndex: !!isInEditMode ? 999999 : '', 
+            left: (!isInEditMode ? x - ELEMENT_WIDTH - 25 + 'px'
+                : (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true
+                  // eslint-disable-next-line no-restricted-globals
+                  ? screen.width /1.6 - ELEMENT_WIDTH - 25 + 'px'
+                  // eslint-disable-next-line no-restricted-globals
+                  : screen.width)), 
             // eslint-disable-next-line no-restricted-globals
-            left: (!isInEditMode ? x : (screen.width /1.7)) - ELEMENT_WIDTH - 25 + 'px', 
-            // eslint-disable-next-line no-restricted-globals
-            top: (!isInEditMode ? y : (screen.height / 4.1)) - FP_TOPBAR_OFFSET - 40 + window.scrollY + 'px' 
+            top: (!isInEditMode ? y - FP_TOPBAR_OFFSET - 40 + window.scrollY + 'px' 
+                : (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true
+                  // eslint-disable-next-line no-restricted-globals
+                  ? screen.height / 3.8 - FP_TOPBAR_OFFSET - 40 + window.scrollY + 'px'
+                  // eslint-disable-next-line no-restricted-globals
+                  : screen.height))
       }}>
         <ListContainer>
           {loading && (<div className='pl-2'>{requestTranslation('loading')}</div>)}
