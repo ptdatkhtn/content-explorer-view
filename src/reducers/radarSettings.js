@@ -22,7 +22,6 @@ export default (state = initialState, { type, payload }) => {
                 groups
             }
         case 'STOREDPHENOMENON':
-            console.log('payloadpayloadSTOREDPHENOMENON', state, payload)
             const storedPhenomenon = {...payload}
             return {
                 ...state,

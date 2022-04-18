@@ -111,15 +111,11 @@ export const PhenomenonEditForm = (
     editModal
   }
 ) => {
-  console.log('editModaleditModaleditModaleditModal999', editModal)
-  console.log('IsCreateNewContentCardIsCreateNewContentCard', storePhenomenon)
     const phenomenon = basePhenomenon ? transformToLegacy(basePhenomenon) : null
     const getValue = makeGetValue(phenomenon)
     const [deletingModalOpen, setDeletingModalOpen] = useState(false)
     const [groupId, setGroupId] = useState(radar ? radar.groupId : getValue("group"))
 
-
-    console.log('storedPhenSelectorstoredPhenSelector', storedPhenSelector.groups)
     const { tags: tagList } = useTags(
       (!!editModal && editModal?.type === 'EDIT' && !editModal?.uuid) ? storedPhenSelector?.groups[0] ?? 0 
       : (
@@ -129,7 +125,6 @@ export const PhenomenonEditForm = (
         (!!editModal && editModal?.type === 'EDIT' ? phenomenon?.uuid: 0))
   )
 
-  console.log('tagListtagListtagList', tagList, group, isFilteredProps)
     const {
         phenomenonTypes,
         loading: loadingPhenomenonTypes,
@@ -143,10 +138,8 @@ export const PhenomenonEditForm = (
         canEditPublic
     } = useEditableGroups()
 
-    console.log('storedPhenSelectorstoredPhenSelector999', storedPhenSelector)
     const phenomenonIncludesTagData = React.useMemo(() => {
       return !!phenomenaList?.length ? phenomenaList?.filter((p) => {
-        console.log('pppp', p, phenomenon)
         
         if (!!phenomenon && p?.id === phenomenon?.uuid) {
           phenomenon['phenomena'] = [p?.id]
@@ -163,7 +156,7 @@ export const PhenomenonEditForm = (
       // add or remove refs
       itemsRef.current = Array(phenomenaList.length)?.fill().map((_, i) => itemsRef.current[i] || createRef())
     }
-    console.log('itemsRef.current122222222', itemsRef.current)
+
     const setPhenomenaSelectorPosition = (e, i, phenomenon) => {
       const position = !!itemsRef?.current && !!ReactDOM.findDOMNode(itemsRef.current[i]?.current)  && ReactDOM.findDOMNode(itemsRef.current[i]?.current)?.getBoundingClientRect()
 
@@ -171,35 +164,24 @@ export const PhenomenonEditForm = (
   }
 
   const phenomenaGroup = !!phenomenaListData?.groups.length &&phenomenaListData?.groups?.filter(phe => {
-    console.log('abcddddd222', phe?.value, phe?.id, group)
     if ((typeof group === 'number' || typeof group?.value === 'number') ) {
-      console.log('1')
       if (phe?.value === group && group !== 0 ) {
-        console.log('2')
         return true
       }
     } else {
-      console.log('3')
       return group?.value?.map( (gr) => {
-        console.log('4')
-        console.log('abcddddd', phe?.value, phe?.id, gr)
         if (phe?.value === gr && gr !== 0) {
-          console.log('5')
           return true
         }
       })
     }
   })
   const phenomenaGroup2 = _.find(phenomenaListData?.groups, { value:  group })
-  console.log('groupgroupgroup', group?.value ,phenomenaListData?.groups, 'hahaha',phenomenaGroup)
   // const canEdit = phenomenaGroup ? phenomenaGroup?.canEdit : false
   const canEdit = !!phenomenaGroup?.length || phenomenaGroup2 ? true : false
-  console.log('canEditcanEditcanEdit', canEdit, phenomenaGroup2)
   const freePlan = (highest_group_role === 'free') ? (highest_group_role === 'free') :  (group && group.availableResources && group.availableResources.plan === 'free')
   let canTag = phenomenonIncludesTagData?.group ? (canEdit && !freePlan) : phenomenaListData?.canEditPublic
   canTag = !!IsCreateNewContentCard ? false : true
-
-    console.log('phenomenonIncludesTagDataphenomenonIncludesTagData', phenomenonIncludesTagData, canTag, group, phenomenaListData)
     const loading = loadingGroups
     const error = errorGroups
 
@@ -210,9 +192,6 @@ export const PhenomenonEditForm = (
     if (error) {
         return <div className="py-5 text-center text-danger">{error.message}</div>
     }
-
-    console.log('tagListtagList', tagList)
-    console.log('phennonneneee', phenomenon)
     
     return (
         <Formik
@@ -380,8 +359,6 @@ export const PhenomenonEditForm = (
                         </div>
                     )
                 }
-                console.log('tagListtagLis33333', tagList)
-                console.log('phennonneneee33333', phenomenon)
 
                 return (
                   <div>

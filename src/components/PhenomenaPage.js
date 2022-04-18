@@ -167,7 +167,7 @@ class PhenomenaPage extends PureComponent {
             language,
             indexForTagging
         } = this.state
-        console.log('editModaleditModal', editModal, storedPhenSelector)
+
         return (
             <div>
                 <div className='dashboard-screen-content'>
@@ -312,7 +312,6 @@ class PhenomenaPage extends PureComponent {
                                 }
                                 const { id, ...phenomenonWithoutId } = phenomenon
 
-                                console.log('phenomenonphenomenon333', storedPhenSelector?.groups)
                                 const values = editModal.type === CLONE
                                     ? phenomenonWithoutId
                                     : phenomenon
@@ -331,7 +330,6 @@ class PhenomenaPage extends PureComponent {
                                         createOrEditMode={true}
                                         phenomenon={values}
                                         onSubmit={async (values, newsFeedChanges) => {
-                                            console.log('valuesvalues', values, newsFeedChanges)
                                             // in create mode, then changing to Edit mode
                                             if (this.state.editModal.type === 'CREATE') {
                                                 await storePhenomenon(values, newsFeedChanges, () => {

@@ -33,7 +33,7 @@ export const PhenomenaList = props => {
   } = props
 
   const itemsRef = useRef([])
-  console.log('phenomenonToTagphenomenonToTag88899222', phenomenonToTag)
+
   let { tags: tagList } = useTags(
     !!isFilteredProps ?
   //   ((group?.value && Array.isArray(group?.value)) ? group?.value :  group) :
@@ -41,30 +41,13 @@ export const PhenomenaList = props => {
       0
 )
 
-// if ( !!tagList && tagList[1]?.length > 1) {
-//     tagList[1] = tagList[1][0].push(tagList[1][1])
-// }
-
-
-// let a = []
-//     const b = !!tagList && !!tagList[1] && !!tagList[1]?.length 
-//         && tagList[1]?.map((t) => {
-//            a =  [...a, ...t]
-           
-//         })
-    
-//     tagList[1] = b
-//     console.log('aaaaaaabccccc', a, b)
   const { phenomenonTypes, phenomenonTypesById } = usePhenomenonTypes(!!isFilteredProps ? (group?.value ?? group) : 0, true)
   
   if (itemsRef.current.length !== phenomenaList.length) {
     // add or remove refs
     itemsRef.current = Array(phenomenaList.length).fill().map((_, i) => itemsRef.current[i] || createRef())
   }
-  console.log('itemsRef.current12222222243333333333', tagList, !!isFilteredProps ?
-  //   ((group?.value && Array.isArray(group?.value)) ? group?.value :  group) :
-      ((group?.value && Array.isArray(group?.value)) ? group?.value :  (typeof group === 'number' ? group : group?.id)) :
-      0)
+
   const calculateTimingWidth = timing => {
       const { min, max } = timing
 
@@ -82,7 +65,6 @@ export const PhenomenaList = props => {
   return (
     <div>
         {phenomenaList.length ? phenomenaList.map((phenomenon, i) => {
-            console.log('phenomenonphenomenon', phenomenon)
             let { content: { title, type, time_range }, group, crowdSourcedValue } = phenomenon
             if (!time_range) {
               time_range = {}

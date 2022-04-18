@@ -8,6 +8,5 @@ export const canEditSomePhenomena = createSelector([ getPhenomenaListGroups, get
 })
 
 export const storedPhenSelector = createSelector(getStoredPhen, storedPhenomenon => {
-    console.log('storedPhenomenon999', storedPhenomenon)
     return storedPhenomenon ?? []
 })

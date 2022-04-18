@@ -18,12 +18,10 @@ export const PhenomenaTagSelector = props => {
   if (!phenomenon) {
     return null
   }
-  console.log('phenomenonphenomenon999', phenomenon)
 
   // eslint-disable-next-line
   React.useEffect( () => {
     // storedPhenSelector.tags = phenomenon?.tags
-    console.log('phenomenon?.tagsphenomenon?.tags', phenomenon?.tags, storedPhenSelector)
     dispatch({ type: 'STOREDPHENOMENON', payload:  {...storedPhenSelector, tags: phenomenon?.tags}})
     // updateStoredPhenonSelector({...storedPhenSelector, tags: phenomenon?.tags})
   }, [JSON.stringify(phenomenon)])
@@ -56,20 +54,10 @@ export const PhenomenaTagSelector = props => {
 
     return found
   }
-
-  
-  console.log('phenomenon9099', phenomenon, tags, group)
-  
   
   if ( !phenomenon.id ) {
     phenomenon.id = storedPhenSelector?.id
   }
-  // let isOpenTagListSelectorModal = false
-  // if ( !isInEditMode && !editModal) {
-
-  // } else {
-
-  // }
 
   return (
     <div style={{ zIndex: !!isInEditMode ? 999999 : '' }}>

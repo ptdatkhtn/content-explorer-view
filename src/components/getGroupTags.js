@@ -86,12 +86,10 @@ function addTagUris (prefix, tags) {
         })
         return d
       })
-      console.log('cccccccc', c)
       let a = []
       !!c?.length && c.map( t => {
         a.push(...t)
       })
-      console.log('abccccccccaaaa', a)
 
       return a
     }
@@ -108,10 +106,7 @@ export async function getGroupTags (groupId) {
           return {tag, g}
         })
       )
-      console.log('asyncResasyncRes', asyncRes)
       const b = asyncRes.filter(t => t.tag.length > 0)
-      console.log('bbbbb', b)
-
       return addTagUris(`fp:tags/group/`, b)
     }
 

@@ -66,7 +66,6 @@ export const storePhenomenon = (phenomenon, newsFeedChanges, callback, archived 
             // eslint-disable-next-line no-restricted-globals
             phenomenonInput.group = phenomenonInput?.groups[0] ?? 0
         }
-        console.log('phenomenonInputphenomenonInput', phenomenonInput)
         const { storedPhenomenon, status, failedNewsFeedTitles } = await storePhenomenonWithNewsFeeds(phenomenonInput, newsFeedChanges)
 
         if (status === NEWSFEED_ERROR_PARTIAL) {
