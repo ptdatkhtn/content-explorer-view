@@ -7,7 +7,7 @@ import {
     getLanguage
 } from '@sangre-fp/i18n'
 import { usePhenomenonTypes, useEditableGroups } from '@sangre-fp/hooks'
-import useTags from './useTags'
+import { useTags } from '@sangre-fp/hooks'
 import {Formik} from 'formik'
 import {map, differenceBy, find, capitalize} from 'lodash-es'
 import Select from 'react-select'

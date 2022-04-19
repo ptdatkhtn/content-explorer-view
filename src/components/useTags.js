@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getFpTags } from '@sangre-fp/connectors/tag-service-api'
-import {getGroupTags} from './getGroupTags'
+import { getFpTags, getGroupTags } from '@sangre-fp/connectors/tag-service-api'
 
 const useTags = (group) => {
   const [tags, setTags] = useState([])
