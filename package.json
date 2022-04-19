@@ -6,7 +6,7 @@
     "@mdi/font": "^5.0.45",
     "@mdi/js": "^5.0.45",
     "@mdi/react": "^1.3.0",
-    "@sangre-fp/connectors": "^2.1.3",
+    "@sangre-fp/connectors": "^2.1.4",
     "@sangre-fp/content-editor": "^2.1.115",
     "@sangre-fp/content-filters": "^1.0.99",
     "@sangre-fp/hooks": "^1.0.18",
