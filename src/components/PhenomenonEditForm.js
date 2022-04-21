@@ -121,10 +121,6 @@ export const PhenomenonEditForm = (
     const [iconNewsFeedSection, seticonNewsFeedSection] = useState('expand_more')
     const [links2WebpagesSection, setlinks2WebpagesSection] = useState('expand_more')
     const [mainVideoAndImage, setmainVideoAndImage] = useState('expand_more')
-    // const [iconTaggingSection, seticonTaggingSection] = useState('expand_more')
-
-    // const [iconTaggingSection, seticonTaggingSection] = useState('expand_more')
-
 
     const { tags: tagList } = useTags(
       (!!editModal && editModal?.type === 'EDIT' && !editModal?.uuid) ? storedPhenSelector?.groups[0] ?? 0 
@@ -428,13 +424,7 @@ export const PhenomenonEditForm = (
                    
                     <div className="modal-form-sections">
                       <div className="modal-form-section modal-form-header">
-                        <h2>title neee</h2>
-                        <PhenomenaTagList
-                                phenomena={phenomenonIncludesTagData}
-                                language={language.value || language}
-                               tagList={tagList}
-                                isHere={'12131313423'}
-                              />
+                        <h2>{requestTranslation('createPhenomenaFormTitle')}</h2>
                       </div>
 
                       {!values.uuid && (
