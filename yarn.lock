@@ -1587,10 +1587,10 @@
   dependencies:
     lodash "^4.17.15"
 
-"@sangre-fp/tags@^2.0.40":
-  version "2.0.40"
-  resolved "https://npm.sangre.dev/@sangre-fp%2ftags/-/tags-2.0.40.tgz#35cbf9d4202d624d7dca6829924584fc5dbbb738"
-  integrity sha512-lW0Fs/bzD6RNmmhSaZ1AvOuAUbU+aWPyWBLlhZQf/4Z9FRmNMdj4/gFVC+PTCiQO+/4OnGEfozcv0t50HdLWyA==
+"@sangre-fp/tags@^2.0.41":
+  version "2.0.41"
+  resolved "https://npm.sangre.dev/@sangre-fp%2ftags/-/tags-2.0.41.tgz#0d0500229005817f8f7cc253335ba76896f082e7"
+  integrity sha512-AURthdySXpbzSUzz49EnqMVX/R5OWzLnzT8pqbUXY4YYGjwumpJksuI1dzXi8mRDzP3PfwSpL8/NLl2v725q8g==
   dependencies:
     "@sangre-fp/hooks" "^1.0.9"
     "@sangre-fp/i18n" "^2.0.15"
