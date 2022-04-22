@@ -106,6 +106,30 @@ export const PhenomenaTagSelector = props => {
     }
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const groupsActiveNumber = !!groupTags?.length && groupTags.filter((tag) => !!checkTagStatus(tag)) || []
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const fpActiveNumber = !!fpTags?.length && fpTags.filter((tag) => !!checkTagStatus(tag)) || []
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const totalTagsActive = React.useMemo(() => {
+    return Number(fpActiveNumber?.length) + Number(groupsActiveNumber?.length)
+  }, [groupsActiveNumber, fpActiveNumber])
+  let postionTop = 0
+  if (totalTagsActive < 1 || !totalTagsActive) {
+    postionTop = '70%'
+  } else if (totalTagsActive <= 7 && totalTagsActive >= 1 ) {
+    postionTop = '67%'
+  }else if (totalTagsActive <= 15 && totalTagsActive > 7 ) {
+    postionTop = '65%'
+  } else if (totalTagsActive <= 20 && totalTagsActive >15 ) {
+    postionTop = '63%'
+  } else if (totalTagsActive <= 25 && totalTagsActive >20 ) {
+    postionTop = '61%'
+  } else {
+    postionTop = '59%'
+  }
+  console.log(Number(fpActiveNumber?.length) + Number(groupsActiveNumber?.length))
   // todo : for movable the tag-selector
   // !!isInEditMode && document?.getElementById("tag-selector-modal") && dragElement(document.getElementById("tag-selector-modal"));
   return (
@@ -115,6 +139,7 @@ export const PhenomenaTagSelector = props => {
           <Thumb style={{ left: x - 22 + 'px', top: y - FP_TOPBAR_OFFSET + window.scrollY + 'px' }} />
         )
       }
+      
       <Padding
           id="tag-selector-modal"
           style={{ 
@@ -129,9 +154,10 @@ export const PhenomenaTagSelector = props => {
             top: (!isInEditMode ? y - FP_TOPBAR_OFFSET - 40 + window.scrollY + 'px' 
                 : (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true
                   // eslint-disable-next-line no-restricted-globals
-                  ? '65%'
+                  ? postionTop
                   // eslint-disable-next-line no-restricted-globals
-                  : '65%'))
+                  : postionTop
+                  ))
       }}>
         <ListContainer>
           {loading && (<div className='pl-2'>{requestTranslation('loading')}</div>)}
