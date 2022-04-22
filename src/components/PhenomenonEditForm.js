@@ -37,6 +37,7 @@ import {
 } from '@sangre-fp/connectors/phenomena-api'
 import PropTypes from 'prop-types'
 import ReactQuill from 'react-quill'
+import  PhenomenaTagSelector  from '../containers/PhenomenaTagSelector';
 
 const makeGetValue = phenomenon => (field, defaultValue = null) =>
     (phenomenon && phenomenon.hasOwnProperty(field)) ? phenomenon[field] : defaultValue
@@ -108,7 +109,9 @@ export const PhenomenonEditForm = (
     IsCreateNewContentCard,
     storePhenomenon,
     storedPhenSelector,
-    editModal
+    editModal,
+    groupTagSelector,
+    languageTagSelector
   }
 ) => {
     const phenomenon = basePhenomenon ? transformToLegacy(basePhenomenon) : null
@@ -426,7 +429,6 @@ export const PhenomenonEditForm = (
                       <div className="modal-form-section modal-form-header">
                         <h2>{requestTranslation('createPhenomenaFormTitle')}</h2>
                       </div>
-
                       {!values.uuid && (
                         <div className='modal-form-section'>
                           <div className='row'>
@@ -931,6 +933,7 @@ export const PhenomenonEditForm = (
                                   }}
                                 />
 
+                                  
                                 <p className={'description'}>
                                   {!IsCreateNewContentCard ? requestTranslation('AddAndRemoveTags') : requestTranslation('TagsAddedAfterContentcardCreated')}
                                 </p>

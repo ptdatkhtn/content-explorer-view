@@ -294,10 +294,21 @@ class PhenomenaPage extends PureComponent {
                 <Modal
                     isOpen={!!editModal}
                     contentLabel={'Phenomena form'}
-                    style={modalStyles}
+                    style={{...modalStyles, position:'relative'}}
                     ariaHideApp={false}
                     onRequestClose={this.closePhenomenonModal}
+
                 >
+                    <>
+                     {
+                                    !!editModal && <PhenomenaTagSelector
+                                                        group={group?.value || group || this.state?.groups}
+                                                        language={language.value || language}
+                                                        isInEditMode={!!editModal}
+                                                        editModal={this.state.editModal}
+                                                    />
+                                  }
+                    </>
                     {editModal && (
                         <PhenomenonLoader id={editModal.uuid} group={editModal.group}>
                             {({loading, error, phenomenon}) => {
@@ -320,6 +331,9 @@ class PhenomenaPage extends PureComponent {
                                 return (
                                     <PhenomenonEditForm
                                         {...this.props}
+                                        groupTagSelector={group?.value || group || this.state?.groups}
+                                        languageTagSelector={language.value || language}
+
                                         editModal={this.state.editModal}
                                         storePhenomenon={storedPhenSelector}
                                         IsCreateNewContentCard={this.state?.editModal?.type?.toString() === 'CREATE'}
@@ -371,12 +385,14 @@ class PhenomenaPage extends PureComponent {
                     )}
                 </Modal>
 
-                <PhenomenaTagSelector
-                    group={group?.value || group || this.state?.groups}
-                    language={language.value || language}
-                    isInEditMode={!!editModal}
-                    editModal={this.state.editModal}
-                />
+                {
+                    !editModal && <PhenomenaTagSelector
+                        group={group?.value || group || this.state?.groups}
+                        language={language.value || language}
+                        isInEditMode={!!editModal}
+                        editModal={this.state.editModal}
+                    />
+                }
                 <ConfirmDialog />
                 <ErrorModal />
             </div>
