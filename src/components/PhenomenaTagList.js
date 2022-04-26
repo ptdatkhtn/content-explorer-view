@@ -1,6 +1,8 @@
 import React from 'react'
 import _ from 'lodash'
-import { Tag } from '@sangre-fp/ui'
+// import { Tag } from '@sangre-fp/ui'
+import Tag from './Tag_sangre_ui'
+
 import { useSelector } from 'react-redux'
 export const PhenomenaTagList = ( {language, phenomena, tagList, editModal}) => {
 // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -21,6 +23,7 @@ const tags = (!!editModal && editModal?.type === 'EDIT' && !editModal?.uuid)
     return null
   }
 
+  console.log('editModaleditModal', editModal)
   return (
     <div className='d-flex flex-row flex-wrap'>
         { renderPhenomenaTags && tags?.map((tagUri, index) => {
@@ -28,11 +31,13 @@ const tags = (!!editModal && editModal?.type === 'EDIT' && !editModal?.uuid)
           if (!tagObj) {
             return null
           }
-
+          console.log('tagg', tagUri, tagObj)
           const label = _.isString(tagObj.label) ? tagObj.label : tagObj.label[lang]
-
+          const tagUriSplit = tagUri?.split("/")
+          const isFPTags= tagUriSplit[1] === "theme" ? true : false
+          // console.log('isFpTags', tagUri, isFPTags, tagUriSplit)
           return (
-            <Tag key={index} active onClick={null} label={label} small />
+            <Tag key={index} active onClick={null} label={label} small isFPTags={isFPTags} isNotFilter={true} />
           )
         })}
     </div>

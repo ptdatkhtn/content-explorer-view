@@ -12,3 +12,8 @@ export const getPhenomenonUrl = (radarId = false, phenomenon, hideEdit = false) 
     // eslint-disable-next-line
     return `${PUBLIC_URL}/node/${radarId}?issue=${id}&map_id=${radarId}&source_position=right&source_page=radar-view${groupUrl.length ? `&${groupUrl}` : ''}${hideEdit ? '&hideEdit=true' : ''}`
 }
+
+export function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+  

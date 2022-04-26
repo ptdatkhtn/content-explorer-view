@@ -2,10 +2,11 @@ import _ from 'lodash'
 import React from 'react'
 import styled from 'styled-components'
 import { useTags } from '@sangre-fp/hooks'
-import { Tag } from '@sangre-fp/ui'
+// import { Tag } from '@sangre-fp/ui'
+import Tag from '../components/Tag_sangre_ui'
 import { requestTranslation } from '@sangre-fp/i18n'
 import { useDispatch } from 'react-redux'
-
+import {capitalizeFirstLetter} from "../helpers"
 const ELEMENT_WIDTH = 280
 const FP_TOPBAR_OFFSET = process.env.NODE_ENV === 'development' ? 0 : 112
 
@@ -176,7 +177,9 @@ export const PhenomenaTagSelector = props => {
                   return (
                         <OptionsListItem key={index}>
                           <Tag
-                            label={tag.label}
+                            isFPTags={false}
+                            isNotFilter={true}
+                            label={capitalizeFirstLetter(tag.label)}
                             active={isActive}
                             onClick={() => {
                               // dispatch({ type: 'STOREDPHENOMENON', payload:  {...storedPhenSelector, tags: phenomenon?.tags}})
@@ -196,7 +199,9 @@ export const PhenomenaTagSelector = props => {
                   return (
                     <OptionsListItem key={index}>
                         <Tag
-                          label={tag.label[lang]}
+                          label={capitalizeFirstLetter(tag.label[lang])}
+                          isFPTags={true}
+                          isNotFilter={true}
                           active={isActive}
                           onClick={() => {
                             // dispatch({ type: 'STOREDPHENOMENON', payload:  {...storedPhenSelector, tags: phenomenon?.tags}})
