@@ -93,9 +93,10 @@ class PhenomenaPage extends PureComponent {
                             fetchPhenomenaList({
                                 page: page - 1,
                                 size: PHENOMENA_PAGE_SIZE,
-                                searchableGroup: !this.state.isFiltered ? {
-                                    "value": 0
-                                }: group,
+                                // searchableGroup: !this.state.isFiltered ? {
+                                //     "value": 0
+                                // }: group,
+                                searchableGroup: group,
                                 searchInput: search,
                                 languageObj: language,
                                 tags,
@@ -253,7 +254,9 @@ class PhenomenaPage extends PureComponent {
                                                         <PhenomenaList
                                                             {...this.props}
                                                             language={language}
-                                                            group={!this.state.isFiltered ? 0 : group}
+                                                            // group={!this.state.isFiltered ? 0 : group}
+                                                            group={group}
+
                                                             handleEditClick={this.handleEditClick}
                                                             handleCloneClick={this.handleCloneClick}
                                                             groups={this.state.groups}
@@ -340,7 +343,9 @@ class PhenomenaPage extends PureComponent {
                                         indexForTagging={indexForTagging}
                                         highest_group_role={this.props.highest_group_role}
                                         isFilteredProps={this.state.isFiltered}
-                                        group={!this.state.isFiltered ? 0 : group}
+                                        // group={!this.state.isFiltered ? 0 : group}
+                                        group={group}
+
                                         language={language}
                                         createOrEditMode={true}
                                         phenomenon={values}
