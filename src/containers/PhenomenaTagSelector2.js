@@ -60,11 +60,10 @@ export const PhenomenaTagSelector = props => {
     phenomenon.id = storedPhenSelector?.id
   }
 
-  console.log(22222, document.getElementById("tagging-selector-header"))
   // console.log('elmtRef', elmtRef.current)
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const dragElement = (elmnt) => {
-    console.log(1111, document.getElementById("tagging-selector-header"))
+
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
     if (!!document?.getElementById("tagging-selector-header")) {
       /* if present, the header is where you move the DIV from:*/
@@ -130,7 +129,7 @@ export const PhenomenaTagSelector = props => {
   } else {
     postionTop = '59%'
   }
-  console.log(Number(fpActiveNumber?.length) + Number(groupsActiveNumber?.length))
+
   // todo : for movable the tag-selector
   // !!isInEditMode && document?.getElementById("tag-selector-modal") && dragElement(document.getElementById("tag-selector-modal"));
   return (

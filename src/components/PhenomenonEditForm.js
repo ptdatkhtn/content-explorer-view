@@ -163,7 +163,7 @@ export const PhenomenonEditForm = (
           
       })[0]
         : null
-      }, [phenomenaList, phenomenon])
+      }, [phenomenaList, phenomenon, storedPhenSelector])
 
       const handleChangeIconTagSection = () => {
         if ( iconTaggingSection === 'expand_more')
@@ -889,7 +889,7 @@ export const PhenomenonEditForm = (
                           <h3 className='mb-0'>
                             {requestTranslation('TagsPhenomenon')}
                             <DropdownValue>
-                              {!!phenomenonIncludesTagData?.tags?.length ? requestTranslation('hasTagged') : requestTranslation('hasNoTagged')}
+                              {!!phenomenonIncludesTagData?.tags?.length || !!storedPhenSelector?.tags?.length ? requestTranslation('hasTagged') : requestTranslation('hasNoTagged')}
                             </DropdownValue>
                           </h3>
                           <div style={{cursor: 'pointer'}} onClick={handleChangeIconTagSection}>

@@ -147,7 +147,6 @@ class PhenomenaPage extends PureComponent {
             </div>
         )
     }
-
     
     render() {
         const {
@@ -367,12 +366,12 @@ class PhenomenaPage extends PureComponent {
                                                 !!this.state.editModal?.uuid 
                                                     ? await storePhenomenon(values, newsFeedChanges, this.closePhenomenonModal)
                                                     : await storePhenomenon({
-                                                        archived: storedPhenSelector?.archived,
-                                                        content: storedPhenSelector?.content,
-                                                        groups: storedPhenSelector?.groups,
-                                                        id: storedPhenSelector?.id,
-                                                        language: storedPhenSelector?.language,
-                                                        type: storedPhenSelector?.type
+                                                        archived: values?.archived || storedPhenSelector?.archived,
+                                                        content: values?.content || storedPhenSelector?.content,
+                                                        groups: values?.groups || storedPhenSelector?.groups,
+                                                        id: storedPhenSelector?.id || storedPhenSelector?.id,
+                                                        language: values?.language || storedPhenSelector?.language,
+                                                        type: storedPhenSelector?.type || storedPhenSelector?.type
                                                     }, newsFeedChanges, this.closePhenomenonModal)
                                             }
                                             
