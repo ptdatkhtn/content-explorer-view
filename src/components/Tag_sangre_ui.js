@@ -11,16 +11,19 @@ const Tag = ({ label, active, onClick, small, highest_group_role,  disabled, isF
       onClick={onClick}
       small={small}
       style={{
-        backgroundColor: (active && !!isNotFilter && isFPTags) ? '#80A0C0' //FP Tags edit mode
-        : (active && isNotFilter && !isFPTags) ? '#3C6A97' //group tags edit mode
-        : (active && !isNotFilter && !isFPTags) ? '#00C3FF' //filter mode
+        backgroundColor: (active && !!isNotFilter && isFPTags) ? '#80A0C0' //FP Tags edit mode active
+        : (active && isNotFilter && !isFPTags) ? '#3C6A97' //group tags edit mode active
+        : (active && !isNotFilter && !isFPTags) ? '#00C3FF' //filter mode active
+        : (!active && !isNotFilter) ? '#3C6A97' //filter mode inactive
         : 'transparent',
-        color: active ? 'white' : '#8593A1',
+        color: (active && isNotFilter) ? 'white'  //edit mode active
+        : (!active && isNotFilter) ? '#8593A1' //edit mode inactive
+        : 'white', //filter mode inactive , filter mode active
+
         border: active ? 'none' : '1px solid #8593A1'
       }}
     >
       {label}
-      {/* abv */}
     </TagDiv>
   )
 }
